@@ -18,6 +18,10 @@
 - `docs/glossary.md`: واژه‌نامه اصطلاحات فنی و متون.
 - `CONTRIBUTING.md`: راهنمای مشارکت.
 
+### Changed
+
+- انتقال نمودار معماری کل (Mermaid) از `README.md` به `docs/architecture.md` و جایگزینی آن با خلاصه‌ی متنی در README.
+
 ### Notes
 
 - مخزن در مرحله‌ی **طراحی** است و هنوز کد اجرایی ندارد.

@@ -1,0 +1,107 @@
+{
+  "reranker_model": "BAAI/bge-reranker-v2-m3",
+  "rerank_pool": 80,
+  "reranker_max_length": 512,
+  "n": 50,
+  "k": 15,
+  "rrf_only": {
+    "recall@3": 0.3167,
+    "recall@10": 0.52,
+    "recall@15": 0.59,
+    "mrr": 0.3103,
+    "success@5": 0.52,
+    "success@15": 0.7,
+    "avg_query_s": 0.8,
+    "misses": 15
+  },
+  "reranker": {
+    "recall@3": 0.4533,
+    "recall@10": 0.6167,
+    "recall@15": 0.7267,
+    "mrr": 0.5544,
+    "success@5": 0.66,
+    "success@15": 0.82,
+    "avg_query_s": 80.06,
+    "misses": 9
+  },
+  "recovered": [
+    3,
+    19,
+    23,
+    35,
+    38,
+    43
+  ],
+  "newly_lost": [],
+  "reranker_misses": [
+    {
+      "id": 8,
+      "statement": "تواضع و فروتنی در برابر مؤمنان پسندیده است.",
+      "relevant": [
+        "quran:17:37",
+        "quran:25:63"
+      ]
+    },
+    {
+      "id": 27,
+      "statement": "دنیا محل آزمایش است نه هدف نهایی.",
+      "relevant": [
+        "quran:3:185",
+        "quran:67:2"
+      ]
+    },
+    {
+      "id": 29,
+      "statement": "قیامت و روز جزا حق و حتمی است.",
+      "relevant": [
+        "quran:22:7"
+      ]
+    },
+    {
+      "id": 30,
+      "statement": "خداوند به همه چیز داناست و از درون دل‌ها آگاه است.",
+      "relevant": [
+        "quran:50:16",
+        "quran:67:13"
+      ]
+    },
+    {
+      "id": 31,
+      "statement": "صبر در برابر مشکلات فضیلت نیست و باید فوراً خشمگین شد.",
+      "relevant": [
+        "quran:2:153",
+        "quran:3:146"
+      ]
+    },
+    {
+      "id": 32,
+      "statement": "تکبر و خودبرتربینی پسندیده است.",
+      "relevant": [
+        "quran:16:23",
+        "quran:31:18"
+      ]
+    },
+    {
+      "id": 40,
+      "statement": "آیه لعان درباره هر اختلاف خانوادگی است.",
+      "relevant": [
+        "quran:24:6"
+      ]
+    },
+    {
+      "id": 45,
+      "statement": "انسان پس از مرگ دوباره زنده نمی‌شود.",
+      "relevant": [
+        "quran:36:79",
+        "quran:75:3"
+      ]
+    },
+    {
+      "id": 46,
+      "statement": "هیچ روز جزایی وجود ندارد.",
+      "relevant": [
+        "quran:22:7"
+      ]
+    }
+  ]
+}

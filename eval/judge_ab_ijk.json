@@ -1,0 +1,1554 @@
+{
+  "summary": {
+    "I_textual_occasion": {
+      "judged_items": 11,
+      "label_accuracy": 0.8182,
+      "off_target_approvals": 13,
+      "off_target_contradictions": 8,
+      "items_with_off_target_approval": 5
+    },
+    "I_textual_occasion_fa": {
+      "judged_items": 11,
+      "label_accuracy": 0.8182,
+      "off_target_approvals": 13,
+      "off_target_contradictions": 9,
+      "items_with_off_target_approval": 4
+    },
+    "K_reason_first": {
+      "judged_items": 11,
+      "label_accuracy": 0.8182,
+      "off_target_approvals": 20,
+      "off_target_contradictions": 8,
+      "items_with_off_target_approval": 6
+    }
+  },
+  "approved_set": [
+    "Conditional_Match",
+    "Contradiction",
+    "Direct_Match"
+  ],
+  "items": [
+    {
+      "id": 7,
+      "statement": "اسراف و زیاده‌روی در خوردن و آشامیدن ناپسند است.",
+      "category": "اخلاقی",
+      "expected": "Direct_Match",
+      "retrieval_s": 0.0,
+      "candidates": [
+        "quran:7:31",
+        "quran:6:145",
+        "quran:20:127",
+        "quran:25:66",
+        "quran:39:53",
+        "quran:44:44",
+        "quran:17:26",
+        "quran:17:38",
+        "quran:73:13",
+        "quran:5:62",
+        "quran:4:5",
+        "quran:80:24"
+      ],
+      "I_textual_occasion": {
+        "ok": true,
+        "got": {
+          "quran:7:31": "Direct_Match"
+        },
+        "off_approvals": [
+          "quran:20:127",
+          "quran:25:66",
+          "quran:17:26"
+        ],
+        "off_contradictions": [],
+        "labels": {
+          "quran:7:31": "Direct_Match",
+          "quran:6:145": "Superficial_Match",
+          "quran:20:127": "Direct_Match",
+          "quran:25:66": "Direct_Match",
+          "quran:39:53": "Superficial_Match",
+          "quran:44:44": "Superficial_Match",
+          "quran:17:26": "Direct_Match",
+          "quran:17:38": "Superficial_Match",
+          "quran:73:13": "Superficial_Match",
+          "quran:5:62": "Superficial_Match",
+          "quran:4:5": "Context_Mismatch",
+          "quran:80:24": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:7:31": "The verse explicitly states 'eat and drink, but do not waste', directly aligning with the statement that extravagance in eating and drinking is disliked.",
+          "quran:6:145": "This verse discusses forbidden foods and conditions for eating them when necessary, but does not directly address the general concept of extravagance in eating and drinking.",
+          "quran:20:127": "The verse states that Allah will similarly recompense those who waste and do not believe in His signs, linking wastefulness to a negative consequence, which supports the statement.",
+          "quran:25:66": "The verse describes the characteristics of the servants of the Most Merciful, stating that when they spend, they neither waste nor are stingy, but are moderate, implying that extravagance is not a praiseworthy trait.",
+          "quran:39:53": "This verse addresses those who have committed extravagance against themselves and encourages them not to despair of God's mercy, but it does not directly condemn extravagance in eating and drinking as the primary subject.",
+          "quran:44:44": "This verse describes the food of the sinful, but does not directly address the act of extravagance in eating and drinking itself.",
+          "quran:17:26": "The verse commands giving to relatives and the needy, and explicitly states 'and do not spend wastefully'. This directly supports the statement that extravagance is disliked.",
+          "quran:17:38": "This verse states that all of those actions (referring to previous verses not directly about eating/drinking extravagance) are disliked by your Lord. While it supports the general idea of disliked actions, it's not specific to eating and drinking extravagance.",
+          "quran:73:13": "This verse describes a 'food that chokes' and painful punishment, which is a consequence of disbelief and wrongdoing, not a direct statement about the dislike of extravagance in eating and drinking.",
+          "quran:5:62": "This verse condemns those who hasten into sin and transgression and their eating of unlawful gain, which is related to prohibited consumption but not specifically to extravagance in permissible eating and drinking.",
+          "quran:4:5": "The verse warns against consuming the wealth of orphans wastefully and prematurely. While it uses the word 'israf' (wastefulness), the context is financial management of orphans' property, not general eating and drinking.",
+          "quran:80:24": "This verse instructs humans to look at their food, which is a call for reflection on sustenance, not a statement about the dislike of extravagance in eating and drinking."
+        }
+      },
+      "I_textual_occasion_fa": {
+        "ok": true,
+        "got": {
+          "quran:7:31": "Direct_Match"
+        },
+        "off_approvals": [],
+        "off_contradictions": [],
+        "labels": {
+          "quran:7:31": "Direct_Match",
+          "quran:6:145": "Context_Mismatch",
+          "quran:20:127": "Context_Mismatch",
+          "quran:25:66": "Context_Mismatch",
+          "quran:39:53": "Context_Mismatch",
+          "quran:44:44": "Superficial_Match",
+          "quran:17:26": "Context_Mismatch",
+          "quran:17:38": "Superficial_Match",
+          "quran:73:13": "Superficial_Match",
+          "quran:5:62": "Context_Mismatch",
+          "quran:4:5": "Context_Mismatch",
+          "quran:80:24": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:7:31": "آیه به صراحت خوردن و آشامیدن را با قید «اسراف نکنید» مجاز می‌شمارد و اسراف‌کنندگان را دوست‌داشتنی خداوند نمی‌داند، که با ناپسند بودن اسراف مطابقت دارد.",
+          "quran:6:145": "این آیه به بیان مصادیق غذای حرام می‌پردازد و در مورد زیاده‌روی در خوردن، تنها در شرایط اضطرار به آن اشاره می‌کند، نه به طور کلی در مورد اسراف در خوردن و آشامیدن.",
+          "quran:20:127": "این آیه اسراف را به طور کلی و در ارتباط با عدم ایمان به آیات الهی، مستوجب عذاب اخروی می‌داند و به طور خاص به اسراف در خوردن و آشامیدن نمی‌پردازد.",
+          "quran:25:66": "این آیه در مورد انفاق سخن می‌گوید و اسراف در انفاق را مذمت می‌کند، نه اسراف در خوردن و آشامیدن.",
+          "quran:39:53": "این آیه به اسراف بر نفس و گناهان اشاره دارد و نه به طور خاص به اسراف در خوردن و آشامیدن.",
+          "quran:44:44": "این آیه غذای گنهکاران را توصیف می‌کند و ارتباط مستقیمی با اسراف در خوردن و آشامیدن ندارد.",
+          "quran:17:26": "این آیه به طور کلی از اسراف و تبذیر نهی می‌کند و مصداق آن را به انفاق و پرداخت حقوق دیگران محدود می‌سازد، نه به طور خاص خوردن و آشامیدن.",
+          "quran:17:38": "این آیه به طور کلی اعمال ناپسند را بیان می‌کند و به طور خاص به اسراف در خوردن و آشامیدن اشاره‌ای ندارد.",
+          "quran:73:13": "این آیه به غذای گلوگیر و عذاب دردناک اشاره دارد که ارتباط مستقیمی با ناپسند بودن اسراف در خوردن و آشامیدن ندارد.",
+          "quran:5:62": "این آیه به شتاب در گناه و تعدی و خوردن مال حرام اشاره دارد و نه به طور خاص به اسراف در خوردن و آشامیدن.",
+          "quran:4:5": "این آیه به اسراف در مصرف اموال یتیمان اشاره دارد و نه به طور خاص به اسراف در خوردن و آشامیدن.",
+          "quran:80:24": "این آیه به تفکر در خلقت غذا دعوت می‌کند و ارتباط مستقیمی با ناپسند بودن اسراف در خوردن و آشامیدن ندارد."
+        }
+      },
+      "K_reason_first": {
+        "ok": true,
+        "got": {
+          "quran:7:31": "Direct_Match"
+        },
+        "off_approvals": [
+          "quran:25:66",
+          "quran:17:26",
+          "quran:17:38"
+        ],
+        "off_contradictions": [],
+        "labels": {
+          "quran:7:31": "Direct_Match",
+          "quran:6:145": "Superficial_Match",
+          "quran:20:127": "Superficial_Match",
+          "quran:25:66": "Direct_Match",
+          "quran:39:53": "Superficial_Match",
+          "quran:44:44": "Superficial_Match",
+          "quran:17:26": "Direct_Match",
+          "quran:17:38": "Direct_Match",
+          "quran:73:13": "Superficial_Match",
+          "quran:5:62": "Superficial_Match",
+          "quran:4:5": "Context_Mismatch",
+          "quran:80:24": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:7:31": "The verse explicitly states 'eat and drink, but do not waste, for God does not love the wasteful,' directly aligning with the statement that extravagance in eating and drinking is disliked.",
+          "quran:6:145": "This verse discusses prohibited foods and mentions that one who is compelled to eat them, without seeking pleasure or being excessive, is not sinful. It does not directly address the general dislike of extravagance in eating and drinking but rather the conditions under which forbidden foods might be consumed.",
+          "quran:20:127": "The verse states that God thus recompenses those who waste and do not believe in His signs, and that the punishment of the hereafter is more severe. While it condemns wasting, it links it to disbelief and the hereafter, not specifically to the dislike of extravagance in eating and drinking as the primary subject.",
+          "quran:25:66": "This verse describes the characteristics of the servants of the Most Merciful, stating that when they spend, they are neither extravagant nor stingy, but moderate. This directly supports the idea that extravagance is not a desirable trait, aligning with the statement's disapproval of excess.",
+          "quran:39:53": "The verse calls on servants who have wronged themselves by wasting to not despair of God's mercy. While it mentions 'wasting' (اسرفوا), it focuses on the broader concept of sin and seeking forgiveness, not specifically on the dislike of extravagance in eating and drinking.",
+          "quran:44:44": "This verse describes the food of the sinful. It does not directly address the concept of extravagance in eating and drinking or its dislike.",
+          "quran:17:26": "The verse commands giving to relatives and the needy, and explicitly states 'and do not waste wastefully.' This directly condemns wastefulness, which includes extravagance in consumption.",
+          "quran:17:38": "This verse states that all of these (referring to previous prohibitions, including wastefulness) are disliked by your Lord. Since wastefulness is mentioned in the preceding verse (17:26), this verse supports the dislike of extravagance.",
+          "quran:73:13": "This verse describes 'food that chokes and a painful punishment.' It does not directly address the concept of extravagance in eating and drinking or its dislike.",
+          "quran:5:62": "This verse condemns those who hasten into sin and aggression and eat what is unlawful. It does not specifically address extravagance in eating and drinking.",
+          "quran:4:5": "The verse instructs not to give wealth to the foolish and warns against eating their wealth 'wastefully and in haste before they grow up.' While it uses the word 'wastefully' (اسرافا), the context is about managing the wealth of the immature, not general extravagance in eating and drinking.",
+          "quran:80:24": "This verse tells humans to look at their food. It does not address extravagance or its dislike."
+        }
+      }
+    },
+    {
+      "id": 13,
+      "statement": "روزه برای پرهیزگاری واجب شده است.",
+      "category": "عبادی",
+      "expected": "Direct_Match",
+      "retrieval_s": 0.0,
+      "candidates": [
+        "quran:2:183",
+        "quran:69:48",
+        "quran:2:187",
+        "quran:26:90",
+        "quran:69:1",
+        "quran:38:49",
+        "quran:78:31",
+        "quran:44:51",
+        "quran:43:67",
+        "quran:5:95",
+        "quran:3:138",
+        "quran:58:4"
+      ],
+      "I_textual_occasion": {
+        "ok": true,
+        "got": {
+          "quran:2:183": "Direct_Match"
+        },
+        "off_approvals": [],
+        "off_contradictions": [],
+        "labels": {
+          "quran:2:183": "Direct_Match",
+          "quran:69:48": "Superficial_Match",
+          "quran:2:187": "Superficial_Match",
+          "quran:26:90": "Superficial_Match",
+          "quran:69:1": "Superficial_Match",
+          "quran:38:49": "Superficial_Match",
+          "quran:78:31": "Superficial_Match",
+          "quran:44:51": "Superficial_Match",
+          "quran:43:67": "Superficial_Match",
+          "quran:5:95": "Context_Mismatch",
+          "quran:3:138": "Superficial_Match",
+          "quran:58:4": "Context_Mismatch"
+        },
+        "reasons": {
+          "quran:2:183": "The verse states that fasting is prescribed 'so that you may become righteous' (لعلكم تتقون), directly aligning with the statement that fasting is prescribed for piety.",
+          "quran:69:48": "The verse states that 'it is a reminder for the righteous' (لتذكره للمتقين), but it does not mention fasting as the means to achieve piety.",
+          "quran:2:187": "This verse discusses specific rulings related to fasting, such as permissible intimacy during the night and the completion of the fast until nightfall, but it does not state that fasting is prescribed for piety.",
+          "quran:26:90": "The verse states that 'Paradise is brought near for the righteous' (وازلفت الجنه للمتقين), but it does not connect this to fasting.",
+          "quran:69:1": "This verse refers to the Day of Judgment and has no connection to fasting or piety.",
+          "quran:38:49": "The verse mentions that 'this is a reminder, and indeed, for the righteous is a good final return' (وان للمتقين لحسن ماب), but it does not link this to fasting.",
+          "quran:78:31": "The verse states that 'Indeed, for the righteous is attainment' (ان للمتقين مفازا), but it does not mention fasting as the cause.",
+          "quran:44:51": "The verse states that 'Indeed, the righteous will be in a secure station' (ان المتقين في مقام امين), but it does not mention fasting.",
+          "quran:43:67": "The verse states that 'Friends, that Day, will be enemies to each other, except for the righteous' (الا المتقين), but it does not mention fasting.",
+          "quran:5:95": "This verse discusses the penalty for hunting during pilgrimage and mentions fasting as a form of atonement, but it does not state that fasting is prescribed for piety in general.",
+          "quran:3:138": "The verse describes the Quran as 'a clear statement to mankind and a guidance and an instruction for those conscious of Allah' (وهدي وموعظه للمتقين), but it does not specifically mention fasting as the means for piety.",
+          "quran:58:4": "This verse prescribes fasting for two consecutive months as a penance for a specific offense (breaking an oath of intimacy before fulfilling a vow), not as a general prescription for piety."
+        }
+      },
+      "I_textual_occasion_fa": {
+        "ok": true,
+        "got": {
+          "quran:2:183": "Direct_Match"
+        },
+        "off_approvals": [],
+        "off_contradictions": [],
+        "labels": {
+          "quran:2:183": "Direct_Match",
+          "quran:69:48": "Superficial_Match",
+          "quran:2:187": "Superficial_Match",
+          "quran:26:90": "Superficial_Match",
+          "quran:69:1": "Superficial_Match",
+          "quran:38:49": "Superficial_Match",
+          "quran:78:31": "Superficial_Match",
+          "quran:44:51": "Superficial_Match",
+          "quran:43:67": "Superficial_Match",
+          "quran:5:95": "Superficial_Match",
+          "quran:3:138": "Superficial_Match",
+          "quran:58:4": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:2:183": "آیه صراحتاً بیان می‌کند که روزه برای این است که پرهیزکار شوید.",
+          "quran:69:48": "این آیه به طور کلی به ذکر بودن قرآن برای پرهیزکاران اشاره دارد و ارتباط مستقیمی با وجوب روزه ندارد.",
+          "quran:2:187": "این آیه به احکام مربوط به روزه در ماه رمضان می‌پردازد اما هدف اصلی آن را بیان نمی‌کند.",
+          "quran:26:90": "این آیه بهشت را برای پرهیزکاران نزدیک می‌داند و ارتباطی با وجوب روزه ندارد.",
+          "quran:69:1": "این آیه به روز قیامت اشاره دارد و ارتباطی با وجوب روزه ندارد.",
+          "quran:38:49": "این آیه قرآن را یادآوری برای پرهیزکاران می‌داند و ارتباطی با وجوب روزه ندارد.",
+          "quran:78:31": "این آیه بهشت را برای پرهیزکاران بشارت می‌دهد و ارتباطی با وجوب روزه ندارد.",
+          "quran:44:51": "این آیه جایگاه امن پرهیزکاران را بیان می‌کند و ارتباطی با وجوب روزه ندارد.",
+          "quran:43:67": "این آیه دشمنی دوستان در روز قیامت را بیان می‌کند مگر پرهیزکاران را و ارتباطی با وجوب روزه ندارد.",
+          "quran:5:95": "این آیه به کفاره شکار در حال احرام می‌پردازد که شامل روزه است، اما هدف اصلی آن وجوب روزه برای پرهیزگاری نیست.",
+          "quran:3:138": "این آیه قرآن را هدایت و موعظه برای پرهیزکاران می‌داند و ارتباطی با وجوب روزه ندارد.",
+          "quran:58:4": "این آیه به روزه به عنوان کفاره اشاره دارد و ارتباط مستقیمی با وجوب روزه برای پرهیزگاری ندارد."
+        }
+      },
+      "K_reason_first": {
+        "ok": true,
+        "got": {
+          "quran:2:183": "Direct_Match"
+        },
+        "off_approvals": [
+          "quran:2:187"
+        ],
+        "off_contradictions": [],
+        "labels": {
+          "quran:2:183": "Direct_Match",
+          "quran:69:48": "Superficial_Match",
+          "quran:2:187": "Conditional_Match",
+          "quran:26:90": "Superficial_Match",
+          "quran:69:1": "Superficial_Match",
+          "quran:38:49": "Superficial_Match",
+          "quran:78:31": "Superficial_Match",
+          "quran:44:51": "Superficial_Match",
+          "quran:43:67": "Superficial_Match",
+          "quran:5:95": "Context_Mismatch",
+          "quran:3:138": "Superficial_Match",
+          "quran:58:4": "Context_Mismatch"
+        },
+        "reasons": {
+          "quran:2:183": "The verse states that fasting is prescribed so that people may become righteous (لعلكم تتقون), directly aligning with the statement that fasting is prescribed for righteousness.",
+          "quran:69:48": "The verse states that the Quran is a reminder for the righteous (تذكرة للمتقين), but it does not mention fasting as the means to achieve righteousness.",
+          "quran:2:187": "This verse discusses specific rules related to fasting, such as permissible intimacy and the timing of breaking the fast, and mentions that these are boundaries for people to become righteous (لعلهم يتقون), but it does not state that fasting itself is prescribed for righteousness.",
+          "quran:26:90": "The verse states that Paradise will be brought near for the righteous (للمتقين), but it does not connect this to fasting.",
+          "quran:69:1": "This verse refers to the Day of Judgment and has no connection to fasting or righteousness.",
+          "quran:38:49": "The verse mentions that this is a reminder and a good outcome awaits the righteous (للمتقين), but it does not link this to fasting.",
+          "quran:78:31": "The verse states that the righteous will have a great attainment (للمتقين مفازا), but it does not mention fasting as the cause.",
+          "quran:44:51": "The verse states that the righteous will be in a secure place (للمتقين في مقام امين), but it does not mention fasting.",
+          "quran:43:67": "The verse states that friends will be enemies on that day, except for the righteous (الا المتقين), but it does not mention fasting.",
+          "quran:5:95": "This verse discusses the penalty for hunting during Hajj, which can include fasting, but it does not state that fasting is prescribed for general righteousness.",
+          "quran:3:138": "The verse describes the Quran as a guidance and admonition for the righteous (للمتقين), but it does not state that fasting is prescribed for righteousness.",
+          "quran:58:4": "This verse prescribes fasting for two consecutive months as a penance for those who cannot free a slave, linking it to faith in God and His Messenger, but not as a general prescription for righteousness."
+        }
+      }
+    },
+    {
+      "id": 15,
+      "statement": "غیبت کردن مانند خوردن گوشت برادر مرده است.",
+      "category": "اخلاقی",
+      "expected": "Direct_Match",
+      "retrieval_s": 0.0,
+      "candidates": [
+        "quran:49:12",
+        "quran:6:145",
+        "quran:6:119",
+        "quran:44:44",
+        "quran:5:3",
+        "quran:5:30",
+        "quran:2:173",
+        "quran:51:59",
+        "quran:26:130",
+        "quran:16:115",
+        "quran:2:275",
+        "quran:80:24"
+      ],
+      "I_textual_occasion": {
+        "ok": true,
+        "got": {
+          "quran:49:12": "Direct_Match"
+        },
+        "off_approvals": [],
+        "off_contradictions": [],
+        "labels": {
+          "quran:49:12": "Direct_Match",
+          "quran:6:145": "Superficial_Match",
+          "quran:6:119": "Superficial_Match",
+          "quran:44:44": "Superficial_Match",
+          "quran:5:3": "Superficial_Match",
+          "quran:5:30": "Superficial_Match",
+          "quran:2:173": "Superficial_Match",
+          "quran:51:59": "Superficial_Match",
+          "quran:26:130": "Superficial_Match",
+          "quran:16:115": "Superficial_Match",
+          "quran:2:275": "Superficial_Match",
+          "quran:80:24": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:49:12": "The verse explicitly states that backbiting is like eating the flesh of a dead brother, which directly matches the statement.",
+          "quran:6:145": "This verse discusses forbidden foods (carrion, blood, pork) and does not mention backbiting or compare it to eating dead flesh.",
+          "quran:6:119": "This verse discusses forbidden foods and does not mention backbiting or compare it to eating dead flesh.",
+          "quran:44:44": "This verse describes the food of the sinful as boiling in the belly, but it does not mention backbiting or compare it to eating dead flesh.",
+          "quran:5:3": "This verse lists forbidden foods and does not mention backbiting or compare it to eating dead flesh.",
+          "quran:5:30": "This verse describes the story of Cain and Abel, focusing on murder and burial, not backbiting or its comparison to eating dead flesh.",
+          "quran:2:173": "This verse lists forbidden foods and does not mention backbiting or compare it to eating dead flesh.",
+          "quran:51:59": "This verse speaks about the punishment for wrongdoers and does not mention backbiting or compare it to eating dead flesh.",
+          "quran:26:130": "This verse describes the oppressive nature of punishment and does not mention backbiting or compare it to eating dead flesh.",
+          "quran:16:115": "This verse lists forbidden foods and does not mention backbiting or compare it to eating dead flesh.",
+          "quran:2:275": "This verse discusses usury (riba) and its prohibition, not backbiting or its comparison to eating dead flesh.",
+          "quran:80:24": "This verse encourages reflection on food and its creation, not on backbiting or its comparison to eating dead flesh."
+        }
+      },
+      "I_textual_occasion_fa": {
+        "ok": true,
+        "got": {
+          "quran:49:12": "Direct_Match"
+        },
+        "off_approvals": [],
+        "off_contradictions": [],
+        "labels": {
+          "quran:49:12": "Direct_Match",
+          "quran:6:145": "Superficial_Match",
+          "quran:6:119": "Superficial_Match",
+          "quran:44:44": "Superficial_Match",
+          "quran:5:3": "Superficial_Match",
+          "quran:5:30": "Superficial_Match",
+          "quran:2:173": "Superficial_Match",
+          "quran:51:59": "Superficial_Match",
+          "quran:26:130": "Superficial_Match",
+          "quran:16:115": "Superficial_Match",
+          "quran:2:275": "Superficial_Match",
+          "quran:80:24": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:49:12": "آیه به صراحت غیبت کردن را به خوردن گوشت برادر مرده تشبیه کرده است.",
+          "quran:6:145": "این آیه به خوردن گوشت مردار و سایر موارد تحریم شده می‌پردازد و ارتباطی با غیبت ندارد.",
+          "quran:6:119": "این آیه به خوردن گوشت‌های حلال و حرام می‌پردازد و ارتباطی با غیبت ندارد.",
+          "quran:44:44": "این آیه به غذای گنهکاران اشاره دارد و ارتباطی با تشبیه غیبت به خوردن گوشت برادر مرده ندارد.",
+          "quran:5:3": "این آیه به خوردنی‌های حرام می‌پردازد و ارتباطی با غیبت ندارد.",
+          "quran:5:30": "این آیه به داستان قابیل و هابیل و دفن جسد می‌پردازد و ارتباطی با غیبت ندارد.",
+          "quran:2:173": "این آیه به خوردنی‌های حرام می‌پردازد و ارتباطی با غیبت ندارد.",
+          "quran:51:59": "این آیه به عذاب ستمگران اشاره دارد و ارتباطی با غیبت ندارد.",
+          "quran:26:130": "این آیه به مجازات ظالمانه اشاره دارد و ارتباطی با غیبت ندارد.",
+          "quran:16:115": "این آیه به خوردنی‌های حرام می‌پردازد و ارتباطی با غیبت ندارد.",
+          "quran:2:275": "این آیه به حرمت ربا می‌پردازد و ارتباطی با غیبت ندارد.",
+          "quran:80:24": "این آیه به تفکر در غذا اشاره دارد و ارتباطی با غیبت ندارد."
+        }
+      },
+      "K_reason_first": {
+        "ok": true,
+        "got": {
+          "quran:49:12": "Direct_Match"
+        },
+        "off_approvals": [],
+        "off_contradictions": [],
+        "labels": {
+          "quran:49:12": "Direct_Match",
+          "quran:6:145": "Superficial_Match",
+          "quran:6:119": "Superficial_Match",
+          "quran:44:44": "Superficial_Match",
+          "quran:5:3": "Superficial_Match",
+          "quran:5:30": "Superficial_Match",
+          "quran:2:173": "Superficial_Match",
+          "quran:51:59": "Superficial_Match",
+          "quran:26:130": "Superficial_Match",
+          "quran:16:115": "Superficial_Match",
+          "quran:2:275": "Superficial_Match",
+          "quran:80:24": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:49:12": "The verse explicitly states that backbiting is like eating the flesh of a dead brother, which directly matches the statement.",
+          "quran:6:145": "This verse discusses forbidden foods (carrion, blood, pork) and does not mention backbiting or its comparison to eating dead flesh.",
+          "quran:6:119": "This verse discusses the permissibility of eating food over which God's name has been mentioned and what is forbidden, with no mention of backbiting.",
+          "quran:44:44": "This verse describes the food of the sinful as boiling in the belly, but it does not relate to backbiting or the comparison to eating dead flesh.",
+          "quran:5:3": "This verse lists forbidden foods and does not mention backbiting or its comparison to eating dead flesh.",
+          "quran:5:30": "This verse describes the story of Cain and Abel, focusing on murder and burial, not backbiting.",
+          "quran:2:173": "This verse lists forbidden foods (carrion, blood, pork) and does not mention backbiting or its comparison to eating dead flesh.",
+          "quran:51:59": "This verse warns wrongdoers of their share of punishment but does not mention backbiting or the specific analogy used in the statement.",
+          "quran:26:130": "This verse condemns oppressive punishment and does not relate to backbiting.",
+          "quran:16:115": "This verse lists forbidden foods (carrion, blood, pork) and does not mention backbiting or its comparison to eating dead flesh.",
+          "quran:2:275": "This verse discusses the prohibition of usury (riba) and does not mention backbiting.",
+          "quran:80:24": "This verse encourages reflection on food and its creation, with no connection to backbiting."
+        }
+      }
+    },
+    {
+      "id": 21,
+      "statement": "تکبر و خودبرتربینی ناپسند است و خداوند متکبران را دوست ندارد.",
+      "category": "اخلاقی",
+      "expected": "Direct_Match",
+      "retrieval_s": 0.0,
+      "candidates": [
+        "quran:57:23",
+        "quran:16:23",
+        "quran:4:36",
+        "quran:31:18",
+        "quran:4:148",
+        "quran:22:37",
+        "quran:5:87",
+        "quran:4:107",
+        "quran:7:55",
+        "quran:40:35",
+        "quran:3:57",
+        "quran:2:190"
+      ],
+      "I_textual_occasion": {
+        "ok": true,
+        "got": {
+          "quran:16:23": "Direct_Match",
+          "quran:31:18": "Direct_Match"
+        },
+        "off_approvals": [
+          "quran:57:23",
+          "quran:4:36",
+          "quran:40:35"
+        ],
+        "off_contradictions": [],
+        "labels": {
+          "quran:57:23": "Direct_Match",
+          "quran:16:23": "Direct_Match",
+          "quran:4:36": "Direct_Match",
+          "quran:31:18": "Direct_Match",
+          "quran:4:148": "Superficial_Match",
+          "quran:22:37": "Superficial_Match",
+          "quran:5:87": "Superficial_Match",
+          "quran:4:107": "Superficial_Match",
+          "quran:7:55": "Superficial_Match",
+          "quran:40:35": "Direct_Match",
+          "quran:3:57": "Superficial_Match",
+          "quran:2:190": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:57:23": "The verse states that God does not love the proud and boastful, which directly aligns with the statement that arrogance and self-importance are disliked and God does not love the arrogant.",
+          "quran:16:23": "The verse explicitly states that God does not love the arrogant, which is a direct match to the statement's claim that God does not love the arrogant.",
+          "quran:4:36": "The verse states that God does not love the arrogant and boastful, directly supporting the statement's claim that arrogance and self-importance are disliked and God does not love the arrogant.",
+          "quran:31:18": "The verse advises against walking on the earth arrogantly and states that God does not love the arrogant and boastful, directly aligning with the statement.",
+          "quran:4:148": "The verse discusses God not loving the publicizing of evil, except for the oppressed, which is a different topic than arrogance and self-importance.",
+          "quran:22:37": "The verse states that God does not love the treacherous and ungrateful, which is a different subject than arrogance and self-importance.",
+          "quran:5:87": "The verse states that God does not love transgressors, which is a different topic than arrogance and self-importance.",
+          "quran:4:107": "The verse states that God does not love those who betray themselves (sinners), which is a different topic than arrogance and self-importance.",
+          "quran:7:55": "The verse states that God does not love transgressors, which is a different topic than arrogance and self-importance.",
+          "quran:40:35": "The verse describes God's displeasure with those who argue about God's signs without authority and seals the hearts of the arrogant and tyrannical, aligning with the statement that arrogance is disliked and God dislikes the arrogant.",
+          "quran:3:57": "The verse states that God does not love the wrongdoers, which is a different topic than arrogance and self-importance.",
+          "quran:2:190": "The verse states that God does not love transgressors, which is a different topic than arrogance and self-importance."
+        }
+      },
+      "I_textual_occasion_fa": {
+        "ok": true,
+        "got": {
+          "quran:16:23": "Direct_Match",
+          "quran:31:18": "Direct_Match"
+        },
+        "off_approvals": [
+          "quran:57:23",
+          "quran:4:36",
+          "quran:40:35"
+        ],
+        "off_contradictions": [],
+        "labels": {
+          "quran:57:23": "Direct_Match",
+          "quran:16:23": "Direct_Match",
+          "quran:4:36": "Direct_Match",
+          "quran:31:18": "Direct_Match",
+          "quran:4:148": "Superficial_Match",
+          "quran:22:37": "Superficial_Match",
+          "quran:5:87": "Superficial_Match",
+          "quran:4:107": "Superficial_Match",
+          "quran:7:55": "Superficial_Match",
+          "quran:40:35": "Direct_Match",
+          "quran:3:57": "Superficial_Match",
+          "quran:2:190": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:57:23": "آیه به صراحت بیان می‌کند که خداوند هیچ متکبر فخرفروشی را دوست ندارد، که با گزاره مطابقت دارد.",
+          "quran:16:23": "آیه به صراحت بیان می‌کند که خداوند مستکبران را دوست نمی‌دارد، که با گزاره مطابقت دارد.",
+          "quran:4:36": "آیه به صراحت بیان می‌کند که خداوند کسی را که متکبر و فخرفروش است دوست نمی‌دارد، که با گزاره مطابقت دارد.",
+          "quran:31:18": "آیه به صراحت بیان می‌کند که خداوند هیچ متکبر مغروری را دوست ندارد، که با گزاره مطابقت دارد.",
+          "quran:4:148": "آیه در مورد دوست نداشتن اظهار بدی‌ها با سخن است و موضوع آن تکبر نیست.",
+          "quran:22:37": "آیه بیان می‌کند که خداوند هیچ خیانتکار ناسپاسی را دوست ندارد و موضوع آن تکبر نیست.",
+          "quran:5:87": "آیه در مورد دوست نداشتن متجاوزان است و موضوع آن تکبر نیست.",
+          "quran:4:107": "آیه در مورد دوست نداشتن افراد خیانت‌پیشه گنهکار است و موضوع آن تکبر نیست.",
+          "quran:7:55": "آیه در مورد دوست نداشتن متجاوزان است و موضوع آن تکبر نیست.",
+          "quran:40:35": "آیه به صراحت بیان می‌کند که خداوند بر دل هر متکبر جباری مُهر می‌نهد و این کار خشم عظیمی نزد خداوند به بار می‌آورد، که با گزاره مطابقت دارد.",
+          "quran:3:57": "آیه در مورد دوست نداشتن ستمکاران است و موضوع آن تکبر نیست.",
+          "quran:2:190": "آیه در مورد دوست نداشتن متجاوزان است و موضوع آن تکبر نیست."
+        }
+      },
+      "K_reason_first": {
+        "ok": true,
+        "got": {
+          "quran:16:23": "Direct_Match",
+          "quran:31:18": "Direct_Match"
+        },
+        "off_approvals": [
+          "quran:57:23",
+          "quran:4:36",
+          "quran:40:35"
+        ],
+        "off_contradictions": [],
+        "labels": {
+          "quran:57:23": "Direct_Match",
+          "quran:16:23": "Direct_Match",
+          "quran:4:36": "Direct_Match",
+          "quran:31:18": "Direct_Match",
+          "quran:4:148": "Superficial_Match",
+          "quran:22:37": "Superficial_Match",
+          "quran:5:87": "Superficial_Match",
+          "quran:4:107": "Superficial_Match",
+          "quran:7:55": "Superficial_Match",
+          "quran:40:35": "Direct_Match",
+          "quran:3:57": "Superficial_Match",
+          "quran:2:190": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:57:23": "The verse states that God does not love any arrogant, boastful person, which directly aligns with the statement that arrogance and self-conceit are disliked and God does not love the arrogant.",
+          "quran:16:23": "The verse explicitly states that God does not love the arrogant, which is a direct match to the statement's assertion that God does not love the arrogant.",
+          "quran:4:36": "The verse states that God does not love anyone who is arrogant and boastful, which directly aligns with the statement that arrogance and self-conceit are disliked and God does not love the arrogant.",
+          "quran:31:18": "The verse advises against walking proudly on earth and states that God does not love any arrogant, boastful person, directly supporting the statement that arrogance and self-conceit are disliked.",
+          "quran:4:148": "The statement is about arrogance and self-conceit, while this verse is about God not loving the public expression of evil speech, except for the oppressed. The subject matter is different.",
+          "quran:22:37": "The verse states that God does not love any treacherous, ungrateful person. The statement is about arrogance and self-conceit. The subject matter is different.",
+          "quran:5:87": "The statement is about arrogance and self-conceit, while this verse is about God not loving transgressors. The subject matter is different.",
+          "quran:4:107": "The verse states that God does not love the treacherous and sinful. The statement is about arrogance and self-conceit. The subject matter is different.",
+          "quran:7:55": "The statement is about arrogance and self-conceit, while this verse is about God not loving transgressors. The subject matter is different.",
+          "quran:40:35": "The verse describes the consequence of arguing about God's verses without authority, leading to God's displeasure and sealing the hearts of the arrogant and tyrannical. This aligns with the statement that arrogance is disliked and God dislikes the arrogant.",
+          "quran:3:57": "The statement is about arrogance and self-conceit, while this verse is about God not loving oppressors. The subject matter is different.",
+          "quran:2:190": "The statement is about arrogance and self-conceit, while this verse is about God not loving transgressors. The subject matter is different."
+        }
+      }
+    },
+    {
+      "id": 24,
+      "statement": "یاد خداوند باعث آرامش دل‌ها می‌شود.",
+      "category": "اعتقادی",
+      "expected": "Direct_Match",
+      "retrieval_s": 0.0,
+      "candidates": [
+        "quran:13:28",
+        "quran:39:45",
+        "quran:3:154",
+        "quran:48:4",
+        "quran:22:35",
+        "quran:48:18",
+        "quran:8:2",
+        "quran:30:59",
+        "quran:19:96",
+        "quran:4:103",
+        "quran:22:32",
+        "quran:8:11"
+      ],
+      "I_textual_occasion": {
+        "ok": true,
+        "got": {
+          "quran:13:28": "Direct_Match"
+        },
+        "off_approvals": [
+          "quran:48:4",
+          "quran:48:18",
+          "quran:4:103"
+        ],
+        "off_contradictions": [
+          "quran:22:35",
+          "quran:8:2"
+        ],
+        "labels": {
+          "quran:13:28": "Direct_Match",
+          "quran:39:45": "Superficial_Match",
+          "quran:3:154": "Context_Mismatch",
+          "quran:48:4": "Direct_Match",
+          "quran:22:35": "Contradiction",
+          "quran:48:18": "Direct_Match",
+          "quran:8:2": "Contradiction",
+          "quran:30:59": "Superficial_Match",
+          "quran:19:96": "Superficial_Match",
+          "quran:4:103": "Conditional_Match",
+          "quran:22:32": "Superficial_Match",
+          "quran:8:11": "Context_Mismatch"
+        },
+        "reasons": {
+          "quran:13:28": "The verse explicitly states that hearts find tranquility in the remembrance of Allah, directly aligning with the statement.",
+          "quran:39:45": "This verse discusses the reaction of disbelievers' hearts to the remembrance of Allah, which is a different subject than the statement about the calming effect of remembering Allah on believers' hearts.",
+          "quran:3:154": "This verse discusses God's action of sending down tranquility (نعاسا) as a form of relief after grief, and mentions the state of hearts during a specific event (Battle of Uhud), not the general principle of remembrance bringing peace.",
+          "quran:48:4": "The verse states that Allah sent down tranquility into the hearts of believers to increase their faith, which directly supports the statement.",
+          "quran:22:35": "This verse describes believers whose hearts fear when Allah is mentioned, which is a different emotional response than the tranquility mentioned in the statement.",
+          "quran:48:18": "The verse mentions that Allah sent down tranquility upon the believers' hearts after they pledged allegiance, which aligns with the statement that remembrance brings peace.",
+          "quran:8:2": "This verse describes believers whose hearts fear when Allah is mentioned, which is a different emotional response than the tranquility mentioned in the statement.",
+          "quran:30:59": "This verse talks about God sealing the hearts of those who do not know, which is unrelated to the statement about the calming effect of remembering Allah.",
+          "quran:19:96": "This verse states that Allah will place affection for believers in the hearts of people, not that remembrance of Allah brings peace to the believers' hearts.",
+          "quran:4:103": "The verse mentions that when believers find tranquility (اطمأننتم), they should establish prayer, implying that tranquility is a state that can be achieved, and prayer is linked to it, but it doesn't state that remembrance *causes* tranquility.",
+          "quran:22:32": "This verse states that honoring the symbols of Allah is from the piety of hearts, which is a different concept than the statement about remembrance bringing peace.",
+          "quran:8:11": "This verse describes God sending down sleep (نعاسا) as a form of tranquility and reassurance during a specific event, not the general principle of remembrance bringing peace to the heart."
+        }
+      },
+      "I_textual_occasion_fa": {
+        "ok": true,
+        "got": {
+          "quran:13:28": "Direct_Match"
+        },
+        "off_approvals": [
+          "quran:48:4",
+          "quran:48:18",
+          "quran:8:11"
+        ],
+        "off_contradictions": [
+          "quran:39:45",
+          "quran:22:35",
+          "quran:8:2"
+        ],
+        "labels": {
+          "quran:13:28": "Direct_Match",
+          "quran:39:45": "Contradiction",
+          "quran:3:154": "Superficial_Match",
+          "quran:48:4": "Direct_Match",
+          "quran:22:35": "Contradiction",
+          "quran:48:18": "Direct_Match",
+          "quran:8:2": "Contradiction",
+          "quran:30:59": "Superficial_Match",
+          "quran:19:96": "Superficial_Match",
+          "quran:4:103": "Context_Mismatch",
+          "quran:22:32": "Superficial_Match",
+          "quran:8:11": "Conditional_Match"
+        },
+        "reasons": {
+          "quran:13:28": "این آیه به صراحت بیان می‌کند که دل‌ها تنها با یاد خدا آرامش می‌یابند که کاملاً با گزاره مطابقت دارد.",
+          "quran:39:45": "این آیه به تأثیر یاد خدا بر دل‌های مؤمنان و نامؤمنان اشاره دارد و در مورد دل‌های کسانی که به آخرت ایمان ندارند، عکس‌العمل منفی (مشمئزّ شدن) را بیان می‌کند، که با گزاره مطابقت ندارد.",
+          "quran:3:154": "این آیه به آرامش در شرایط خاص (پس از غم و اندوه) و همچنین به شک و تردید برخی افراد اشاره دارد و ارتباط مستقیمی با آرامش دل‌ها از طریق یاد خداوند ندارد.",
+          "quran:48:4": "این آیه بیان می‌کند که خداوند آرامش را در دل مؤمنان نازل می‌کند تا ایمانشان بیفزاید، که با گزاره مطابقت دارد.",
+          "quran:22:35": "این آیه به ترس دل‌ها هنگام یاد خدا اشاره دارد، نه آرامش، که با گزاره مطابقت ندارد.",
+          "quran:48:18": "این آیه بیان می‌کند که خداوند آرامش را بر دل مؤمنان نازل کرد، که با گزاره مطابقت دارد.",
+          "quran:8:2": "این آیه به ترس دل‌ها هنگام یاد خدا اشاره دارد، نه آرامش، که با گزاره مطابقت ندارد.",
+          "quran:30:59": "این آیه به مهر نهادن خداوند بر دل‌های کسانی که آگاهی ندارند اشاره دارد و ارتباطی با آرامش دل‌ها از طریق یاد خداوند ندارد.",
+          "quran:19:96": "این آیه به قرار دادن محبت در دل‌ها از سوی خداوند برای مؤمنان اشاره دارد، نه آرامش دل‌ها از طریق یاد خدا.",
+          "quran:4:103": "این آیه به آرامش یافتن پس از نماز و سپس اقامه نماز اشاره دارد و مستقیماً یاد خدا را عامل آرامش دل‌ها نمی‌داند.",
+          "quran:22:32": "این آیه به بزرگداشت شعائر الهی به عنوان نشانه تقوای دل‌ها اشاره دارد و ارتباط مستقیمی با آرامش دل‌ها از طریق یاد خدا ندارد.",
+          "quran:8:11": "این آیه به نازل شدن آرامش (نعاس) از سوی خدا برای محکم کردن دل‌ها اشاره دارد، اما نه به طور کلی و نه به عنوان نتیجه مستقیم یاد خدا."
+        }
+      },
+      "K_reason_first": {
+        "ok": true,
+        "got": {
+          "quran:13:28": "Direct_Match"
+        },
+        "off_approvals": [
+          "quran:48:4",
+          "quran:48:18",
+          "quran:4:103"
+        ],
+        "off_contradictions": [
+          "quran:22:35",
+          "quran:8:2"
+        ],
+        "labels": {
+          "quran:13:28": "Direct_Match",
+          "quran:39:45": "Superficial_Match",
+          "quran:3:154": "Context_Mismatch",
+          "quran:48:4": "Direct_Match",
+          "quran:22:35": "Contradiction",
+          "quran:48:18": "Direct_Match",
+          "quran:8:2": "Contradiction",
+          "quran:30:59": "Superficial_Match",
+          "quran:19:96": "Superficial_Match",
+          "quran:4:103": "Conditional_Match",
+          "quran:22:32": "Superficial_Match",
+          "quran:8:11": "Context_Mismatch"
+        },
+        "reasons": {
+          "quran:13:28": "The verse explicitly states that hearts find tranquility in the remembrance of Allah, directly aligning with the statement.",
+          "quran:39:45": "This verse discusses the reaction of disbelievers to the remembrance of Allah, which is a different subject than the statement about the effect of remembrance on believers' hearts.",
+          "quran:3:154": "This verse discusses peace and reassurance sent by Allah after grief, but it is linked to the specific context of the Battle of Uhud and the internal state of some companions, not a general statement about the remembrance of Allah bringing peace to all hearts.",
+          "quran:48:4": "The verse states that Allah sent down tranquility into the hearts of believers to increase their faith, which is a direct affirmation of the statement's core idea.",
+          "quran:22:35": "This verse describes the hearts of believers becoming fearful ( وجلت ) when Allah is mentioned, which is a different emotional response than the 'tranquility' mentioned in the statement.",
+          "quran:48:18": "The verse mentions Allah sending down tranquility upon the hearts of believers who pledged allegiance, directly supporting the statement.",
+          "quran:8:2": "This verse states that believers' hearts become fearful ( وجلت ) when Allah is mentioned, which is contrary to the statement that remembrance brings tranquility.",
+          "quran:30:59": "This verse talks about Allah sealing the hearts of those who do not know, which is unrelated to the statement about the effect of remembering Allah on believers' hearts.",
+          "quran:19:96": "This verse states that Allah will place affection ( ودا ) for believers in the hearts of people, which is different from the statement about the remembrance of Allah bringing tranquility to one's own heart.",
+          "quran:4:103": "This verse mentions finding tranquility ( اطمأننتم ) after prayer and then establishing prayer, implying that prayer itself brings tranquility, and remembrance is part of that, but it's not a direct statement that remembrance *alone* brings tranquility to the heart as the primary subject.",
+          "quran:22:32": "This verse states that honoring the symbols of Allah is from the piety of hearts, not that the remembrance of Allah brings tranquility.",
+          "quran:8:11": "This verse describes Allah sending down sleep (نعاس) as tranquility (امنه) and to strengthen hearts (ليربط علي قلوبكم) during a specific event (Battle of Badr), which is a specific instance and not a general statement about the remembrance of Allah bringing peace to all hearts in all situations."
+        }
+      }
+    },
+    {
+      "id": 32,
+      "status": "not_retrieved"
+    },
+    {
+      "id": 33,
+      "statement": "اسراف در خوردن آزاد است و اشکالی ندارد.",
+      "category": "تله_نفی",
+      "expected": "Contradiction",
+      "retrieval_s": 0.0,
+      "candidates": [
+        "quran:25:67",
+        "quran:6:145",
+        "quran:56:33",
+        "quran:2:262",
+        "quran:24:61",
+        "quran:4:6",
+        "quran:2:274",
+        "quran:7:31",
+        "quran:91:15",
+        "quran:6:141",
+        "quran:20:127",
+        "quran:15:3"
+      ],
+      "I_textual_occasion": {
+        "ok": true,
+        "got": {
+          "quran:7:31": "Contradiction"
+        },
+        "off_approvals": [
+          "quran:4:6"
+        ],
+        "off_contradictions": [
+          "quran:25:67",
+          "quran:6:141",
+          "quran:20:127"
+        ],
+        "labels": {
+          "quran:25:67": "Contradiction",
+          "quran:6:145": "Superficial_Match",
+          "quran:56:33": "Superficial_Match",
+          "quran:2:262": "Superficial_Match",
+          "quran:24:61": "Superficial_Match",
+          "quran:4:6": "Conditional_Match",
+          "quran:2:274": "Superficial_Match",
+          "quran:7:31": "Contradiction",
+          "quran:91:15": "Superficial_Match",
+          "quran:6:141": "Contradiction",
+          "quran:20:127": "Contradiction",
+          "quran:15:3": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:25:67": "The verse describes the characteristics of believers as not being extravagant or stingy when spending, which directly contradicts the statement that extravagance in eating is permissible.",
+          "quran:6:145": "This verse discusses permissible and impermissible foods under specific conditions of necessity, not the permissibility of extravagance in eating.",
+          "quran:56:33": "This verse describes the nature of paradise's fruits, not the permissibility of extravagance in eating in this world.",
+          "quran:2:262": "This verse discusses the rewards for spending in the way of Allah without boasting or causing harm, not the permissibility of extravagance in eating.",
+          "quran:24:61": "This verse discusses the permissibility of eating from various houses under specific social contexts, not the permissibility of extravagance in eating.",
+          "quran:4:6": "This verse prohibits consuming the wealth of orphans extravagantly, which is related to the concept of extravagance but not directly about eating.",
+          "quran:2:274": "This verse discusses the rewards for spending in the way of Allah, not the permissibility of extravagance in eating.",
+          "quran:7:31": "The verse explicitly states 'eat and drink, but do not be extravagant,' directly contradicting the statement that extravagance in eating is permissible.",
+          "quran:91:15": "This verse discusses the consequences of wrongdoing and does not relate to extravagance in eating.",
+          "quran:6:141": "The verse commands to 'eat of its fruit when it fruits, and give its due thereof on the day of its harvest, and do not be extravagant,' directly contradicting the statement that extravagance in eating is permissible.",
+          "quran:20:127": "This verse states that Allah punishes those who are extravagant and do not believe in His signs, implying that extravagance is blameworthy and not permissible, thus contradicting the statement.",
+          "quran:15:3": "This verse speaks about people enjoying worldly life and being deluded by hopes, not about the permissibility of extravagance in eating."
+        }
+      },
+      "I_textual_occasion_fa": {
+        "ok": true,
+        "got": {
+          "quran:7:31": "Contradiction"
+        },
+        "off_approvals": [],
+        "off_contradictions": [
+          "quran:25:67",
+          "quran:4:6",
+          "quran:6:141",
+          "quran:20:127"
+        ],
+        "labels": {
+          "quran:25:67": "Contradiction",
+          "quran:6:145": "Superficial_Match",
+          "quran:56:33": "Superficial_Match",
+          "quran:2:262": "Superficial_Match",
+          "quran:24:61": "Superficial_Match",
+          "quran:4:6": "Contradiction",
+          "quran:2:274": "Superficial_Match",
+          "quran:7:31": "Contradiction",
+          "quran:91:15": "Superficial_Match",
+          "quran:6:141": "Contradiction",
+          "quran:20:127": "Contradiction",
+          "quran:15:3": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:25:67": "این آیه به اعتدال در انفاق اشاره دارد و اسراف را مذمت می‌کند، در حالی که statement اسراف در خوردن را مجاز می‌داند.",
+          "quran:6:145": "این آیه به خوردن غذای حرام در حالت اضطرار اشاره دارد و موضوع آن با اسراف در خوردن متفاوت است.",
+          "quran:56:33": "این آیه به میوه‌های بهشتی اشاره دارد و موضوع آن با اسراف در خوردن متفاوت است.",
+          "quran:2:262": "این آیه به انفاق در راه خدا و منت نگذاشتن اشاره دارد و موضوع آن با اسراف در خوردن متفاوت است.",
+          "quran:24:61": "این آیه به خوردن از خانه‌های مختلف در شرایط خاص اشاره دارد و موضوع آن با اسراف در خوردن متفاوت است.",
+          "quran:4:6": "این آیه به خوردن اموال یتیمان به صورت اسرافکارانه اشاره دارد و آن را نهی می‌کند، در حالی که statement اسراف را مجاز می‌داند.",
+          "quran:2:274": "این آیه به انفاق در راه خدا اشاره دارد و موضوع آن با اسراف در خوردن متفاوت است.",
+          "quran:7:31": "این آیه به خوردن و آشامیدن بدون اسراف در هنگام رفتن به مسجد اشاره دارد و اسراف را نهی می‌کند، در حالی که statement اسراف را مجاز می‌داند.",
+          "quran:91:15": "این آیه به عدم ترس از عواقب اعمال اشاره دارد و موضوع آن با اسراف در خوردن متفاوت است.",
+          "quran:6:141": "این آیه به خوردن از میوه‌ها و نهی از اسراف در هنگام برداشت محصول اشاره دارد و اسراف را نهی می‌کند، در حالی که statement اسراف را مجاز می‌داند.",
+          "quran:20:127": "این آیه به جزا دادن به کسانی که اسراف می‌کنند و به آیات خدا ایمان نمی‌آورند اشاره دارد و اسراف را مذمت می‌کند، در حالی که statement اسراف را مجاز می‌داند.",
+          "quran:15:3": "این آیه به بهره‌مندی از دنیا و غرق شدن در آرزوها اشاره دارد و موضوع آن با اسراف در خوردن متفاوت است."
+        }
+      },
+      "K_reason_first": {
+        "ok": true,
+        "got": {
+          "quran:7:31": "Contradiction"
+        },
+        "off_approvals": [],
+        "off_contradictions": [
+          "quran:25:67",
+          "quran:4:6",
+          "quran:6:141",
+          "quran:20:127"
+        ],
+        "labels": {
+          "quran:25:67": "Contradiction",
+          "quran:6:145": "Superficial_Match",
+          "quran:56:33": "Superficial_Match",
+          "quran:2:262": "Superficial_Match",
+          "quran:24:61": "Superficial_Match",
+          "quran:4:6": "Contradiction",
+          "quran:2:274": "Superficial_Match",
+          "quran:7:31": "Contradiction",
+          "quran:91:15": "Superficial_Match",
+          "quran:6:141": "Contradiction",
+          "quran:20:127": "Contradiction",
+          "quran:15:3": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:25:67": "The verse states that believers do not waste or act stingily when they spend, but maintain a balance between the two, which directly contradicts the statement that wasting is permissible.",
+          "quran:6:145": "This verse discusses permissible and impermissible foods, with a condition for eating impermissible food when in dire need. It does not address the permissibility of wasting food in general.",
+          "quran:56:33": "This verse describes the fruits of paradise as not being cut off or forbidden, which is unrelated to the permissibility of wasting food in this world.",
+          "quran:2:262": "This verse discusses the reward for those who spend in the way of Allah without boasting or causing harm, but it does not address the permissibility of wasting food.",
+          "quran:24:61": "This verse discusses the permissibility of eating from various houses (one's own, relatives', friends', etc.) without sin, but it does not touch upon the concept of wasting food.",
+          "quran:4:6": "This verse prohibits consuming the wealth of orphans wastefully and excessively before they reach maturity, directly contradicting the statement that wasting is permissible.",
+          "quran:2:274": "This verse describes the reward for those who spend their wealth in the way of Allah, day and night, secretly and openly, but it does not address the permissibility of wasting food.",
+          "quran:7:31": "The verse explicitly states to eat and drink but not to waste, as Allah does not love the wasteful. This directly contradicts the statement that wasting is permissible.",
+          "quran:91:15": "This verse discusses the consequences for wrongdoers and their lack of fear of the outcome, which is unrelated to the permissibility of wasting food.",
+          "quran:6:141": "The verse instructs to eat from the fruits of trees and pay their due on the day of harvest, but explicitly states 'and do not waste, for Allah does not love the wasteful.' This directly contradicts the statement.",
+          "quran:20:127": "This verse states that Allah will similarly punish those who waste and do not believe in His signs, implying that wasting is a punishable offense and thus not permissible.",
+          "quran:15:3": "This verse speaks about letting people eat and enjoy themselves while being deluded by hopes, but it does not address the permissibility of wasting food."
+        }
+      }
+    },
+    {
+      "id": 35,
+      "statement": "غیبت کردن کار خوبی است.",
+      "category": "تله_نفی",
+      "expected": "Contradiction",
+      "retrieval_s": 0.0,
+      "candidates": [
+        "quran:68:12",
+        "quran:70:21",
+        "quran:79:45",
+        "quran:2:271",
+        "quran:2:3",
+        "quran:18:104",
+        "quran:96:7",
+        "quran:49:18",
+        "quran:14:20",
+        "quran:49:12",
+        "quran:27:89",
+        "quran:94:7"
+      ],
+      "I_textual_occasion": {
+        "ok": true,
+        "got": {
+          "quran:49:12": "Contradiction"
+        },
+        "off_approvals": [],
+        "off_contradictions": [
+          "quran:68:12",
+          "quran:70:21"
+        ],
+        "labels": {
+          "quran:68:12": "Contradiction",
+          "quran:70:21": "Contradiction",
+          "quran:79:45": "Superficial_Match",
+          "quran:2:271": "Superficial_Match",
+          "quran:2:3": "Superficial_Match",
+          "quran:18:104": "Superficial_Match",
+          "quran:96:7": "Superficial_Match",
+          "quran:49:18": "Superficial_Match",
+          "quran:14:20": "Superficial_Match",
+          "quran:49:12": "Contradiction",
+          "quran:27:89": "Superficial_Match",
+          "quran:94:7": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:68:12": "The verse describes someone who is a hinderer of good, an aggressor, and a sinner, which contradicts the statement that backbiting is good.",
+          "quran:70:21": "The verse describes someone who withholds good when it reaches them, which is the opposite of the statement that backbiting is good.",
+          "quran:79:45": "The verse discusses the role of a warner and does not address the topic of backbiting.",
+          "quran:2:271": "The verse discusses the virtue of charity, both open and secret, and does not mention backbiting.",
+          "quran:2:3": "The verse describes the characteristics of the righteous, including belief in the unseen, prayer, and spending, and does not mention backbiting.",
+          "quran:18:104": "The verse criticizes those whose efforts are lost in worldly life while they think they are doing good, but it does not specifically mention backbiting.",
+          "quran:96:7": "The verse mentions the reason for transgressing as seeing oneself as self-sufficient, and does not relate to backbiting.",
+          "quran:49:18": "The verse states that God knows the unseen and is aware of actions, but it does not discuss backbiting.",
+          "quran:14:20": "The verse states that this is not difficult for God and does not relate to backbiting.",
+          "quran:49:12": "The verse explicitly prohibits backbiting, stating that it is like eating the flesh of a dead brother, which directly contradicts the statement that backbiting is good.",
+          "quran:27:89": "The verse states that whoever brings a good deed will have a better reward, but it does not mention backbiting.",
+          "quran:94:7": "The verse instructs to turn to another task when finished with one, and does not mention backbiting."
+        }
+      },
+      "I_textual_occasion_fa": {
+        "ok": true,
+        "got": {
+          "quran:49:12": "Contradiction"
+        },
+        "off_approvals": [],
+        "off_contradictions": [
+          "quran:68:12",
+          "quran:70:21"
+        ],
+        "labels": {
+          "quran:68:12": "Contradiction",
+          "quran:70:21": "Contradiction",
+          "quran:79:45": "Superficial_Match",
+          "quran:2:271": "Superficial_Match",
+          "quran:2:3": "Superficial_Match",
+          "quran:18:104": "Superficial_Match",
+          "quran:96:7": "Superficial_Match",
+          "quran:49:18": "Superficial_Match",
+          "quran:14:20": "Superficial_Match",
+          "quran:49:12": "Contradiction",
+          "quran:27:89": "Superficial_Match",
+          "quran:94:7": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:68:12": "آیه در مورد مانع خیر بودن، تجاوز و گناهکاری صحبت می‌کند و غیبت را کار خوب نمی‌داند.",
+          "quran:70:21": "آیه در مورد منع‌کننده خیر بودن صحبت می‌کند و غیبت را کار خوب نمی‌داند.",
+          "quran:79:45": "آیه در مورد وظیفه انذار پیامبر صحبت می‌کند و موضوع غیبت را مطرح نمی‌کند.",
+          "quran:2:271": "آیه در مورد انفاق صحبت می‌کند و موضوع غیبت را مطرح نمی‌کند.",
+          "quran:2:3": "آیه در مورد صفات پرهیزکاران و انفاق صحبت می‌کند و موضوع غیبت را مطرح نمی‌کند.",
+          "quran:18:104": "آیه در مورد کسانی صحبت می‌کند که گمان می‌کنند کار نیک انجام می‌دهند ولی تلاششان گم شده است و موضوع غیبت را مطرح نمی‌کند.",
+          "quran:96:7": "آیه در مورد بی‌نیازی و طغیان انسان صحبت می‌کند و موضوع غیبت را مطرح نمی‌کند.",
+          "quran:49:18": "آیه در مورد علم خداوند به غیب و آنچه انجام می‌دهیم صحبت می‌کند و موضوع غیبت را مطرح نمی‌کند.",
+          "quran:14:20": "آیه در مورد عدم دشواری کار برای خداوند صحبت می‌کند و موضوع غیبت را مطرح نمی‌کند.",
+          "quran:49:12": "آیه به صراحت غیبت کردن را نهی می‌کند و آن را به خوردن گوشت برادر مرده تشبیه می‌کند، بنابراین با خوب بودن غیبت در تضاد است.",
+          "quran:27:89": "آیه در مورد پاداش کار نیک صحبت می‌کند و موضوع غیبت را مطرح نمی‌کند.",
+          "quran:94:7": "آیه در مورد پشتکار در کارها صحبت می‌کند و موضوع غیبت را مطرح نمی‌کند."
+        }
+      },
+      "K_reason_first": {
+        "ok": true,
+        "got": {
+          "quran:49:12": "Contradiction"
+        },
+        "off_approvals": [],
+        "off_contradictions": [
+          "quran:68:12",
+          "quran:70:21"
+        ],
+        "labels": {
+          "quran:68:12": "Contradiction",
+          "quran:70:21": "Contradiction",
+          "quran:79:45": "Superficial_Match",
+          "quran:2:271": "Superficial_Match",
+          "quran:2:3": "Superficial_Match",
+          "quran:18:104": "Superficial_Match",
+          "quran:96:7": "Superficial_Match",
+          "quran:49:18": "Superficial_Match",
+          "quran:14:20": "Superficial_Match",
+          "quran:49:12": "Contradiction",
+          "quran:27:89": "Superficial_Match",
+          "quran:94:7": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:68:12": "The statement claims backbiting is good, while this verse describes someone who is a hinderer of good, transgressor, and sinful, which is a contradiction to the statement.",
+          "quran:70:21": "The statement claims backbiting is good, while this verse describes someone who, when good comes to him, prevents it, implying a negative trait, which contradicts the statement.",
+          "quran:79:45": "This verse discusses the role of a warner and is not related to the act of backbiting.",
+          "quran:2:271": "This verse discusses charity and its benefits, not backbiting.",
+          "quran:2:3": "This verse describes the characteristics of the righteous, including belief in the unseen and spending from their provisions, which is unrelated to backbiting.",
+          "quran:18:104": "This verse describes people whose efforts are lost in worldly life while they think they are doing good, which is a general statement about misguidance and not specifically about backbiting.",
+          "quran:96:7": "This verse speaks about a person considering themselves self-sufficient, which is unrelated to the topic of backbiting.",
+          "quran:49:18": "This verse states that God knows the unseen and is aware of actions, but it does not address the specific act of backbiting.",
+          "quran:14:20": "This verse states that the matter is not difficult for God and is unrelated to the act of backbiting.",
+          "quran:49:12": "This verse explicitly prohibits backbiting, comparing it to eating the flesh of a dead brother, which directly contradicts the statement that backbiting is good.",
+          "quran:27:89": "This verse promises a better reward for good deeds and safety from fear on the Day of Judgment, but it does not discuss backbiting.",
+          "quran:94:7": "This verse instructs to engage in another task after finishing one, which is unrelated to the topic of backbiting."
+        }
+      }
+    },
+    {
+      "id": 36,
+      "statement": "کشتن مشرکان در هر زمان و مکانی مجاز است.",
+      "category": "تله_شأن_نزول",
+      "expected": "Context_Mismatch",
+      "retrieval_s": 0.0,
+      "candidates": [
+        "quran:9:5",
+        "quran:37:178",
+        "quran:33:61",
+        "quran:7:34",
+        "quran:4:91",
+        "quran:2:191",
+        "quran:16:1",
+        "quran:22:33",
+        "quran:2:178",
+        "quran:10:82",
+        "quran:15:4",
+        "quran:38:81"
+      ],
+      "I_textual_occasion": {
+        "ok": false,
+        "got": {
+          "quran:9:5": "Conditional_Match"
+        },
+        "off_approvals": [
+          "quran:33:61",
+          "quran:4:91",
+          "quran:2:191"
+        ],
+        "off_contradictions": [
+          "quran:37:178"
+        ],
+        "labels": {
+          "quran:9:5": "Conditional_Match",
+          "quran:37:178": "Contradiction",
+          "quran:33:61": "Conditional_Match",
+          "quran:7:34": "Superficial_Match",
+          "quran:4:91": "Conditional_Match",
+          "quran:2:191": "Conditional_Match",
+          "quran:16:1": "Superficial_Match",
+          "quran:22:33": "Superficial_Match",
+          "quran:2:178": "Superficial_Match",
+          "quran:10:82": "Superficial_Match",
+          "quran:15:4": "Superficial_Match",
+          "quran:38:81": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:9:5": "The verse states that after the sacred months, the polytheists should be killed wherever they are found, which directly supports the statement that killing polytheists is permissible at all times and places. However, it also includes conditions for their release if they repent, establish prayer, and pay zakat, and offers protection if they seek it, which are qualifications. The statement is absolute ('at all times and places'), while the verse provides specific conditions and exceptions.",
+          "quran:37:178": "The verse instructs to turn away from them until a certain time, which does not support the statement that killing them is permissible at all times and places. Instead, it suggests a temporary cessation of action.",
+          "quran:33:61": "The verse states that the accursed will be seized and killed wherever they are found. This aligns with the statement that killing is permissible, but it is specific to those who are accursed and found, not a general permission for all polytheists at all times and places.",
+          "quran:7:34": "The verse speaks about the appointed time (ajal) for every nation, which is unrelated to the permissibility of killing polytheists at any time or place.",
+          "quran:4:91": "The verse permits killing those who seek to deceive believers and return to polytheism, but it also specifies conditions and exceptions, such as offering peace and not attacking those with whom there is a treaty. It also contrasts this with the prohibition of killing a believer. The statement is absolute, while the verse provides specific contexts and conditions.",
+          "quran:2:191": "The verse commands to kill the polytheists wherever they are found and expel them from where they expelled the believers, but it also sets a condition: not to fight them near the Sacred Mosque unless they fight there first. This condition makes the permission not absolute for all times and places.",
+          "quran:16:1": "The verse speaks about the command of God arriving and not to hasten it, which is a general statement about divine decree and not specifically about the permissibility of killing polytheists at all times and places.",
+          "quran:22:33": "The verse discusses benefits of sacrificial animals until a specified time, which is unrelated to the permissibility of killing polytheists.",
+          "quran:2:178": "This verse deals with the law of retaliation (qisas) for murder among believers, specifying rules for free persons, slaves, and women, and the option of accepting blood money. It does not address the killing of polytheists.",
+          "quran:10:82": "The verse states that God makes the truth prevail with His words, even if the criminals dislike it. This is a general statement about divine will and not about the permissibility of killing polytheists at all times and places.",
+          "quran:15:4": "The verse states that no town was destroyed except that it had a known appointed time, which is about divine destruction and not about the permissibility of killing polytheists at all times and places.",
+          "quran:38:81": "The verse refers to 'the known appointed time', which is a general concept of a destined time and not related to the permissibility of killing polytheists at all times and places."
+        }
+      },
+      "I_textual_occasion_fa": {
+        "ok": false,
+        "got": {
+          "quran:9:5": "Conditional_Match"
+        },
+        "off_approvals": [
+          "quran:33:61",
+          "quran:4:91",
+          "quran:2:191"
+        ],
+        "off_contradictions": [],
+        "labels": {
+          "quran:9:5": "Conditional_Match",
+          "quran:37:178": "Superficial_Match",
+          "quran:33:61": "Conditional_Match",
+          "quran:7:34": "Superficial_Match",
+          "quran:4:91": "Conditional_Match",
+          "quran:2:191": "Conditional_Match",
+          "quran:16:1": "Superficial_Match",
+          "quran:22:33": "Superficial_Match",
+          "quran:2:178": "Superficial_Match",
+          "quran:10:82": "Superficial_Match",
+          "quran:15:4": "Superficial_Match",
+          "quran:38:81": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:9:5": "این آیه به مشرکان اجازه کشتار را پس از پایان ماه‌های حرام می‌دهد، اما شرایطی مانند توبه، نماز و زکات را برای رهایی آنها ذکر می‌کند و همچنین به پناه دادن به مشرکان در صورت درخواست پناهندگی اشاره دارد، بنابراین کشتار مطلق و بدون قید و شرط را بیان نمی‌کند.",
+          "quran:37:178": "این آیه به روی گرداندن از مشرکان تا زمان معین اشاره دارد و نه کشتار آنها.",
+          "quran:33:61": "این آیه به لعنت شدن و کشته شدن مشرکان در هر کجا که یافت شوند اشاره دارد، اما این حکم به شرایط خاصی مانند فتنه و جنگ مربوط می‌شود و نه کشتار مطلق در هر زمان و مکانی.",
+          "quran:7:34": "این آیه به سرآمد و اجل هر قوم اشاره دارد و ارتباطی با مجاز بودن کشتار مشرکان ندارد.",
+          "quran:4:91": "این آیه به کشتن مشرکانی که فتنه می‌کنند و پیشنهاد صلح نمی‌دهند اشاره دارد، اما در عین حال به مجازات شدید قتل مؤمن و شرایط دیه و کفاره نیز می‌پردازد که نشان‌دهنده عدم جواز کشتار مطلق است.",
+          "quran:2:191": "این آیه به کشتن مشرکان در هر کجا که یافت شوند اشاره می‌کند، اما این حکم را به شرایطی مانند بیرون راندن مسلمانان از مکه و جنگ در مسجد الحرام مقید می‌کند و فتنه را شدیدتر از کشتار می‌داند، بنابراین کشتار مطلق را بیان نمی‌کند.",
+          "quran:16:1": "این آیه به فرا رسیدن فرمان خدا اشاره دارد و ارتباطی با مجاز بودن کشتار مشرکان ندارد.",
+          "quran:22:33": "این آیه به منافع حیوانات قربانی تا زمان معیّن اشاره دارد و ارتباطی با مجاز بودن کشتار مشرکان ندارد.",
+          "quran:2:178": "این آیه به حکم قصاص در مورد کشتگان می‌پردازد و شرایط آن را بیان می‌کند و ارتباطی با مجاز بودن کشتار مشرکان ندارد.",
+          "quran:10:82": "این آیه به تحقق حق توسط خداوند اشاره دارد و ارتباطی با مجاز بودن کشتار مشرکان ندارد.",
+          "quran:15:4": "این آیه به هلاک شدن شهرها تا زمان معلوم اشاره دارد و ارتباطی با مجاز بودن کشتار مشرکان ندارد.",
+          "quran:38:81": "این آیه به روز و زمان معیّن اشاره دارد و ارتباطی با مجاز بودن کشتار مشرکان ندارد."
+        }
+      },
+      "K_reason_first": {
+        "ok": false,
+        "got": {
+          "quran:9:5": "Direct_Match"
+        },
+        "off_approvals": [
+          "quran:37:178",
+          "quran:4:91",
+          "quran:2:191"
+        ],
+        "off_contradictions": [],
+        "labels": {
+          "quran:9:5": "Direct_Match",
+          "quran:37:178": "Conditional_Match",
+          "quran:33:61": "Context_Mismatch",
+          "quran:7:34": "Superficial_Match",
+          "quran:4:91": "Conditional_Match",
+          "quran:2:191": "Conditional_Match",
+          "quran:16:1": "Superficial_Match",
+          "quran:22:33": "Superficial_Match",
+          "quran:2:178": "Superficial_Match",
+          "quran:10:82": "Superficial_Match",
+          "quran:15:4": "Superficial_Match",
+          "quran:38:81": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:9:5": "The verse explicitly states to kill the polytheists wherever they are found after the sacred months have passed, which directly supports the statement that killing polytheists is permissible at any time and place.",
+          "quran:37:178": "The verse commands to turn away from them until a certain time, which implies a temporary cessation of action, not a general permission for killing at any time.",
+          "quran:33:61": "This verse describes the punishment of the cursed ones, stating they will be killed wherever found, but it refers to specific individuals (hypocrites and enemies) and their cursed state, not a general permission to kill all polytheists at any time.",
+          "quran:7:34": "The verse speaks about the appointed time for every nation, which is a general statement about divine timing and not directly related to the permissibility of killing polytheists at any time.",
+          "quran:4:91": "This verse permits killing those who seek to deceive believers and return to polytheism, but it specifies conditions and contexts, and also discusses the prohibition of killing believers, thus not a general permission for killing polytheists at any time.",
+          "quran:2:191": "The verse permits killing those who initiate fighting in the vicinity of the Sacred Mosque, and states that 'fitna is worse than killing', and also commands to expel them from where they expelled Muslims. This is conditional on their aggression and specific context, not a general permission to kill at any time and place.",
+          "quran:16:1": "The verse speaks about the command of God arriving and not to hasten it, which is a general statement about divine decree and not directly related to the permissibility of killing polytheists at any time.",
+          "quran:22:33": "This verse discusses the benefits of sacrificial animals until a specified time, which is unrelated to the permissibility of killing polytheists.",
+          "quran:2:178": "This verse deals with the law of retaliation (qisas) for killing, specifying rules for believers among themselves and not addressing the killing of polytheists.",
+          "quran:10:82": "The verse states that God makes the truth manifest, even if the criminals dislike it, which is a general statement about divine will and not directly related to the permissibility of killing polytheists at any time.",
+          "quran:15:4": "The verse states that no city was destroyed except for its appointed time, which is a general statement about divine timing and not directly related to the permissibility of killing polytheists at any time.",
+          "quran:38:81": "The verse refers to 'the appointed time', which is a general concept of divine timing and not directly related to the permissibility of killing polytheists at any time."
+        }
+      }
+    },
+    {
+      "id": 39,
+      "statement": "قطع دست دزد بدون هیچ شرطی اجرا می‌شود.",
+      "category": "تله_شأن_نزول",
+      "expected": "Context_Mismatch",
+      "retrieval_s": 0.0,
+      "candidates": [
+        "quran:5:38",
+        "quran:91:15",
+        "quran:56:33",
+        "quran:77:18",
+        "quran:56:79",
+        "quran:70:16",
+        "quran:21:40",
+        "quran:74:28",
+        "quran:10:82",
+        "quran:37:34",
+        "quran:38:15",
+        "quran:52:46"
+      ],
+      "I_textual_occasion": {
+        "ok": false,
+        "got": {
+          "quran:5:38": "Direct_Match"
+        },
+        "off_approvals": [],
+        "off_contradictions": [],
+        "labels": {
+          "quran:5:38": "Direct_Match",
+          "quran:91:15": "Superficial_Match",
+          "quran:56:33": "Superficial_Match",
+          "quran:77:18": "Superficial_Match",
+          "quran:56:79": "Superficial_Match",
+          "quran:70:16": "Superficial_Match",
+          "quran:21:40": "Superficial_Match",
+          "quran:74:28": "Superficial_Match",
+          "quran:10:82": "Superficial_Match",
+          "quran:37:34": "Superficial_Match",
+          "quran:38:15": "Superficial_Match",
+          "quran:52:46": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:5:38": "The verse states that the hand of the thief should be cut off as a punishment for their actions, which directly supports the statement. However, the statement claims it is executed 'without any condition', while the verse itself does not explicitly mention conditions or exceptions, leaving room for interpretation and potential conditions not stated in this specific verse. Therefore, it's a direct match to the core ruling but not necessarily to the absolute lack of conditions implied by the statement.",
+          "quran:91:15": "The verse speaks about not fearing the consequences of an action, which is unrelated to the specific ruling on cutting off a thief's hand.",
+          "quran:56:33": "This verse describes something that is neither cut off nor prevented, referring to the fruits in Paradise, and has no semantic relation to the punishment for theft.",
+          "quran:77:18": "The verse states 'Thus do We deal with the criminals', which is a general statement about dealing with criminals and does not specifically address the punishment for theft or its conditions.",
+          "quran:56:79": "This verse refers to the purity required to touch the Quran and has no relation to the punishment for theft.",
+          "quran:70:16": "This verse describes the torment of hellfire, where skin is torn off, which is semantically different from the specific legal punishment of cutting off a thief's hand.",
+          "quran:21:40": "This verse describes the suddenness of divine punishment for wrongdoers, but it does not specifically mention or relate to the punishment for theft or its conditions.",
+          "quran:74:28": "This verse describes a fire that leaves nothing and spares nothing, referring to hellfire, and is not related to the punishment for theft.",
+          "quran:10:82": "This verse speaks about God establishing truth and does not relate to the punishment for theft.",
+          "quran:37:34": "This verse states 'Indeed, that is what We do with the criminals', which is a general statement about dealing with criminals and does not specifically address the punishment for theft or its conditions.",
+          "quran:38:15": "This verse describes the criminals awaiting a single cry with no respite, referring to the Day of Judgment, and is not related to the punishment for theft.",
+          "quran:52:46": "This verse describes a day when their schemes will not avail them, referring to the Day of Judgment, and is not related to the punishment for theft."
+        }
+      },
+      "I_textual_occasion_fa": {
+        "ok": false,
+        "got": {
+          "quran:5:38": "Conditional_Match"
+        },
+        "off_approvals": [],
+        "off_contradictions": [],
+        "labels": {
+          "quran:5:38": "Conditional_Match",
+          "quran:91:15": "Superficial_Match",
+          "quran:56:33": "Superficial_Match",
+          "quran:77:18": "Superficial_Match",
+          "quran:56:79": "Superficial_Match",
+          "quran:70:16": "Superficial_Match",
+          "quran:21:40": "Superficial_Match",
+          "quran:74:28": "Superficial_Match",
+          "quran:10:82": "Superficial_Match",
+          "quran:37:34": "Superficial_Match",
+          "quran:38:15": "Superficial_Match",
+          "quran:52:46": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:5:38": "آیه به صراحت به قطع دست سارق اشاره دارد اما شرایط و جزئیات آن را بیان نمی‌کند و این آیه به تنهایی شرطی بودن یا نبودن را مشخص نمی‌کند.",
+          "quran:91:15": "این آیه به عواقب اعمال اشاره دارد و موضوع آن قطع دست سارق نیست.",
+          "quran:56:33": "این آیه به میوه‌های بهشتی اشاره دارد و موضوع آن قطع دست سارق نیست.",
+          "quran:77:18": "این آیه به رفتار با مجرمان به طور کلی اشاره دارد و مشخصاً به قطع دست سارق نمی‌پردازد.",
+          "quran:56:79": "این آیه به پاکان و دسترسی به قرآن اشاره دارد و موضوع آن قطع دست سارق نیست.",
+          "quran:70:16": "این آیه به کنده شدن پوست سر اشاره دارد و موضوع آن قطع دست سارق نیست.",
+          "quran:21:40": "این آیه به عذاب ناگهانی و عدم توانایی دفع آن اشاره دارد و موضوع آن قطع دست سارق نیست.",
+          "quran:74:28": "این آیه به آتش جهنم اشاره دارد که چیزی را باقی نمی‌گذارد و موضوع آن قطع دست سارق نیست.",
+          "quran:10:82": "این آیه به تحقق حق توسط خداوند اشاره دارد و موضوع آن قطع دست سارق نیست.",
+          "quran:37:34": "این آیه به رفتار با مجرمان به طور کلی اشاره دارد و مشخصاً به قطع دست سارق نمی‌پردازد.",
+          "quran:38:15": "این آیه به صیحه آسمانی و عدم مهلت اشاره دارد و موضوع آن قطع دست سارق نیست.",
+          "quran:52:46": "این آیه به روز قیامت و بی‌سود بودن نقشه‌ها اشاره دارد و موضوع آن قطع دست سارق نیست."
+        }
+      },
+      "K_reason_first": {
+        "ok": false,
+        "got": {
+          "quran:5:38": "Direct_Match"
+        },
+        "off_approvals": [],
+        "off_contradictions": [],
+        "labels": {
+          "quran:5:38": "Direct_Match",
+          "quran:91:15": "Superficial_Match",
+          "quran:56:33": "Superficial_Match",
+          "quran:77:18": "Superficial_Match",
+          "quran:56:79": "Superficial_Match",
+          "quran:70:16": "Superficial_Match",
+          "quran:21:40": "Superficial_Match",
+          "quran:74:28": "Superficial_Match",
+          "quran:10:82": "Superficial_Match",
+          "quran:37:34": "Superficial_Match",
+          "quran:38:15": "Superficial_Match",
+          "quran:52:46": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:5:38": "The verse states that the hand of the thief should be cut off as a punishment for their actions, which directly supports the statement that the thief's hand is cut off without any condition. The phrase 'جزاء بما كسبا' (as a recompense for what they earned) implies a direct consequence of the act of theft.",
+          "quran:91:15": "This verse discusses the fear of consequences for wrongdoings, but it does not specifically address the act of cutting off a thief's hand or any conditions related to it. The subject matter is different.",
+          "quran:56:33": "This verse describes something that is neither cut off nor prevented, referring to the fruits of Paradise. It has no relation to the punishment of a thief's hand.",
+          "quran:77:18": "This verse states that this is how criminals are treated, but it does not specify the act of cutting off a thief's hand or any conditions for it. The subject is too general.",
+          "quran:56:79": "This verse speaks about the purity required to touch something, likely referring to the Quran or divine knowledge. It is unrelated to the punishment of theft.",
+          "quran:70:16": "This verse describes the torment of hellfire, which involves tearing off skin and limbs. It does not relate to the specific punishment of cutting off a thief's hand in this world.",
+          "quran:21:40": "This verse describes the suddenness of divine punishment for wrongdoers, but it does not specifically mention the cutting off of a thief's hand or any conditions for it.",
+          "quran:74:28": "This verse describes a fire that leaves nothing and spares nothing. It is a general description of hellfire and not related to the specific punishment of theft.",
+          "quran:10:82": "This verse speaks about God establishing truth and the disinclination of criminals towards it. It does not address the punishment for theft.",
+          "quran:37:34": "This verse states that this is how criminals are treated, similar to 77:18, but it does not specify the act of cutting off a thief's hand or any conditions for it. The subject is too general.",
+          "quran:38:15": "This verse describes the imminent punishment for wrongdoers, likening it to a single, inescapable cry. It does not specifically address the punishment for theft.",
+          "quran:52:46": "This verse discusses the ineffectiveness of the schemes of wrongdoers on a certain day. It does not pertain to the punishment of theft."
+        }
+      }
+    },
+    {
+      "id": 41,
+      "statement": "چراغ اتاق باید پرنور باشد تا مطالعه راحت‌تر شود.",
+      "category": "تله_سطحی",
+      "expected": "Superficial_Match",
+      "retrieval_s": 0.0,
+      "candidates": [
+        "quran:78:13",
+        "quran:24:35",
+        "quran:44:2",
+        "quran:26:2",
+        "quran:20:26",
+        "quran:6:105",
+        "quran:20:28",
+        "quran:50:8",
+        "quran:80:38",
+        "quran:73:4",
+        "quran:17:12",
+        "quran:69:12"
+      ],
+      "I_textual_occasion": {
+        "ok": true,
+        "got": {
+          "quran:24:35": "Superficial_Match"
+        },
+        "off_approvals": [],
+        "off_contradictions": [],
+        "labels": {
+          "quran:78:13": "Superficial_Match",
+          "quran:24:35": "Superficial_Match",
+          "quran:44:2": "Superficial_Match",
+          "quran:26:2": "Superficial_Match",
+          "quran:20:26": "Superficial_Match",
+          "quran:6:105": "Superficial_Match",
+          "quran:20:28": "Superficial_Match",
+          "quran:50:8": "Superficial_Match",
+          "quran:80:38": "Superficial_Match",
+          "quran:73:4": "Superficial_Match",
+          "quran:17:12": "Superficial_Match",
+          "quran:69:12": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:78:13": "The verse mentions a 'bright and heating lamp' (سراجا وهاجا) as a creation of God, which is a lexical overlap with the statement's mention of a 'bright lamp' (چراغ پرنور). However, the verse does not discuss the purpose of the lamp for reading or making it comfortable, nor does it relate to artificial lighting in a room. Therefore, the subject matter is different.",
+          "quran:24:35": "The verse describes God's light as being like a lamp within a glass, which is bright and nearly ignites on its own. It is part of a larger description of divine guidance and is located in houses where God's name is remembered. While it uses the metaphor of a bright lamp, it does not directly address the practical need for a bright lamp in a room for comfortable reading. The context is metaphorical and spiritual, not practical illumination for study.",
+          "quran:44:2": "The verse swears by 'the clear Book' (الكتاب المبين), which is a clear reference to the Quran. The statement is about the brightness of a lamp for reading. There is no semantic connection between the two.",
+          "quran:26:2": "The verse states that these are the verses of 'the clear Book' (الكتاب المبين). The statement is about the brightness of a lamp for reading. There is no semantic connection between the two.",
+          "quran:20:26": "The verse is a supplication by Moses asking God to 'make my task easy for me' (ويسر لي امري). The statement is about the brightness of a lamp for reading. There is no semantic connection between the two.",
+          "quran:6:105": "The verse states that God explains His signs so that they (disbelievers) may say 'You have studied' and so that He may make it clear to people who know. The statement is about the brightness of a lamp for reading. There is no semantic connection between the two.",
+          "quran:20:28": "The verse is a supplication by Moses asking God to 'make them understand my speech' (يفقهوا قولي). The statement is about the brightness of a lamp for reading. There is no semantic connection between the two.",
+          "quran:50:8": "The verse states that God made the heavens and the earth and what is between them for 'insight and reminder for every servant who turns to God' (تبصره وذكري لكل عبد منيب). The statement is about the brightness of a lamp for reading. While 'insight' (تبصره) can be related to seeing, the verse's context is spiritual insight and remembrance, not physical illumination for reading.",
+          "quran:80:38": "The verse describes faces on that Day as 'radiant' (مسفره). The statement is about the brightness of a lamp for reading. There is no semantic connection between the two.",
+          "quran:73:4": "The verse instructs to 'recite the Quran with measured recitation' (ورتل القران ترتيلا). The statement is about the brightness of a lamp for reading. There is no semantic connection between the two.",
+          "quran:17:12": "The verse mentions that God made the night and day as two signs, and made the day's sign 'enlightening' (مبصره) so that people may seek bounty and know the count of years. While it mentions an 'enlightening' day, it refers to natural daylight for seeking livelihood and timekeeping, not artificial lighting for comfortable reading in a room. The context is natural phenomena and their purpose, not artificial illumination for study.",
+          "quran:69:12": "The verse states that (We revealed it) 'so that We may make it a reminder for you, and that a listening ear may remember it' (لنجعلها لكم تذكره وتعيها اذن واعيه). The statement is about the brightness of a lamp for reading. There is no semantic connection between the two."
+        }
+      },
+      "I_textual_occasion_fa": {
+        "ok": true,
+        "got": {
+          "quran:24:35": "Superficial_Match"
+        },
+        "off_approvals": [],
+        "off_contradictions": [],
+        "labels": {
+          "quran:78:13": "Superficial_Match",
+          "quran:24:35": "Superficial_Match",
+          "quran:44:2": "Superficial_Match",
+          "quran:26:2": "Superficial_Match",
+          "quran:20:26": "Superficial_Match",
+          "quran:6:105": "Superficial_Match",
+          "quran:20:28": "Superficial_Match",
+          "quran:50:8": "Superficial_Match",
+          "quran:80:38": "Superficial_Match",
+          "quran:73:4": "Superficial_Match",
+          "quran:17:12": "Superficial_Match",
+          "quran:69:12": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:78:13": "آیه به آفرینش چراغی روشن و حرارت‌بخش اشاره دارد که با موضوع نور و روشنایی مرتبط است اما به طور مستقیم به نور اتاق برای مطالعه اشاره نمی‌کند.",
+          "quran:24:35": "آیه به نور خداوند و تشبیه آن به چراغی پرفروغ در خانه‌ها اشاره دارد که می‌تواند به طور ضمنی به اهمیت نور در محیط زندگی و عبادت مرتبط باشد، اما مستقیماً به نور اتاق برای مطالعه اشاره نمی‌کند.",
+          "quran:44:2": "آیه به کتاب روشنگر سوگند یاد می‌کند و موضوع آن روشنگری و بیان حقایق است، نه نور فیزیکی اتاق برای مطالعه.",
+          "quran:26:2": "آیه به آیات کتاب روشنگر اشاره دارد و موضوع آن بیان حقایق است، نه نور فیزیکی اتاق برای مطالعه.",
+          "quran:20:26": "آیه به آسانی یافتن کار اشاره دارد و ربطی به نور اتاق برای مطالعه ندارد.",
+          "quran:6:105": "آیه به تشریح آیات الهی برای فهماندن به مردم اشاره دارد و موضوع آن بیان حقایق است، نه نور فیزیکی اتاق برای مطالعه.",
+          "quran:20:28": "آیه به فهمیدن سخنان اشاره دارد و ربطی به نور اتاق برای مطالعه ندارد.",
+          "quran:50:8": "آیه به وسیله بینایی و یادآوری اشاره دارد که با نور و درک مطلب مرتبط است، اما به طور خاص به نور اتاق برای مطالعه نمی‌پردازد.",
+          "quran:80:38": "آیه به گشاده و نورانی بودن چهره‌ها در روز قیامت اشاره دارد و موضوع آن قیامت است، نه نور اتاق برای مطالعه.",
+          "quran:73:4": "آیه به خواندن قرآن با دقت و تأمل اشاره دارد و ربطی به نور اتاق برای مطالعه ندارد.",
+          "quran:17:12": "آیه به آفرینش شب و روز و روشن بودن روز برای کسب و کار اشاره دارد، اما به طور خاص به نور اتاق برای مطالعه نمی‌پردازد.",
+          "quran:69:12": "آیه به وسیله تذکر و فهماندن اشاره دارد و ربطی به نور اتاق برای مطالعه ندارد."
+        }
+      },
+      "K_reason_first": {
+        "ok": true,
+        "got": {
+          "quran:24:35": "Superficial_Match"
+        },
+        "off_approvals": [],
+        "off_contradictions": [],
+        "labels": {
+          "quran:78:13": "Superficial_Match",
+          "quran:24:35": "Superficial_Match",
+          "quran:44:2": "Superficial_Match",
+          "quran:26:2": "Superficial_Match",
+          "quran:20:26": "Superficial_Match",
+          "quran:6:105": "Superficial_Match",
+          "quran:20:28": "Superficial_Match",
+          "quran:50:8": "Superficial_Match",
+          "quran:80:38": "Superficial_Match",
+          "quran:73:4": "Superficial_Match",
+          "quran:17:12": "Context_Mismatch",
+          "quran:69:12": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:78:13": "The verse speaks of God creating a 'bright and heat-giving lamp' (سراجا وهاجا), which is a metaphorical description of the sun or a similar celestial body, not about the illumination of a room for reading. Therefore, there is no semantic relation to the statement about room lighting for studying.",
+          "quran:24:35": "This verse uses the metaphor of a lamp within a glass, producing light, to describe God's light and guidance. While it discusses light and its source, it is a metaphor for divine guidance and not a practical instruction about room illumination for reading. The context is spiritual, not physical comfort for study.",
+          "quran:44:2": "The verse refers to the 'clear book' (الكتاب المبين) as something worthy of an oath, symbolizing clarity and revelation, not physical light for a room. There is no connection to the statement about room lighting for studying.",
+          "quran:26:2": "This verse refers to the 'clear book' (الكتاب المبين) as containing manifest verses, relating to divine scripture and its clarity, not to physical illumination for reading. There is no semantic link to the statement.",
+          "quran:20:26": "The statement is about the need for bright lighting for comfortable study. This verse is a supplication by Moses asking God to 'make my task easy for me' (ويسر لي امري). The subject matter is entirely different.",
+          "quran:6:105": "This verse discusses the clarification of divine signs (نصرف الايات) to make them understandable for people who know, relating to the clarity of religious messages, not physical light for studying. The subject is different.",
+          "quran:20:28": "This verse is part of Moses' supplication asking God to 'make them understand my speech' (يفقهوا قولي). It concerns comprehension of words, not the physical lighting conditions for study. The subject is different.",
+          "quran:50:8": "The verse speaks of 'insight and reminder for every repentant servant' (تبصره وذكري). While 'تبصره' can relate to seeing, in this context it refers to spiritual insight and remembrance, not physical light for reading. The subject is different.",
+          "quran:80:38": "This verse describes faces that are 'radiant' (مسفره) on the Day of Judgment, referring to spiritual joy and divine favor, not physical illumination for a room. The subject is different.",
+          "quran:73:4": "This verse instructs to 'recite the Quran with measured recitation' (ورتل القران ترتيلا). It pertains to the manner of recitation, not the physical lighting conditions for study. The subject is different.",
+          "quran:17:12": "This verse discusses the creation of day and night, with the day being 'illuminating' (مبصره) for seeking sustenance and knowing time. While it mentions an illuminating day, it is a general statement about natural light and its purpose, not specific advice on room lighting for study. The context is broader than the statement's specific need.",
+          "quran:69:12": "The verse states that the Quran is made 'a reminder and for a receptive ear to hear' (تذكره وتعيها اذن واعيه). It concerns the reception and understanding of divine messages, not the physical lighting for study. The subject is different."
+        }
+      }
+    },
+    {
+      "id": 43,
+      "statement": "ید به معنای دست انسان برای گرفتن اشیا است.",
+      "category": "تله_سطحی",
+      "expected": "Superficial_Match",
+      "retrieval_s": 0.0,
+      "candidates": [
+        "quran:48:20",
+        "quran:53:24",
+        "quran:3:182",
+        "quran:20:22",
+        "quran:28:32",
+        "quran:70:19",
+        "quran:7:108",
+        "quran:5:64",
+        "quran:80:15",
+        "quran:26:33",
+        "quran:96:15",
+        "quran:48:10"
+      ],
+      "I_textual_occasion": {
+        "ok": true,
+        "got": {
+          "quran:48:10": "Superficial_Match"
+        },
+        "off_approvals": [],
+        "off_contradictions": [],
+        "labels": {
+          "quran:48:20": "Superficial_Match",
+          "quran:53:24": "Superficial_Match",
+          "quran:3:182": "Superficial_Match",
+          "quran:20:22": "Context_Mismatch",
+          "quran:28:32": "Context_Mismatch",
+          "quran:70:19": "Superficial_Match",
+          "quran:7:108": "Context_Mismatch",
+          "quran:5:64": "Superficial_Match",
+          "quran:80:15": "Superficial_Match",
+          "quran:26:33": "Context_Mismatch",
+          "quran:96:15": "Superficial_Match",
+          "quran:48:10": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:48:20": "The verse uses 'ید' (hand) in the context of restraining the hands of people (enemies), which is a metaphorical use and not directly about the human hand for grasping objects.",
+          "quran:53:24": "The verse discusses human desires ('tamanne') and does not mention the word 'yad' (hand) or its meaning.",
+          "quran:3:182": "The verse uses 'aydi' (hands) metaphorically to refer to the deeds or actions of people ('what your hands have sent forth'), not the physical hand for grasping.",
+          "quran:20:22": "The verse describes Moses putting his hand into his garment, which is a specific action and not a general definition of the human hand for grasping objects.",
+          "quran:28:32": "The verse describes Moses putting his hand into his garment as a sign, which is a specific instance and not a general definition of the human hand for grasping objects.",
+          "quran:70:19": "The verse describes the nature of man as 'halu'an' (impatient/greedy) and does not mention the word 'yad' (hand) or its meaning.",
+          "quran:7:108": "The verse describes Moses' hand becoming white as a sign, which is a specific miraculous event and not a general definition of the human hand for grasping objects.",
+          "quran:5:64": "The verse discusses the 'hand of God' ('yad Allah') in a theological context, referring to God's power and bounty, not the physical human hand for grasping objects.",
+          "quran:80:15": "The verse refers to 'hands' ('aydi') in the context of scribes or angels, not the human hand for grasping objects.",
+          "quran:26:33": "The verse describes Moses' hand becoming white as a sign, which is a specific miraculous event and not a general definition of the human hand for grasping objects.",
+          "quran:96:15": "The verse refers to the forelock ('nasiyah') and the act of seizing it, not the general meaning of the human hand for grasping objects.",
+          "quran:48:10": "The verse uses 'yad Allah' (hand of God) metaphorically to signify God's power and authority over the hands of those pledging allegiance, not the physical human hand for grasping objects."
+        }
+      },
+      "I_textual_occasion_fa": {
+        "ok": true,
+        "got": {
+          "quran:48:10": "Superficial_Match"
+        },
+        "off_approvals": [
+          "quran:20:22",
+          "quran:28:32",
+          "quran:7:108",
+          "quran:26:33"
+        ],
+        "off_contradictions": [],
+        "labels": {
+          "quran:48:20": "Superficial_Match",
+          "quran:53:24": "Superficial_Match",
+          "quran:3:182": "Superficial_Match",
+          "quran:20:22": "Conditional_Match",
+          "quran:28:32": "Conditional_Match",
+          "quran:70:19": "Superficial_Match",
+          "quran:7:108": "Conditional_Match",
+          "quran:5:64": "Superficial_Match",
+          "quran:80:15": "Superficial_Match",
+          "quran:26:33": "Conditional_Match",
+          "quran:96:15": "Superficial_Match",
+          "quran:48:10": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:48:20": "آیه به «دست» به معنای بازداشتن دشمن اشاره دارد، نه دست انسان برای گرفتن اشیا.",
+          "quran:53:24": "آیه درباره آرزوهای انسان است و هیچ اشاره‌ای به معنای «ید» ندارد.",
+          "quran:3:182": "آیه از «دست‌ها» به معنای اعمال و کردار انسان استفاده می‌کند، نه به معنای ابزار گرفتن اشیا.",
+          "quran:20:22": "آیه «ید» را به معنای دست انسان برای نشان دادن معجزه به کار برده است، نه صرفاً برای گرفتن اشیا.",
+          "quran:28:32": "آیه «ید» را به معنای دست انسان برای نشان دادن معجزه به کار برده است، نه صرفاً برای گرفتن اشیا.",
+          "quran:70:19": "آیه درباره صفات انسان (حریص بودن) است و هیچ اشاره‌ای به معنای «ید» ندارد.",
+          "quran:7:108": "آیه «ید» را به معنای دست انسان برای نشان دادن معجزه به کار برده است، نه صرفاً برای گرفتن اشیا.",
+          "quran:5:64": "آیه «ید» را به معنای قدرت الهی به کار برده است، نه دست انسان برای گرفتن اشیا.",
+          "quran:80:15": "آیه «بأیدی» را به معنای فرستادگان و قدرت الهی به کار برده است، نه دست انسان برای گرفتن اشیا.",
+          "quran:26:33": "آیه «ید» را به معنای دست انسان برای نشان دادن معجزه به کار برده است، نه صرفاً برای گرفتن اشیا.",
+          "quran:96:15": "آیه به «ناصیه» (پیشانی) اشاره دارد و هیچ ارتباطی با معنای «ید» به عنوان دست انسان برای گرفتن اشیا ندارد.",
+          "quran:48:10": "آیه «ید الله» را به معنای قدرت الهی به کار برده است، نه دست انسان برای گرفتن اشیا."
+        }
+      },
+      "K_reason_first": {
+        "ok": true,
+        "got": {
+          "quran:48:10": "Superficial_Match"
+        },
+        "off_approvals": [
+          "quran:48:20",
+          "quran:20:22",
+          "quran:28:32",
+          "quran:7:108",
+          "quran:80:15",
+          "quran:26:33",
+          "quran:96:15"
+        ],
+        "off_contradictions": [],
+        "labels": {
+          "quran:48:20": "Direct_Match",
+          "quran:53:24": "Superficial_Match",
+          "quran:3:182": "Superficial_Match",
+          "quran:20:22": "Conditional_Match",
+          "quran:28:32": "Conditional_Match",
+          "quran:70:19": "Superficial_Match",
+          "quran:7:108": "Conditional_Match",
+          "quran:5:64": "Superficial_Match",
+          "quran:80:15": "Direct_Match",
+          "quran:26:33": "Conditional_Match",
+          "quran:96:15": "Direct_Match",
+          "quran:48:10": "Superficial_Match"
+        },
+        "reasons": {
+          "quran:48:20": "The verse mentions 'kiffu aydiy al-nas 'ankum' (keeping people's hands away from you), which refers to the physical hands of people, aligning with the statement's definition of 'yad' as a human hand for grasping objects.",
+          "quran:53:24": "The verse discusses human desires ('ma tamanna') and does not mention or allude to the physical hand.",
+          "quran:3:182": "The verse uses 'ma qaddamat aydikum' (what your hands have sent forth), referring to the consequences of actions, not the physical hand for grasping. This is a metaphorical use of 'yad'.",
+          "quran:20:22": "The verse describes inserting the hand into the garment ('idmak yadaka ila janahik') as a miraculous sign, implying a physical hand, but the primary context is miraculous manifestation rather than the everyday function of grasping objects.",
+          "quran:28:32": "The verse describes inserting the hand into the garment ('usluk yadaka fi jaybika') as a miraculous sign, implying a physical hand, but the primary context is miraculous manifestation rather than the everyday function of grasping objects.",
+          "quran:70:19": "The verse describes the nature of man ('al-insan khalq halu'a') and does not mention the hand.",
+          "quran:7:108": "The verse describes the hand becoming white ('idha hi bayda' lil-nazirin') as a miraculous sign, implying a physical hand, but the primary context is miraculous manifestation rather than the everyday function of grasping objects.",
+          "quran:5:64": "The verse discusses the attribute of God's hand ('yad Allah maghlulah', 'yadahu mabsuṭatan') and its metaphorical meaning of power and provision, not the physical human hand for grasping objects.",
+          "quran:80:15": "The verse refers to 'aydi safarah' (hands of scribes/messengers), which implies human hands performing a task, aligning with the statement's definition of 'yad' as a human hand for action.",
+          "quran:26:33": "The verse describes the hand becoming white ('idha hi bayda' lil-nazirin') as a miraculous sign, implying a physical hand, but the primary context is miraculous manifestation rather than the everyday function of grasping objects.",
+          "quran:96:15": "The verse mentions 'al-nasiyah' (forelock) and the act of seizing it, implying a physical hand is involved in the action, aligning with the statement's definition of 'yad' as a human hand for grasping or acting.",
+          "quran:48:10": "The verse mentions 'yad Allah fawqa aydihim' (God's hand is above their hands), which is a metaphorical reference to God's power and authority, not the physical human hand for grasping objects."
+        }
+      }
+    }
+  ]
+}

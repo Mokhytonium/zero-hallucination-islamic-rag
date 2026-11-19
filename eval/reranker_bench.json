@@ -1,0 +1,99 @@
+{
+  "statement": "غیبت کردن کار خوبی است.",
+  "pairs": 59,
+  "token_len_min": 22,
+  "token_len_median": 43,
+  "token_len_max": 168,
+  "logical_cpus": 8,
+  "torch_default_threads": 4,
+  "configs": {
+    "threads4_batch16": {
+      "seconds": 53.69,
+      "top15": [
+        "quran:68:12",
+        "quran:70:21",
+        "quran:79:45",
+        "quran:2:271",
+        "quran:2:3",
+        "quran:18:104",
+        "quran:96:7",
+        "quran:49:18",
+        "quran:14:20",
+        "quran:49:12",
+        "quran:27:89",
+        "quran:94:7",
+        "quran:42:43",
+        "quran:4:85",
+        "quran:99:7"
+      ],
+      "same_top15_as_default": true,
+      "saturated_scores": 0
+    },
+    "threads8_batch16": {
+      "seconds": 51.46,
+      "top15": [
+        "quran:68:12",
+        "quran:70:21",
+        "quran:79:45",
+        "quran:2:271",
+        "quran:2:3",
+        "quran:18:104",
+        "quran:96:7",
+        "quran:49:18",
+        "quran:14:20",
+        "quran:49:12",
+        "quran:27:89",
+        "quran:94:7",
+        "quran:42:43",
+        "quran:4:85",
+        "quran:99:7"
+      ],
+      "same_top15_as_default": true,
+      "saturated_scores": 0
+    },
+    "threads4_batch32": {
+      "seconds": 56.38,
+      "top15": [
+        "quran:68:12",
+        "quran:70:21",
+        "quran:79:45",
+        "quran:2:271",
+        "quran:2:3",
+        "quran:18:104",
+        "quran:96:7",
+        "quran:49:18",
+        "quran:14:20",
+        "quran:49:12",
+        "quran:27:89",
+        "quran:94:7",
+        "quran:42:43",
+        "quran:4:85",
+        "quran:99:7"
+      ],
+      "same_top15_as_default": true,
+      "saturated_scores": 0
+    },
+    "threads2_batch16": {
+      "seconds": 55.17,
+      "top15": [
+        "quran:68:12",
+        "quran:70:21",
+        "quran:79:45",
+        "quran:2:271",
+        "quran:2:3",
+        "quran:18:104",
+        "quran:96:7",
+        "quran:49:18",
+        "quran:14:20",
+        "quran:49:12",
+        "quran:27:89",
+        "quran:94:7",
+        "quran:42:43",
+        "quran:4:85",
+        "quran:99:7"
+      ],
+      "same_top15_as_default": true,
+      "saturated_scores": 0
+    }
+  }
+}

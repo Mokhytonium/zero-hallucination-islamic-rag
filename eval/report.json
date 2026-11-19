@@ -1,0 +1,656 @@
+{
+  "meta": {
+    "timestamp_utc": "2026-11-19T02:43:49+00:00",
+    "pipeline_version": "0.3.2",
+    "judge_prompt_sha256_8": "09cac69f",
+    "embed_model": "BAAI/bge-m3",
+    "judge_model": "google/gemini-2.5-flash-lite",
+    "reranker": "BAAI/bge-reranker-v2-m3",
+    "rerank_pool": 80,
+    "retrieval_pool": 150,
+    "top_k": 15,
+    "max_candidates_per_source": 12,
+    "translation": "fa.makarem",
+    "gold_items": 50
+  },
+  "retrieval": {
+    "n": 50,
+    "k": 15,
+    "recall@3": 0.4533,
+    "recall@10": 0.6167,
+    "recall@15": 0.7267,
+    "mrr": 0.5544,
+    "success@5": 0.66,
+    "success@15": 0.82,
+    "misses": [
+      {
+        "id": 8,
+        "statement": "تواضع و فروتنی در برابر مؤمنان پسندیده است.",
+        "relevant": [
+          "quran:17:37",
+          "quran:25:63"
+        ]
+      },
+      {
+        "id": 27,
+        "statement": "دنیا محل آزمایش است نه هدف نهایی.",
+        "relevant": [
+          "quran:3:185",
+          "quran:67:2"
+        ]
+      },
+      {
+        "id": 29,
+        "statement": "قیامت و روز جزا حق و حتمی است.",
+        "relevant": [
+          "quran:22:7"
+        ]
+      },
+      {
+        "id": 30,
+        "statement": "خداوند به همه چیز داناست و از درون دل‌ها آگاه است.",
+        "relevant": [
+          "quran:50:16",
+          "quran:67:13"
+        ]
+      },
+      {
+        "id": 31,
+        "statement": "صبر در برابر مشکلات فضیلت نیست و باید فوراً خشمگین شد.",
+        "relevant": [
+          "quran:2:153",
+          "quran:3:146"
+        ]
+      },
+      {
+        "id": 32,
+        "statement": "تکبر و خودبرتربینی پسندیده است.",
+        "relevant": [
+          "quran:16:23",
+          "quran:31:18"
+        ]
+      },
+      {
+        "id": 40,
+        "statement": "آیه لعان درباره هر اختلاف خانوادگی است.",
+        "relevant": [
+          "quran:24:6"
+        ]
+      },
+      {
+        "id": 45,
+        "statement": "انسان پس از مرگ دوباره زنده نمی‌شود.",
+        "relevant": [
+          "quran:36:79",
+          "quran:75:3"
+        ]
+      },
+      {
+        "id": 46,
+        "statement": "هیچ روز جزایی وجود ندارد.",
+        "relevant": [
+          "quran:22:7"
+        ]
+      }
+    ]
+  },
+  "judge": {
+    "model": "google/gemini-2.5-flash-lite",
+    "retrieved_items": 39,
+    "judged_items": 39,
+    "label_accuracy": 0.8974,
+    "false_approvals_on_traps": 2,
+    "off_target_approvals": 100,
+    "items_with_off_target_approval": 25,
+    "by_category": {
+      "اخلاقی": 1.0,
+      "اجتماعی": 0.667,
+      "اعتقادی": 1.0,
+      "عبادی": 1.0,
+      "تله_نفی": 1.0,
+      "تله_شأن_نزول": 0.25,
+      "تله_سطحی": 1.0,
+      "تضاد": 1.0,
+      "مدیریتی": 1.0
+    },
+    "avg_judge_latency_s": 3.55,
+    "eval_cost_usd": 0.0249,
+    "total_spent_usd": 0.1395,
+    "details": [
+      {
+        "id": 1,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:2:153": "Direct_Match",
+          "quran:3:146": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:11:115",
+          "quran:8:66",
+          "quran:8:46",
+          "quran:29:59"
+        ]
+      },
+      {
+        "id": 2,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:49:13": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": []
+      },
+      {
+        "id": 3,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:9:119": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:49:15",
+          "quran:33:8",
+          "quran:33:23",
+          "quran:3:17"
+        ]
+      },
+      {
+        "id": 4,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:4:58": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:70:32",
+          "quran:23:8",
+          "quran:2:283"
+        ]
+      },
+      {
+        "id": 5,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:5:8": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:6:152",
+          "quran:7:29"
+        ]
+      },
+      {
+        "id": 6,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:17:23": "Direct_Match",
+          "quran:31:14": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:29:8",
+          "quran:46:15",
+          "quran:6:151",
+          "quran:4:36",
+          "quran:2:215",
+          "quran:2:83"
+        ]
+      },
+      {
+        "id": 7,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:7:31": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:20:127",
+          "quran:6:141",
+          "quran:25:66",
+          "quran:17:26",
+          "quran:17:38",
+          "quran:4:5"
+        ]
+      },
+      {
+        "id": 8,
+        "status": "not_retrieved"
+      },
+      {
+        "id": 9,
+        "status": "not_retrieved"
+      },
+      {
+        "id": 10,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:14:7": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:54:35",
+          "quran:16:114",
+          "quran:2:172"
+        ]
+      },
+      {
+        "id": 11,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:3:159": "Direct_Match",
+          "quran:65:3": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:27:79",
+          "quran:33:3",
+          "quran:26:217",
+          "quran:3:122",
+          "quran:64:13"
+        ]
+      },
+      {
+        "id": 12,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:29:45": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:35:18",
+          "quran:70:34",
+          "quran:33:33",
+          "quran:31:17",
+          "quran:9:71",
+          "quran:3:135",
+          "quran:13:22"
+        ]
+      },
+      {
+        "id": 13,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:2:183": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": []
+      },
+      {
+        "id": 14,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:2:43": "Direct_Match",
+          "quran:9:60": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:23:4",
+          "quran:58:13",
+          "quran:30:38",
+          "quran:2:215",
+          "quran:2:270",
+          "quran:24:56",
+          "quran:2:110",
+          "quran:22:41"
+        ]
+      },
+      {
+        "id": 15,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:49:12": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": []
+      },
+      {
+        "id": 16,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:49:11": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:4:148",
+          "quran:9:79",
+          "quran:104:1"
+        ]
+      },
+      {
+        "id": 17,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:49:12": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": []
+      },
+      {
+        "id": 18,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:5:1": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:3:76",
+          "quran:70:32",
+          "quran:23:8",
+          "quran:16:91",
+          "quran:2:40",
+          "quran:2:83",
+          "quran:13:20",
+          "quran:6:152",
+          "quran:50:32",
+          "quran:48:10",
+          "quran:33:23"
+        ]
+      },
+      {
+        "id": 19,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:22:30": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:39:32",
+          "quran:33:4",
+          "quran:24:7",
+          "quran:61:3",
+          "quran:25:4",
+          "quran:10:69",
+          "quran:26:223"
+        ]
+      },
+      {
+        "id": 20,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:113:5": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": []
+      },
+      {
+        "id": 21,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:16:23": "Direct_Match",
+          "quran:31:18": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:57:23",
+          "quran:4:36",
+          "quran:40:35"
+        ]
+      },
+      {
+        "id": 22,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:39:53": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:29:23",
+          "quran:15:56"
+        ]
+      },
+      {
+        "id": 23,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:2:222": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:4:16",
+          "quran:9:15",
+          "quran:9:27",
+          "quran:5:39"
+        ]
+      },
+      {
+        "id": 24,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:13:28": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:48:4",
+          "quran:48:18",
+          "quran:48:26"
+        ]
+      },
+      {
+        "id": 25,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:2:186": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:19:48",
+          "quran:12:34",
+          "quran:7:29",
+          "quran:2:202"
+        ]
+      },
+      {
+        "id": 26,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:10:57": "Direct_Match",
+          "quran:17:82": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:41:44"
+        ]
+      },
+      {
+        "id": 27,
+        "status": "not_retrieved"
+      },
+      {
+        "id": 28,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:3:185": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:3:145",
+          "quran:29:57",
+          "quran:39:30",
+          "quran:55:26"
+        ]
+      },
+      {
+        "id": 29,
+        "status": "not_retrieved"
+      },
+      {
+        "id": 30,
+        "status": "not_retrieved"
+      },
+      {
+        "id": 31,
+        "status": "not_retrieved"
+      },
+      {
+        "id": 32,
+        "status": "not_retrieved"
+      },
+      {
+        "id": 33,
+        "expected": "Contradiction",
+        "got": {
+          "quran:7:31": "Contradiction"
+        },
+        "ok": true,
+        "off_target_approvals": []
+      },
+      {
+        "id": 34,
+        "expected": "Contradiction",
+        "got": {
+          "quran:39:53": "Contradiction"
+        },
+        "ok": true,
+        "off_target_approvals": []
+      },
+      {
+        "id": 35,
+        "expected": "Contradiction",
+        "got": {
+          "quran:49:12": "Contradiction"
+        },
+        "ok": true,
+        "off_target_approvals": []
+      },
+      {
+        "id": 36,
+        "expected": "Context_Mismatch",
+        "got": {
+          "quran:9:5": "Conditional_Match"
+        },
+        "ok": false,
+        "off_target_approvals": [
+          "quran:4:91",
+          "quran:2:191"
+        ]
+      },
+      {
+        "id": 37,
+        "expected": "Context_Mismatch",
+        "got": {
+          "quran:33:50": "Superficial_Match"
+        },
+        "ok": false,
+        "off_target_approvals": []
+      },
+      {
+        "id": 38,
+        "expected": "Context_Mismatch",
+        "got": {
+          "quran:33:37": "Context_Mismatch"
+        },
+        "ok": true,
+        "off_target_approvals": []
+      },
+      {
+        "id": 39,
+        "expected": "Context_Mismatch",
+        "got": {
+          "quran:5:38": "Direct_Match"
+        },
+        "ok": false,
+        "off_target_approvals": []
+      },
+      {
+        "id": 40,
+        "status": "not_retrieved"
+      },
+      {
+        "id": 41,
+        "expected": "Superficial_Match",
+        "got": {
+          "quran:24:35": "Superficial_Match"
+        },
+        "ok": true,
+        "off_target_approvals": []
+      },
+      {
+        "id": 42,
+        "expected": "Superficial_Match",
+        "got": {
+          "quran:26:89": "Superficial_Match"
+        },
+        "ok": true,
+        "off_target_approvals": []
+      },
+      {
+        "id": 43,
+        "status": "not_retrieved"
+      },
+      {
+        "id": 44,
+        "expected": "Contradiction",
+        "got": {
+          "quran:23:115": "Contradiction"
+        },
+        "ok": true,
+        "off_target_approvals": []
+      },
+      {
+        "id": 45,
+        "status": "not_retrieved"
+      },
+      {
+        "id": 46,
+        "status": "not_retrieved"
+      },
+      {
+        "id": 47,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:3:159": "Direct_Match",
+          "quran:42:38": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:27:31"
+        ]
+      },
+      {
+        "id": 48,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:17:35": "Direct_Match",
+          "quran:83:1": "Direct_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:26:181",
+          "quran:11:84",
+          "quran:55:9"
+        ]
+      },
+      {
+        "id": 49,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:49:9": "Conditional_Match"
+        },
+        "ok": false,
+        "off_target_approvals": [
+          "quran:4:128",
+          "quran:2:208"
+        ]
+      },
+      {
+        "id": 50,
+        "expected": "Direct_Match",
+        "got": {
+          "quran:20:114": "Direct_Match",
+          "quran:58:11": "Conditional_Match"
+        },
+        "ok": true,
+        "off_target_approvals": [
+          "quran:2:269",
+          "quran:26:83"
+        ]
+      }
+    ]
+  },
+  "byte_equality": {
+    "checked": 180,
+    "mismatches": [],
+    "hallucination_rate": 0.0
+  }
+}

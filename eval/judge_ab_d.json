@@ -1,0 +1,540 @@
+{
+  "summary": {
+    "D_context": {
+      "judged_items": 11,
+      "label_accuracy": 0.7273,
+      "off_target_approvals": 31,
+      "off_target_contradictions": 4,
+      "items_with_off_target_approval": 7
+    }
+  },
+  "approved_set": [
+    "Conditional_Match",
+    "Contradiction",
+    "Direct_Match"
+  ],
+  "items": [
+    {
+      "id": 7,
+      "statement": "اسراف و زیاده‌روی در خوردن و آشامیدن ناپسند است.",
+      "category": "اخلاقی",
+      "expected": "Direct_Match",
+      "retrieval_s": 110.2,
+      "candidates": [
+        "quran:7:31",
+        "quran:6:145",
+        "quran:20:127",
+        "quran:25:66",
+        "quran:39:53",
+        "quran:44:44",
+        "quran:17:26",
+        "quran:17:38",
+        "quran:73:13",
+        "quran:5:62",
+        "quran:4:5",
+        "quran:80:24"
+      ],
+      "D_context": {
+        "ok": true,
+        "got": {
+          "quran:7:31": "Direct_Match"
+        },
+        "off_approvals": [
+          "quran:6:145",
+          "quran:20:127",
+          "quran:25:66",
+          "quran:39:53",
+          "quran:17:26",
+          "quran:4:5"
+        ],
+        "off_contradictions": [],
+        "labels": {
+          "quran:7:31": "Direct_Match",
+          "quran:6:145": "Conditional_Match",
+          "quran:20:127": "Direct_Match",
+          "quran:25:66": "Direct_Match",
+          "quran:39:53": "Conditional_Match",
+          "quran:44:44": "Superficial_Match",
+          "quran:17:26": "Direct_Match",
+          "quran:17:38": "Superficial_Match",
+          "quran:73:13": "Superficial_Match",
+          "quran:5:62": "Superficial_Match",
+          "quran:4:5": "Direct_Match",
+          "quran:80:24": "Superficial_Match"
+        }
+      }
+    },
+    {
+      "id": 13,
+      "statement": "روزه برای پرهیزگاری واجب شده است.",
+      "category": "عبادی",
+      "expected": "Direct_Match",
+      "retrieval_s": 77.4,
+      "candidates": [
+        "quran:2:183",
+        "quran:69:48",
+        "quran:2:187",
+        "quran:26:90",
+        "quran:69:1",
+        "quran:38:49",
+        "quran:78:31",
+        "quran:44:51",
+        "quran:43:67",
+        "quran:5:95",
+        "quran:3:138",
+        "quran:58:4"
+      ],
+      "D_context": {
+        "ok": true,
+        "got": {
+          "quran:2:183": "Direct_Match"
+        },
+        "off_approvals": [
+          "quran:69:48",
+          "quran:26:90",
+          "quran:38:49",
+          "quran:78:31",
+          "quran:44:51",
+          "quran:43:67",
+          "quran:3:138"
+        ],
+        "off_contradictions": [],
+        "labels": {
+          "quran:2:183": "Direct_Match",
+          "quran:69:48": "Direct_Match",
+          "quran:2:187": "Superficial_Match",
+          "quran:26:90": "Direct_Match",
+          "quran:69:1": "Superficial_Match",
+          "quran:38:49": "Direct_Match",
+          "quran:78:31": "Direct_Match",
+          "quran:44:51": "Direct_Match",
+          "quran:43:67": "Direct_Match",
+          "quran:5:95": "Superficial_Match",
+          "quran:3:138": "Direct_Match",
+          "quran:58:4": "Superficial_Match"
+        }
+      }
+    },
+    {
+      "id": 15,
+      "statement": "غیبت کردن مانند خوردن گوشت برادر مرده است.",
+      "category": "اخلاقی",
+      "expected": "Direct_Match",
+      "retrieval_s": 86.3,
+      "candidates": [
+        "quran:49:12",
+        "quran:6:145",
+        "quran:6:119",
+        "quran:44:44",
+        "quran:5:3",
+        "quran:5:30",
+        "quran:2:173",
+        "quran:51:59",
+        "quran:26:130",
+        "quran:16:115",
+        "quran:2:275",
+        "quran:80:24"
+      ],
+      "D_context": {
+        "ok": true,
+        "got": {
+          "quran:49:12": "Direct_Match"
+        },
+        "off_approvals": [],
+        "off_contradictions": [],
+        "labels": {
+          "quran:49:12": "Direct_Match",
+          "quran:6:145": "Superficial_Match",
+          "quran:6:119": "Superficial_Match",
+          "quran:44:44": "Superficial_Match",
+          "quran:5:3": "Superficial_Match",
+          "quran:5:30": "Superficial_Match",
+          "quran:2:173": "Superficial_Match",
+          "quran:51:59": "Superficial_Match",
+          "quran:26:130": "Superficial_Match",
+          "quran:16:115": "Superficial_Match",
+          "quran:2:275": "Superficial_Match",
+          "quran:80:24": "Superficial_Match"
+        }
+      }
+    },
+    {
+      "id": 21,
+      "statement": "تکبر و خودبرتربینی ناپسند است و خداوند متکبران را دوست ندارد.",
+      "category": "اخلاقی",
+      "expected": "Direct_Match",
+      "retrieval_s": 56.5,
+      "candidates": [
+        "quran:57:23",
+        "quran:16:23",
+        "quran:4:36",
+        "quran:31:18",
+        "quran:4:148",
+        "quran:22:37",
+        "quran:5:87",
+        "quran:4:107",
+        "quran:7:55",
+        "quran:40:35",
+        "quran:3:57",
+        "quran:2:190"
+      ],
+      "D_context": {
+        "ok": true,
+        "got": {
+          "quran:16:23": "Direct_Match",
+          "quran:31:18": "Direct_Match"
+        },
+        "off_approvals": [
+          "quran:57:23",
+          "quran:4:36",
+          "quran:40:35"
+        ],
+        "off_contradictions": [],
+        "labels": {
+          "quran:57:23": "Direct_Match",
+          "quran:16:23": "Direct_Match",
+          "quran:4:36": "Direct_Match",
+          "quran:31:18": "Direct_Match",
+          "quran:4:148": "Superficial_Match",
+          "quran:22:37": "Superficial_Match",
+          "quran:5:87": "Superficial_Match",
+          "quran:4:107": "Superficial_Match",
+          "quran:7:55": "Superficial_Match",
+          "quran:40:35": "Direct_Match",
+          "quran:3:57": "Superficial_Match",
+          "quran:2:190": "Superficial_Match"
+        }
+      }
+    },
+    {
+      "id": 24,
+      "statement": "یاد خداوند باعث آرامش دل‌ها می‌شود.",
+      "category": "اعتقادی",
+      "expected": "Direct_Match",
+      "retrieval_s": 80.5,
+      "candidates": [
+        "quran:13:28",
+        "quran:39:45",
+        "quran:3:154",
+        "quran:48:4",
+        "quran:22:35",
+        "quran:48:18",
+        "quran:8:2",
+        "quran:30:59",
+        "quran:19:96",
+        "quran:4:103",
+        "quran:22:32",
+        "quran:8:11"
+      ],
+      "D_context": {
+        "ok": true,
+        "got": {
+          "quran:13:28": "Direct_Match"
+        },
+        "off_approvals": [
+          "quran:48:4",
+          "quran:48:18",
+          "quran:4:103",
+          "quran:8:11"
+        ],
+        "off_contradictions": [
+          "quran:39:45"
+        ],
+        "labels": {
+          "quran:13:28": "Direct_Match",
+          "quran:39:45": "Contradiction",
+          "quran:3:154": "Superficial_Match",
+          "quran:48:4": "Direct_Match",
+          "quran:22:35": "Superficial_Match",
+          "quran:48:18": "Direct_Match",
+          "quran:8:2": "Superficial_Match",
+          "quran:30:59": "Superficial_Match",
+          "quran:19:96": "Superficial_Match",
+          "quran:4:103": "Conditional_Match",
+          "quran:22:32": "Superficial_Match",
+          "quran:8:11": "Direct_Match"
+        }
+      }
+    },
+    {
+      "id": 32,
+      "status": "not_retrieved"
+    },
+    {
+      "id": 33,
+      "statement": "اسراف در خوردن آزاد است و اشکالی ندارد.",
+      "category": "تله_نفی",
+      "expected": "Contradiction",
+      "retrieval_s": 73.6,
+      "candidates": [
+        "quran:25:67",
+        "quran:6:145",
+        "quran:56:33",
+        "quran:2:262",
+        "quran:24:61",
+        "quran:4:6",
+        "quran:2:274",
+        "quran:7:31",
+        "quran:91:15",
+        "quran:6:141",
+        "quran:20:127",
+        "quran:15:3"
+      ],
+      "D_context": {
+        "ok": false,
+        "got": {
+          "quran:7:31": "Direct_Match"
+        },
+        "off_approvals": [
+          "quran:25:67",
+          "quran:4:6",
+          "quran:6:141",
+          "quran:20:127"
+        ],
+        "off_contradictions": [],
+        "labels": {
+          "quran:25:67": "Conditional_Match",
+          "quran:6:145": "Superficial_Match",
+          "quran:56:33": "Superficial_Match",
+          "quran:2:262": "Superficial_Match",
+          "quran:24:61": "Superficial_Match",
+          "quran:4:6": "Conditional_Match",
+          "quran:2:274": "Superficial_Match",
+          "quran:7:31": "Direct_Match",
+          "quran:91:15": "Superficial_Match",
+          "quran:6:141": "Direct_Match",
+          "quran:20:127": "Direct_Match",
+          "quran:15:3": "Superficial_Match"
+        }
+      }
+    },
+    {
+      "id": 35,
+      "statement": "غیبت کردن کار خوبی است.",
+      "category": "تله_نفی",
+      "expected": "Contradiction",
+      "retrieval_s": 38.7,
+      "candidates": [
+        "quran:68:12",
+        "quran:70:21",
+        "quran:79:45",
+        "quran:2:271",
+        "quran:2:3",
+        "quran:18:104",
+        "quran:96:7",
+        "quran:49:18",
+        "quran:14:20",
+        "quran:49:12",
+        "quran:27:89",
+        "quran:94:7"
+      ],
+      "D_context": {
+        "ok": true,
+        "got": {
+          "quran:49:12": "Contradiction"
+        },
+        "off_approvals": [],
+        "off_contradictions": [
+          "quran:68:12",
+          "quran:70:21",
+          "quran:18:104"
+        ],
+        "labels": {
+          "quran:68:12": "Contradiction",
+          "quran:70:21": "Contradiction",
+          "quran:79:45": "Superficial_Match",
+          "quran:2:271": "Superficial_Match",
+          "quran:2:3": "Superficial_Match",
+          "quran:18:104": "Contradiction",
+          "quran:96:7": "Superficial_Match",
+          "quran:49:18": "Superficial_Match",
+          "quran:14:20": "Superficial_Match",
+          "quran:49:12": "Contradiction",
+          "quran:27:89": "Superficial_Match",
+          "quran:94:7": "Superficial_Match"
+        }
+      }
+    },
+    {
+      "id": 36,
+      "statement": "کشتن مشرکان در هر زمان و مکانی مجاز است.",
+      "category": "تله_شأن_نزول",
+      "expected": "Context_Mismatch",
+      "retrieval_s": 120.3,
+      "candidates": [
+        "quran:9:5",
+        "quran:37:178",
+        "quran:33:61",
+        "quran:7:34",
+        "quran:4:91",
+        "quran:2:191",
+        "quran:16:1",
+        "quran:22:33",
+        "quran:2:178",
+        "quran:10:82",
+        "quran:15:4",
+        "quran:38:81"
+      ],
+      "D_context": {
+        "ok": false,
+        "got": {
+          "quran:9:5": "Conditional_Match"
+        },
+        "off_approvals": [
+          "quran:33:61",
+          "quran:4:91",
+          "quran:2:191"
+        ],
+        "off_contradictions": [],
+        "labels": {
+          "quran:9:5": "Conditional_Match",
+          "quran:37:178": "Superficial_Match",
+          "quran:33:61": "Direct_Match",
+          "quran:7:34": "Superficial_Match",
+          "quran:4:91": "Conditional_Match",
+          "quran:2:191": "Conditional_Match",
+          "quran:16:1": "Superficial_Match",
+          "quran:22:33": "Superficial_Match",
+          "quran:2:178": "Superficial_Match",
+          "quran:10:82": "Superficial_Match",
+          "quran:15:4": "Superficial_Match",
+          "quran:38:81": "Superficial_Match"
+        }
+      }
+    },
+    {
+      "id": 39,
+      "statement": "قطع دست دزد بدون هیچ شرطی اجرا می‌شود.",
+      "category": "تله_شأن_نزول",
+      "expected": "Context_Mismatch",
+      "retrieval_s": 41.3,
+      "candidates": [
+        "quran:5:38",
+        "quran:91:15",
+        "quran:56:33",
+        "quran:77:18",
+        "quran:56:79",
+        "quran:70:16",
+        "quran:21:40",
+        "quran:74:28",
+        "quran:10:82",
+        "quran:37:34",
+        "quran:38:15",
+        "quran:52:46"
+      ],
+      "D_context": {
+        "ok": false,
+        "got": {
+          "quran:5:38": "Conditional_Match"
+        },
+        "off_approvals": [],
+        "off_contradictions": [],
+        "labels": {
+          "quran:5:38": "Conditional_Match",
+          "quran:91:15": "Superficial_Match",
+          "quran:56:33": "Superficial_Match",
+          "quran:77:18": "Superficial_Match",
+          "quran:56:79": "Superficial_Match",
+          "quran:70:16": "Superficial_Match",
+          "quran:21:40": "Superficial_Match",
+          "quran:74:28": "Superficial_Match",
+          "quran:10:82": "Superficial_Match",
+          "quran:37:34": "Superficial_Match",
+          "quran:38:15": "Superficial_Match",
+          "quran:52:46": "Superficial_Match"
+        }
+      }
+    },
+    {
+      "id": 41,
+      "statement": "چراغ اتاق باید پرنور باشد تا مطالعه راحت‌تر شود.",
+      "category": "تله_سطحی",
+      "expected": "Superficial_Match",
+      "retrieval_s": 70.6,
+      "candidates": [
+        "quran:78:13",
+        "quran:24:35",
+        "quran:44:2",
+        "quran:26:2",
+        "quran:20:26",
+        "quran:6:105",
+        "quran:20:28",
+        "quran:50:8",
+        "quran:80:38",
+        "quran:73:4",
+        "quran:17:12",
+        "quran:69:12"
+      ],
+      "D_context": {
+        "ok": true,
+        "got": {
+          "quran:24:35": "Superficial_Match"
+        },
+        "off_approvals": [],
+        "off_contradictions": [],
+        "labels": {
+          "quran:78:13": "Superficial_Match",
+          "quran:24:35": "Superficial_Match",
+          "quran:44:2": "Superficial_Match",
+          "quran:26:2": "Superficial_Match",
+          "quran:20:26": "Superficial_Match",
+          "quran:6:105": "Superficial_Match",
+          "quran:20:28": "Superficial_Match",
+          "quran:50:8": "Superficial_Match",
+          "quran:80:38": "Superficial_Match",
+          "quran:73:4": "Superficial_Match",
+          "quran:17:12": "Superficial_Match",
+          "quran:69:12": "Superficial_Match"
+        }
+      }
+    },
+    {
+      "id": 43,
+      "statement": "ید به معنای دست انسان برای گرفتن اشیا است.",
+      "category": "تله_سطحی",
+      "expected": "Superficial_Match",
+      "retrieval_s": 48.3,
+      "candidates": [
+        "quran:48:20",
+        "quran:53:24",
+        "quran:3:182",
+        "quran:20:22",
+        "quran:28:32",
+        "quran:70:19",
+        "quran:7:108",
+        "quran:5:64",
+        "quran:80:15",
+        "quran:26:33",
+        "quran:96:15",
+        "quran:48:10"
+      ],
+      "D_context": {
+        "ok": true,
+        "got": {
+          "quran:48:10": "Superficial_Match"
+        },
+        "off_approvals": [
+          "quran:20:22",
+          "quran:28:32",
+          "quran:7:108",
+          "quran:26:33"
+        ],
+        "off_contradictions": [],
+        "labels": {
+          "quran:48:20": "Superficial_Match",
+          "quran:53:24": "Superficial_Match",
+          "quran:3:182": "Superficial_Match",
+          "quran:20:22": "Direct_Match",
+          "quran:28:32": "Direct_Match",
+          "quran:70:19": "Superficial_Match",
+          "quran:7:108": "Direct_Match",
+          "quran:5:64": "Superficial_Match",
+          "quran:80:15": "Superficial_Match",
+          "quran:26:33": "Direct_Match",
+          "quran:96:15": "Superficial_Match",
+          "quran:48:10": "Superficial_Match"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+[
+  {
+    "id": 8,
+    "statement": "تواضع و فروتنی در برابر مؤمنان پسندیده است.",
+    "category": "اخلاقی",
+    "pool_size": 149,
+    "rrf_ranks": {
+      "quran:17:37": null,
+      "quran:25:63": 55
+    },
+    "beyond_default_pool": true
+  },
+  {
+    "id": 27,
+    "statement": "دنیا محل آزمایش است نه هدف نهایی.",
+    "category": "اعتقادی",
+    "pool_size": 150,
+    "rrf_ranks": {
+      "quran:3:185": null,
+      "quran:67:2": null
+    },
+    "beyond_default_pool": true
+  },
+  {
+    "id": 29,
+    "statement": "قیامت و روز جزا حق و حتمی است.",
+    "category": "اعتقادی",
+    "pool_size": 150,
+    "rrf_ranks": {
+      "quran:22:7": 63
+    },
+    "beyond_default_pool": true
+  },
+  {
+    "id": 30,
+    "statement": "خداوند به همه چیز داناست و از درون دل‌ها آگاه است.",
+    "category": "اعتقادی",
+    "pool_size": 150,
+    "rrf_ranks": {
+      "quran:50:16": null,
+      "quran:67:13": null
+    },
+    "beyond_default_pool": true
+  },
+  {
+    "id": 31,
+    "statement": "صبر در برابر مشکلات فضیلت نیست و باید فوراً خشمگین شد.",
+    "category": "تله_نفی",
+    "pool_size": 150,
+    "rrf_ranks": {
+      "quran:2:153": 121,
+      "quran:3:146": null
+    },
+    "beyond_default_pool": true
+  },
+  {
+    "id": 32,
+    "statement": "تکبر و خودبرتربینی پسندیده است.",
+    "category": "تله_نفی",
+    "pool_size": 150,
+    "rrf_ranks": {
+      "quran:16:23": null,
+      "quran:31:18": null
+    },
+    "beyond_default_pool": true
+  },
+  {
+    "id": 38,
+    "statement": "ازدواج با همسر سابق فرزندخوانده برای همه مردان مجاز است.",
+    "category": "تله_شأن_نزول",
+    "pool_size": 140,
+    "rrf_ranks": {
+      "quran:33:37": 70
+    },
+    "beyond_default_pool": true
+  },
+  {
+    "id": 40,
+    "statement": "آیه لعان درباره هر اختلاف خانوادگی است.",
+    "category": "تله_شأن_نزول",
+    "pool_size": 150,
+    "rrf_ranks": {
+      "quran:24:6": null
+    },
+    "beyond_default_pool": true
+  },
+  {
+    "id": 45,
+    "statement": "انسان پس از مرگ دوباره زنده نمی‌شود.",
+    "category": "تضاد",
+    "pool_size": 150,
+    "rrf_ranks": {
+      "quran:36:79": null,
+      "quran:75:3": 43
+    },
+    "beyond_default_pool": true
+  },
+  {
+    "id": 46,
+    "statement": "هیچ روز جزایی وجود ندارد.",
+    "category": "تضاد",
+    "pool_size": 150,
+    "rrf_ranks": {
+      "quran:22:7": null
+    },
+    "beyond_default_pool": true
+  }
+]

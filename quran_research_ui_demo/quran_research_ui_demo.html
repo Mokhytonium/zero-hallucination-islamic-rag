@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>پژوهش مستند قرآن</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page: #F9F8F6;
+      --bg-surface: #FFFFFF;
+      --bg-subtle: #F2F0EC;
+      --bg-hover: #ECE9E2;
+      --border-light: #E6E3DC;
+      --border-focus: #B6B8AB;
+      --text-primary: #272932;
+      --text-secondary: #6E717D;
+      --text-muted: #9FA3AD;
+      --accent-dark: #3C3E4A;
+      --accent-green: #2E6F5E;
+      --accent-green-bg: #EBF3F0;
+      --accent-amber: #9A6700;
+      --accent-amber-bg: #FEF7E6;
+      --accent-rose: #A63A3A;
+      --accent-rose-bg: #FDF0F0;
+      --accent-indigo: #3B4D7A;
+      --accent-indigo-bg: #EEF2F9;
+      --quran-scale: 1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Demo State Switcher Bar (Subtle Top Strip) */
+    .demo-bar {
+      background: #EFECE6;
+      border-bottom: 1px solid var(--border-light);
+      padding: 8px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      font-size: 0.74rem;
+    }
+    .demo-bar-label {
+      color: var(--text-secondary);
+      margin-left: 8px;
+      font-weight: 500;
+    }
+    .demo-tab {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-secondary);
+      padding: 4px 10px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 0.73rem;
+      transition: all 0.15s ease;
+    }
+    .demo-tab:hover {
+      background: rgba(255,255,255,0.6);
+      color: var(--text-primary);
+    }
+    .demo-tab.active {
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      border-color: var(--border-light);
+      font-weight: 600;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+
+    /* Minimal Header (Without "تیبان") */
+    header {
+      width: 100%;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+
+    .seal-icon {
+      width: 22px;
+      height: 22px;
+      color: var(--accent-dark);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--accent-green);
+      background: var(--accent-green-bg);
+      padding: 4px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-green);
+    }
+
+    .ghost-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      font-size: 0.79rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 6px 11px;
+      border-radius: 9px;
+      transition: all 0.15s ease;
+    }
+    .ghost-btn:hover {
+      background: var(--bg-subtle);
+      color: var(--text-primary);
+    }
+    .ghost-btn.active {
+      background: var(--bg-surface);
+      border-color: var(--border-light);
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* Views Container */
+    .view-section {
+      display: none;
+      width: 100%;
+      flex: 1;
+    }
+    .view-section.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ================= STATE 1 & 2: COMPOSER ================= */
+    .center-stage {
+      width: 100%;
+      max-width: 720px;
+      margin: auto;
+      padding: 24px 20px 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .hero-subtitle {
+      font-size: 0.86rem;
+      color: var(--text-secondary);
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    .composer-card {
+      width: 100%;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      box-shadow: 0 12px 36px -12px rgba(39, 41, 50, 0.06), 0 2px 6px -1px rgba(39, 41, 50, 0.03);
+      padding: 20px 22px 16px;
+      transition: border-color 0.2s ease;
+      position: relative;
+    }
+    .composer-card:focus-within {
+      border-color: var(--border-focus);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 110px;
+      border: none;
+      outline: none;
+      resize: none;
+      font-size: 0.96rem;
+      line-height: 1.75;
+      color: var(--text-primary);
+      background: transparent;
+    }
+    textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Smart Guardrail Banner (Negation / Length) */
+    .guardrail-banner {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: var(--accent-amber-bg);
+      color: var(--accent-amber);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 0.77rem;
+      margin-top: 8px;
+      border: 1px solid rgba(154, 103, 0, 0.16);
+    }
+    .guardrail-banner.visible {
+      display: flex;
+    }
+
+    /* Autocomplete Suggestions */
+    .autocomplete-box {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border-light);
+    }
+    .autocomplete-box.visible {
+      display: flex;
+    }
+    .ac-item {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+    }
+    .ac-item:hover {
+      background: var(--bg-subtle);
+      color: var(--text-primary);
+    }
+
+    .composer-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 14px;
+      margin-top: 10px;
+      border-top: 1px solid #F3F1ED;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .controls-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .segmented {
+      display: inline-flex;
+      background: var(--bg-subtle);
+      padding: 3px;
+      border-radius: 10px;
+    }
+
+    .seg-btn {
+      border: none;
+      background: transparent;
+      padding: 5px 12px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      border-radius: 7px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .seg-btn.active {
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    .judge-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 9px;
+      user-select: none;
+    }
+    .judge-toggle:hover { background: var(--bg-subtle); }
+
+    .switch-track {
+      width: 28px;
+      height: 16px;
+      background: #D6D4CC;
+      border-radius: 999px;
+      position: relative;
+      transition: background 0.2s ease;
+    }
+    .judge-toggle.on .switch-track { background: var(--accent-dark); }
+
+    .switch-thumb {
+      width: 12px;
+      height: 12px;
+      background: #FFFFFF;
+      border-radius: 50%;
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      transition: transform 0.2s ease;
+    }
+    .judge-toggle.on .switch-thumb { transform: translateX(-12px); }
+
+    .submit-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .char-counter {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .submit-btn {
+      background: var(--accent-dark);
+      color: #FFFFFF;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.15s ease;
+    }
+    .submit-btn:hover { opacity: 0.9; }
+
+    .samples-section {
+      width: 100%;
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .samples-label {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+    .chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+    .chip {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      color: var(--text-secondary);
+      font-size: 0.77rem;
+      padding: 6px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .chip:hover {
+      border-color: var(--border-focus);
+      color: var(--text-primary);
+    }
+
+    /* ================= STATE 3: PROCESSING PIPELINE ================= */
+    .pipeline-card {
+      width: 100%;
+      max-width: 640px;
+      margin: auto;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 12px 36px -12px rgba(39, 41, 50, 0.06);
+    }
+    .pipe-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .pipe-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    .pipe-timer {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      font-variant-numeric: tabular-nums;
+      background: var(--bg-subtle);
+      padding: 4px 10px;
+      border-radius: 8px;
+    }
+    .progress-bar-bg {
+      width: 100%;
+      height: 4px;
+      background: var(--bg-subtle);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .progress-bar-fill {
+      width: 68%;
+      height: 100%;
+      background: var(--accent-dark);
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .step-item {
+      background: var(--bg-page);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .step-item.done {
+      background: var(--accent-green-bg);
+      border-color: rgba(46, 111, 94, 0.25);
+      color: var(--accent-green);
+      font-weight: 500;
+    }
+    .step-item.active {
+      background: var(--bg-surface);
+      border-color: var(--accent-dark);
+      color: var(--text-primary);
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    }
+    .step-sub {
+      display: block;
+      font-size: 0.68rem;
+      margin-top: 4px;
+      opacity: 0.8;
+    }
+    .abort-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+      border-top: 1px solid #F3F1ED;
+    }
+    .abort-btn {
+      background: var(--accent-rose-bg);
+      color: var(--accent-rose);
+      border: 1px solid rgba(166, 58, 58, 0.2);
+      padding: 6px 14px;
+      border-radius: 9px;
+      font-size: 0.78rem;
+      cursor: pointer;
+    }
+
+    /* ================= STATE 4: RESULTS WORKBENCH ================= */
+    .workbench {
+      width: 100%;
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 8px 24px 60px;
+    }
+
+    .query-summary-bar {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: 14px;
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      gap: 12px;
+    }
+    .query-text-preview {
+      font-size: 0.86rem;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* Sticky Toolbar */
+    .sticky-toolbar {
+      position: sticky;
+      top: 10px;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-light);
+      border-radius: 14px;
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 6px 20px -6px rgba(39, 41, 50, 0.05);
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .f-pill {
+      border: 1px solid var(--border-light);
+      background: var(--bg-page);
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .f-pill.active {
+      background: var(--accent-dark);
+      color: #fff;
+      border-color: var(--accent-dark);
+    }
+
+    .reading-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+    }
+    .tool-btn {
+      background: var(--bg-subtle);
+      border: none;
+      color: var(--text-primary);
+      padding: 5px 10px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 0.74rem;
+    }
+    .tool-btn.active {
+      background: var(--accent-dark);
+      color: #fff;
+    }
+
+    /* Result Cards */
+    .group-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin: 18px 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ayah-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: 18px;
+      padding: 20px 24px;
+      margin-bottom: 14px;
+      transition: border-color 0.15s ease;
+    }
+    .ayah-card:hover {
+      border-color: var(--border-focus);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .surah-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .verdict-badge {
+      font-size: 0.72rem;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+    .v-primary { background: var(--accent-green-bg); color: var(--accent-green); }
+    .v-support { background: var(--accent-indigo-bg); color: var(--accent-indigo); }
+    .v-contra { background: var(--accent-rose-bg); color: var(--accent-rose); }
+
+    .byte-badge {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      background: var(--bg-page);
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border-light);
+    }
+
+    .quran-text {
+      font-family: 'Amiri', serif;
+      font-size: calc(1.45rem * var(--quran-scale));
+      line-height: 2.1;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      text-align: right;
+    }
+
+    .translation-text {
+      font-size: 0.88rem;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+      padding-right: 12px;
+      border-right: 2px solid var(--border-light);
+    }
+    .translation-text.hidden { display: none; }
+
+    /* Judge Reasoning & Signal Breakdown */
+    .reasoning-box {
+      background: var(--bg-page);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 0.79rem;
+      color: var(--text-primary);
+      line-height: 1.65;
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .signals-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.71rem;
+      color: var(--text-secondary);
+      flex-wrap: wrap;
+    }
+    .sig-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .sig-meter {
+      width: 48px;
+      height: 5px;
+      background: #E2DFD7;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .sig-fill {
+      height: 100%;
+      background: var(--accent-dark);
+    }
+
+    .card-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid #F3F1ED;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .action-btns {
+      display: flex;
+      gap: 6px;
+    }
+
+    /* ================= STATE 5: READING DRAWER ================= */
+    .drawer-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(39, 41, 50, 0.25);
+      backdrop-filter: blur(2px);
+      z-index: 100;
+      justify-content: flex-end;
+    }
+    .drawer-backdrop.open { display: flex; }
+
+    .drawer-panel {
+      width: 100%;
+      max-width: 520px;
+      background: var(--bg-surface);
+      height: 100%;
+      padding: 24px;
+      overflow-y: auto;
+      box-shadow: -12px 0 40px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .context-verse {
+      padding: 12px;
+      border-radius: 12px;
+      background: var(--bg-page);
+      opacity: 0.75;
+      font-size: 0.82rem;
+    }
+    .context-verse.current {
+      background: #FCFBF8;
+      border: 1px solid var(--border-focus);
+      opacity: 1;
+    }
+
+    .word-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .word-token {
+      background: var(--bg-subtle);
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.76rem;
+      cursor: pointer;
+    }
+    .word-token:hover { background: var(--border-light); }
+
+    /* ================= STATE 6: COMPARISON & COLLECTION ================= */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 16px;
+    }
+    @media (max-width: 768px) {
+      .compare-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ================= STATE 7: TRUST & EDGE STATES ================= */
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .metric-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+    }
+    .metric-val {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      margin-bottom: 4px;
+    }
+    .metric-lbl {
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+    }
+
+    footer {
+      width: 100%;
+      max-width: 1120px;
+      margin: auto auto 0;
+      padding: 20px 24px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Demo State Switcher (To inspect all 7 states cleanly) -->
+  <div class="demo-bar">
+    <span class="demo-bar-label">نمایش وضعیت‌های رابط کاربری:</span>
+    <button class="demo-tab active" onclick="switchView('state1', this)">۱. صفحه ورود</button>
+    <button class="demo-tab" onclick="switchView('state2', this)">۲. تایپ و هشدار نفی</button>
+    <button class="demo-tab" onclick="switchView('state3', this)">۳. خط لوله زنده</button>
+    <button class="demo-tab" onclick="switchView('state4', this)">۴. نتایج پژوهش</button>
+    <button class="demo-tab" onclick="openDrawerDemo(this)">۵. کشوی مطالعه آیه</button>
+    <button class="demo-tab" onclick="switchView('state6', this)">۶. مقایسه و مجموعه</button>
+    <button class="demo-tab" onclick="switchView('state7', this)">۷. شفافیت و خطاها</button>
+  </div>
+
+  <!-- Clean Minimal Header (Without "تیبان") -->
+  <header>
+    <div class="brand" onclick="switchView('state1', document.querySelectorAll('.demo-tab')[0])">
+      <svg class="seal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <rect x="4.5" y="4.5" width="15" height="15" rx="1.5" />
+        <rect x="4.5" y="4.5" width="15" height="15" rx="1.5" transform="rotate(45 12 12)" />
+      </svg>
+      <span>پژوهش مستند قرآن</span>
+    </div>
+
+    <div class="header-actions">
+      <span class="status-pill" onclick="switchView('state7', document.querySelectorAll('.demo-tab')[6])">
+        <span class="status-dot"></span>
+        واکشی بایت‌دقیق · ۰٪ توهم
+      </span>
+      <button class="ghost-btn" id="pinCounterBtn" onclick="switchView('state6', document.querySelectorAll('.demo-tab')[5])">مجموعه پژوهش (۲)</button>
+      <button class="ghost-btn" onclick="switchView('state7', document.querySelectorAll('.demo-tab')[6])">روش و ارزیابی</button>
+    </div>
+  </header>
+
+  <!-- ==================== VIEW 1 & 2: COMPOSER ==================== -->
+  <section id="view-composer" class="view-section active">
+    <div class="center-stage">
+      <h1 class="hero-title">تطبیق معنایی گزاره‌ها با آیات قرآن کریم</h1>
+      <p class="hero-subtitle">جست‌وجوی ترکیبی در ۶۲۳۶ آیه همراه با داوری شأن نزول و جهت منطقی</p>
+
+      <div class="composer-card">
+        <textarea
+          id="queryInput"
+          maxlength="5000"
+          placeholder="گزاره، ادعا یا بند مورد نظر خود را بنویسید..."
+        ></textarea>
+
+        <!-- Guardrail Warning (Visible in State 2 or when negation detected) -->
+        <div class="guardrail-banner" id="negationBanner">
+          <span>⚠️ گزاره دارای ساختار نفی/تضاد تشخیص داده شد؛ لایه داوری جهت منطقی آیات را با دقت مضاعف بررسی می‌کند.</span>
+          <span style="font-size:0.7rem; opacity:0.8;">حالت دقیق پیشنهادی</span>
+        </div>
+
+        <!-- Autocomplete Suggestions -->
+        <div class="autocomplete-box" id="acBox">
+          <div class="ac-item" onclick="applySuggestion('در معاملات تجاری، گرفتن سود اضافی در قبال مهلت دادن به بدهکار هیچ فرقی با خرید و فروش عادی ندارد.')">
+            <span>در معاملات تجاری، گرفتن سود اضافی در قبال مهلت دادن به بدهکار هیچ فرقی با خرید و فروش عادی ندارد.</span>
+            <span style="color:var(--text-muted)">پیشنهاد تاریخچه ↵</span>
+          </div>
+          <div class="ac-item" onclick="applySuggestion('اجبار کردن افراد به پذیرش یک عقیده بهترین راه برای گسترش حقیقت در جامعه است.')">
+            <span>اجبار کردن افراد به پذیرش یک عقیده بهترین راه برای گسترش حقیقت در جامعه است.</span>
+            <span style="color:var(--text-muted)">مجموعه طلایی ↵</span>
+          </div>
+        </div>
+
+        <div class="composer-footer">
+          <div class="controls-group">
+            <div class="segmented" role="group">
+              <button type="button" class="seg-btn active" id="modeFast" onclick="setMode('fast')">سریع</button>
+              <button type="button" class="seg-btn" id="modeAccurate" onclick="setMode('accurate')">دقیق</button>
+            </div>
+
+            <div class="judge-toggle on" id="judgeToggle" onclick="this.classList.toggle('on')">
+              <span class="switch-track"><span class="switch-thumb"></span></span>
+              <span>داوری هوشمند</span>
+            </div>
+          </div>
+
+          <div class="submit-group">
+            <span class="char-counter" id="charCounter">۰ / ۵۰۰۰</span>
+            <button type="button" class="submit-btn" onclick="switchView('state3', document.querySelectorAll('.demo-tab')[2])">
+              <span>جست‌وجو</span>
+              <span style="font-size: 0.72rem; opacity: 0.75;">↵</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="samples-section">
+        <span class="samples-label">نمونه‌های آماده برای شروع</span>
+        <div class="chips-row">
+          <button class="chip" onclick="applySuggestion('نیکی و احترام به پدر و مادر یکی از مهم‌ترین وظایف اخلاقی انسان است.')">اخلاق فردی</button>
+          <button class="chip" onclick="applySuggestion('انباشت ثروت در دست عده‌ای خاص و عدم گردش پول در جامعه، شکاف طبقاتی و فساد ایجاد می‌کند.')">عدالت اجتماعی</button>
+          <button class="chip" onclick="applySuggestion('تغییرات ظاهری ملاک نیکی نیست؛ نیکی واقعی ایمان، انفاق به نیازمندان و پایبندی به عهد است.')">مفاهیم مرکب</button>
+          <button class="chip" onclick="applySuggestion('در معاملات تجاری، گرفتن سود اضافی در قبال مهلت دادن به بدهکار هیچ فرقی با خرید و فروش عادی ندارد.')">تله تضاد و نفی</button>
+          <button class="chip" onclick="applySuggestion('در جلسات کاری مدرن، کارمندان نباید بدون اجازه مدیر از جلسه خارج شوند.')">تله شأن نزول</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== VIEW 3: LIVE PIPELINE ==================== -->
+  <section id="view-pipeline" class="view-section">
+    <div class="pipeline-card">
+      <div class="pipe-header">
+        <span class="pipe-title">در حال پردازش و داوری مستند...</span>
+        <span class="pipe-timer">زمان سپری‌شده: ۰۰:۰۲.۴</span>
+      </div>
+
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill"></div>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-item done">
+          ۱. بازیابی ترکیبی
+          <span class="step-sub">۱۵ کاندید · ۰.۴s</span>
+        </div>
+        <div class="step-item done">
+          ۲. رتبه‌بند عصبی
+          <span class="step-sub">Cross-Encoder · ۱.۱s</span>
+        </div>
+        <div class="step-item active">
+          ۳. داوری هوشمند
+          <span class="step-sub">بررسی شأن نزول...</span>
+        </div>
+        <div class="step-item">
+          ۴. واکشی بایت‌دقیق
+          <span class="step-sub">در انتظار</span>
+        </div>
+      </div>
+
+      <div class="abort-row">
+        <span style="font-size:0.76rem; color:var(--text-secondary);">در حال بررسی تضاد منطقی و سیاق تاریخی کاندیدها با دمای ۰.۰</span>
+        <div style="display:flex; gap:8px;">
+          <button class="abort-btn" onclick="switchView('state1', document.querySelectorAll('.demo-tab')[0])">لغو عملیات</button>
+          <button class="submit-btn" style="padding:6px 12px; font-size:0.76rem;" onclick="switchView('state4', document.querySelectorAll('.demo-tab')[3])">مشاهده نتیجه نمونه ←</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== VIEW 4: RESULTS WORKBENCH ==================== -->
+  <section id="view-results" class="view-section">
+    <div class="workbench">
+      <div class="query-summary-bar">
+        <span class="query-text-preview">گزاره: «نیکی و احترام به پدر و مادر یکی از مهم‌ترین وظایف اخلاقی انسان است.»</span>
+        <button class="ghost-btn" onclick="switchView('state1', document.querySelectorAll('.demo-tab')[0])">ویرایش گزاره</button>
+      </div>
+
+      <!-- Sticky Reading & Filter Toolbar -->
+      <div class="sticky-toolbar">
+        <div class="filter-pills">
+          <button class="f-pill active">همه (۳)</button>
+          <button class="f-pill">تطبیق اصلی (۱)</button>
+          <button class="f-pill">شواهد پشتیبان (۱)</button>
+          <button class="f-pill">دیدگاه مخالف (۱)</button>
+        </div>
+
+        <div class="reading-tools">
+          <button class="tool-btn active" id="toggleTransBtn" onclick="toggleTranslation()">ترجمه فارسی</button>
+          <button class="tool-btn" id="toggleDiacriticsBtn" onclick="toggleDiacritics()">حذف اعراب</button>
+          <button class="tool-btn" onclick="changeFontSize(-0.1)">آ-</button>
+          <button class="tool-btn" onclick="changeFontSize(0.1)">آ+</button>
+        </div>
+      </div>
+
+      <div class="group-label">تطبیق اصلی</div>
+
+      <!-- Card 1 -->
+      <article class="ayah-card">
+        <div class="card-top">
+          <div class="surah-meta">
+            <span>سوره الإسراء · آیه ۲۳</span>
+            <span class="verdict-badge v-primary">تطبیق مستقیم · اطمینان ۹۸٪</span>
+            <span class="byte-badge">مکی · صفحه ۲۸۴ · جزء ۱۵</span>
+          </div>
+          <span class="byte-badge">✓ واکشی بایت‌دقیق</span>
+        </div>
+
+        <div class="quran-text" data-full="وَقَضَىٰ رَبُّكَ أَلَّا تَعْبُدُوا إِلَّا إِيَّاهُ وَبِالْوَالِدَيْنِ إِحْسَانًا ۚ إِمَّا يَبْلُغَنَّ عِندَكَ الْكِبَرَ أَحَدُهُمَا أَوْ كِلَاهُمَا فَلَا تَقُل لَّهُمَا أُفٍّ وَلَا تَنْهَرْهُمَا وَقُل لَّهُمَا قَوْلًا كَرِيمًا" data-plain="وقضی ربک ألا تعبدوا إلا إیاه وبالوالدین إحسانا إما یبلغن عندک الکبر أحدهما أو کلاهما فلا تقل لهما أف ولا تنهرهما وقل لهما قولا کریما">
+          وَقَضَىٰ رَبُّكَ أَلَّا تَعْبُدُوا إِلَّا إِيَّاهُ وَبِالْوَالِدَيْنِ إِحْسَانًا ۚ إِمَّا يَبْلُغَنَّ عِندَكَ الْكِبَرَ أَحَدُهُمَا أَوْ كِلَاهُمَا فَلَا تَقُل لَّهُمَا أُفٍّ وَلَا تَنْهَرْهُمَا وَقُل لَّهُمَا قَوْلًا كَرِيمًا
+        </div>
+
+        <div class="translation-text">
+          و پروردگارت فرمان داده: جز او را نپرستید! و به پدر و مادر نیکی کنید! هرگاه یکی از آن دو، یا هر دوی آنها، نزد تو به سن پیری رسند، کمترین اهانتی به آنها روا مدار! و بر آنها فریاد مزن! و گفتار لطیف و سنجیده و بزرگوارانه به آنها بگو!
+        </div>
+
+        <div class="reasoning-box">
+          <div><strong>استدلال داور:</strong> این آیه نیکی به پدر و مادر را بلافاصله پس از توحید به عنوان یک فرمان قطعی مطرح کرده و مصادیق احترام کلامی و رفتاری در دوران پیری را بیان می‌کند.</div>
+          <div class="signals-row">
+            <span>چرا این آیه؟</span>
+            <span class="sig-bar">بردار معنایی <span class="sig-meter"><span class="sig-fill" style="width:94%"></span></span> ۹۴٪</span>
+            <span class="sig-bar">تطابق واژگانی <span class="sig-meter"><span class="sig-fill" style="width:88%"></span></span> ۸۸٪</span>
+            <span class="sig-bar">رتبه‌بند عصبی <span class="sig-meter"><span class="sig-fill" style="width:97%"></span></span> ۹۷٪</span>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <div class="action-btns">
+            <button class="tool-btn" onclick="openDrawer()">مطالعه بافت و ریشه‌ها</button>
+            <button class="tool-btn" onclick="pinAyah(this)">پین در مجموعه پژوهش</button>
+          </div>
+          <div class="action-btns">
+            <button class="tool-btn" onclick="copyText(this)">کپی استناد</button>
+            <button class="tool-btn" onclick="copyText(this)">JSON</button>
+          </div>
+        </div>
+      </article>
+
+      <div class="group-label">شواهد پشتیبان</div>
+
+      <!-- Card 2 -->
+      <article class="ayah-card">
+        <div class="card-top">
+          <div class="surah-meta">
+            <span>سوره لقمان · آیه ۱۴</span>
+            <span class="verdict-badge v-support">شاهد پشتیبان · اطمینان ۹۲٪</span>
+            <span class="byte-badge">مکی · صفحه ۴۱۲ · جزء ۲۱</span>
+          </div>
+          <span class="byte-badge">✓ واکشی بایت‌دقیق</span>
+        </div>
+
+        <div class="quran-text" data-full="وَوَصَّيْنَا الْإِنسَانَ بِوَالِدَيْهِ حَمَلَتْهُ أُمُّهُ وَهْنًا عَلَىٰ وَهْنٍ وَفِصَالُهُ فِي عَامَيْنِ أَنِ اشْكُرْ لِي وَلِوَالِدَيْكَ إِلَيَّ الْمَصِيرُ" data-plain="ووصینا الإنسان بوالدیه حملته أمه وهنا علی وهن وفصاله فی عامین أن اشکر لی ولوالدیک إلی المصیر">
+          وَوَصَّيْنَا الْإِنسَانَ بِوَالِدَيْهِ حَمَلَتْهُ أُمُّهُ وَهْنًا عَلَىٰ وَهْنٍ وَفِصَالُهُ فِي عَامَيْنِ أَنِ اشْكُرْ لِي وَلِوَالِدَيْكَ إِلَيَّ الْمَصِيرُ
+        </div>
+
+        <div class="translation-text">
+          و ما به انسان درباره پدر و مادرش سفارش کردیم؛ مادرش او را با ناتوانی روی ناتوانی حمل کرد، و دوران شیرخوارگی او در دو سال پایان می‌یابد؛ که برای من و برای پدر و مادرت شکر بجا آور که بازگشت به سوی من است!
+        </div>
+
+        <div class="card-actions">
+          <div class="action-btns">
+            <button class="tool-btn" onclick="openDrawer()">مطالعه بافت و ریشه‌ها</button>
+            <button class="tool-btn" onclick="pinAyah(this)">پین در مجموعه پژوهش</button>
+          </div>
+          <div class="action-btns">
+            <button class="tool-btn" onclick="copyText(this)">کپی استناد</button>
+          </div>
+        </div>
+      </article>
+
+      <div class="group-label">نمونه تشخیص تضاد (برای گزاره ربا)</div>
+
+      <!-- Card 3: Contradiction Example -->
+      <article class="ayah-card">
+        <div class="card-top">
+          <div class="surah-meta">
+            <span>سوره البقرة · آیه ۲۷۵</span>
+            <span class="verdict-badge v-contra">دیدگاه مخالف / نقد · اطمینان ۹۶٪</span>
+            <span class="byte-badge">مدنی · صفحه ۴۷ · جزء ۳</span>
+          </div>
+          <span class="byte-badge">✓ واکشی بایت‌دقیق</span>
+        </div>
+
+        <div class="quran-text" data-full="ذَٰلِكَ بِأَنَّهُمْ قَالُوا إِنَّمَا الْبَيْعُ مِثْلُ الرِّبَا ۗ وَأَحَلَّ اللَّهُ الْبَيْعَ وَحَرَّمَ الرِّبَا" data-plain="ذلک بأنهم قالوا إنما البیع مثل الربا وأحل الله البیع وحرم الربا">
+          ذَٰلِكَ بِأَنَّهُمْ قَالُوا إِنَّمَا الْبَيْعُ مِثْلُ الرِّبَا ۗ وَأَحَلَّ اللَّهُ الْبَيْعَ وَحَرَّمَ الرِّبَا
+        </div>
+
+        <div class="translation-text">
+          این به خاطر آن است که گفتند: «داد و ستد هم مثل ربا است!» در حالی که خدا بیع را حلال کرده، و ربا را حرام نموده است.
+        </div>
+
+        <div class="reasoning-box">
+          <div><strong>استدلال داور:</strong> گزاره ورودی ربا را همانند خرید و فروش دانسته است؛ این آیه دقیقاً همین استدلال را نقل و به صراحت رد می‌کند.</div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ==================== VIEW 6: COMPARISON & COLLECTION ==================== -->
+  <section id="view-collection" class="view-section">
+    <div class="workbench">
+      <div class="query-summary-bar">
+        <span class="query-text-preview">مجموعه پژوهش و مقایسه کنار هم (۲ آیه انتخاب‌شده)</span>
+        <div style="display:flex; gap:8px;">
+          <button class="tool-btn" onclick="copyText(this)">خروجی BibTeX</button>
+          <button class="tool-btn" onclick="copyText(this)">خروجی Markdown</button>
+          <button class="tool-btn" onclick="copyText(this)">دریافت JSON</button>
+        </div>
+      </div>
+
+      <div class="compare-grid">
+        <div class="ayah-card">
+          <div class="card-top">
+            <span class="surah-meta">الإسراء (۱۷:۲۳)</span>
+            <span class="verdict-badge v-primary">تطبیق مستقیم</span>
+          </div>
+          <div class="quran-text" style="font-size:1.3rem;">وَقَضَىٰ رَبُّكَ أَلَّا تَعْبُدُوا إِلَّا إِيَّاهُ وَبِالْوَالِدَيْنِ إِحْسَانًا...</div>
+          <div class="translation-text">تمرکز بر: حرمت کمترین بی‌احترامی کلامی در سن پیری والدین.</div>
+        </div>
+
+        <div class="ayah-card">
+          <div class="card-top">
+            <span class="surah-meta">لقمان (۳۱:۱۴)</span>
+            <span class="verdict-badge v-support">شاهد پشتیبان</span>
+          </div>
+          <div class="quran-text" style="font-size:1.3rem;">وَوَصَّيْنَا الْإِنسَانَ بِوَالِدَيْهِ حَمَلَتْهُ أُمُّهُ وَهْنًا عَلَىٰ وَهْنٍ...</div>
+          <div class="translation-text">تمرکز بر: رنج دوران بارداری و هم‌ردیف بودن شکر والدین با شکر الهی.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== VIEW 7: TRUST & EDGE STATES ==================== -->
+  <section id="view-trust" class="view-section">
+    <div class="workbench" style="max-width: 820px;">
+      <h2 style="font-size:1.15rem; margin-bottom:6px;">معماری تضمین بدون توهم و اعداد ارزیابی</h2>
+      <p style="font-size:0.84rem; color:var(--text-secondary);">مدل زبانی هیچ متنی از قرآن تولید نمی‌کند؛ تنها شناسه رکوردها را داوری کرده و متن نهایی بایت‌به‌بایت از پایگاه داده SQLite خوانده می‌شود.</p>
+
+      <div class="trust-grid">
+        <div class="metric-card">
+          <div class="metric-val">۰٪</div>
+          <div class="metric-lbl">توهم متنی (۱۸۰ بررسی)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val">۰.۹۰</div>
+          <div class="metric-lbl">دقت داور (۳۵ از ۳۹)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val">۰.۷۳</div>
+          <div class="metric-lbl">Recall@15 بازیابی ترکیبی</div>
+        </div>
+      </div>
+
+      <!-- Edge States Preview -->
+      <div class="group-label">پیش‌نمایش وضعیت‌های خاص سامانه</div>
+      <div class="ayah-card" style="background:var(--accent-amber-bg); border-color:rgba(154,103,0,0.2);">
+        <div style="font-size:0.84rem; font-weight:600; color:var(--accent-amber); margin-bottom:4px;">هشدار کمبود حافظه در حالت دقیق</div>
+        <div style="font-size:0.79rem; color:var(--text-primary); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <span>حافظه گرافیکی برای اجرای رتبه‌بند عصبی کافی نبود. می‌توانید بلافاصله از حالت سریع استفاده کنید.</span>
+          <button class="tool-btn" style="background:#fff;" onclick="switchView('state1', document.querySelectorAll('.demo-tab')[0])">انتخاب حالت سریع</button>
+        </div>
+      </div>
+
+      <div class="ayah-card" style="text-align:center; padding:28px;">
+        <div style="font-size:0.9rem; font-weight:600; margin-bottom:6px;">آیه‌ای با تطابق معتبر یافت نشد</div>
+        <div style="font-size:0.79rem; color:var(--text-secondary);">تمام کاندیدهای اولیه به دلیل عدم ارتباط با شأن نزول یا شباهت صرفاً لفظی توسط لایه داوری رد شدند.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== STATE 5: READING DRAWER ==================== -->
+  <div class="drawer-backdrop" id="readingDrawer" onclick="if(event.target===this) closeDrawer()">
+    <div class="drawer-panel">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <strong style="font-size:0.95rem;">مطالعه عمیق و بافت · الإسراء (۱۷:۲۳)</strong>
+        <button class="ghost-btn" onclick="closeDrawer()">بستن ✕</button>
+      </div>
+
+      <div style="display:flex; gap:8px; align-items:center; font-size:0.76rem;">
+        <span style="color:var(--text-secondary);">مترجم:</span>
+        <button class="tool-btn active">مکارم شیرازی</button>
+        <button class="tool-btn">فولادوند</button>
+        <button class="tool-btn">انصاریان</button>
+      </div>
+
+      <div class="group-label" style="margin:4px 0;">آیات بافت (پیش و پس)</div>
+      <div class="context-verse">
+        <strong>آیه ۲۲:</strong> لَّا تَجْعَلْ مَعَ اللَّهِ إِلَٰهًا آخَرَ فَتَقْعُدَ مَذْمُومًا مَّخْذُولًا
+      </div>
+      <div class="context-verse current">
+        <strong>آیه ۲۳ (آیه منتخب):</strong> وَقَضَىٰ رَبُّكَ أَلَّا تَعْبُدُوا إِلَّا إِيَّاهُ وَبِالْوَالِدَيْنِ إِحْسَانًا...
+      </div>
+      <div class="context-verse">
+        <strong>آیه ۲۴:</strong> وَاخْفِضْ لَهُمَا جَنَاحَ الذُّلِّ مِنَ الرَّحْمَةِ وَقُل رَّبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا
+      </div>
+
+      <div class="group-label" style="margin:4px 0;">تحلیل واژگان و ریشه‌ها (کلیک کنید)</div>
+      <div class="word-chips">
+        <span class="word-token">قَضَىٰ (ریشه: ق ض ی)</span>
+        <span class="word-token">الْوَالِدَيْنِ (ریشه: و ل د)</span>
+        <span class="word-token">إِحْسَانًا (ریشه: ح س ن)</span>
+        <span class="word-token">تَنْهَرْهُمَا (ریشه: ن هـ ر)</span>
+        <span class="word-token">كَرِيمًا (ریشه: ک ر م)</span>
+      </div>
+
+      <div class="reasoning-box">
+        <strong>تفسیر کوتاه مستند (واکشی مستقیم):</strong>
+        <span>قرار گرفتن فرمان «احسان به والدین» بلافاصله پس از «توحید» در این آیه و سه سوره دیگر قرآن، نشانه بالاترین جایگاه حقوق والدین در نظام اخلاقی اسلام است.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quiet Footer -->
+  <footer>
+    <span>بازیابی ترکیبی: BGE-M3 + FTS5</span>
+    <span>•</span>
+    <span>دقت داور: ۰.۹۰</span>
+    <span>•</span>
+    <span>هزینه نشست: $0.00</span>
+  </footer>
+
+  <script>
+    const input = document.getElementById('queryInput');
+    const counter = document.getElementById('charCounter');
+    const negBanner = document.getElementById('negationBanner');
+    const acBox = document.getElementById('acBox');
+
+    function toPersianDigits(num) {
+      return num.toString().replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+    }
+
+    input.addEventListener('input', () => {
+      const val = input.value;
+      counter.textContent = `${toPersianDigits(val.length)} / ۵۰۰۰`;
+      const hasNegation = /(نیست|نهی|حرام|نباید|هیچ فرقی|اجبار|مخالف)/.test(val);
+      negBanner.classList.toggle('visible', hasNegation);
+      acBox.classList.toggle('visible', val.length > 0 && val.length < 25);
+    });
+
+    function setMode(mode) {
+      document.getElementById('modeFast').classList.toggle('active', mode === 'fast');
+      document.getElementById('modeAccurate').classList.toggle('active', mode === 'accurate');
+    }
+
+    function applySuggestion(text) {
+      input.value = text;
+      input.dispatchEvent(new Event('input'));
+      acBox.classList.remove('visible');
+    }
+
+    function switchView(stateId, tabBtn) {
+      document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
+      if (tabBtn) tabBtn.classList.add('active');
+
+      document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+      closeDrawer();
+
+      if (stateId === 'state1') {
+        document.getElementById('view-composer').classList.add('active');
+        input.value = '';
+        input.dispatchEvent(new Event('input'));
+      } else if (stateId === 'state2') {
+        document.getElementById('view-composer').classList.add('active');
+        input.value = 'در معاملات تجاری، گرفتن سود اضافی در قبال مهلت دادن به بدهکار هیچ فرقی با خرید و فروش عادی ندارد.';
+        input.dispatchEvent(new Event('input'));
+        setMode('accurate');
+      } else if (stateId === 'state3') {
+        document.getElementById('view-pipeline').classList.add('active');
+      } else if (stateId === 'state4') {
+        document.getElementById('view-results').classList.add('active');
+      } else if (stateId === 'state6') {
+        document.getElementById('view-collection').classList.add('active');
+      } else if (stateId === 'state7') {
+        document.getElementById('view-trust').classList.add('active');
+      }
+    }
+
+    function openDrawer() {
+      document.getElementById('readingDrawer').classList.add('open');
+    }
+    function openDrawerDemo(tabBtn) {
+      switchView('state4', tabBtn);
+      openDrawer();
+    }
+    function closeDrawer() {
+      document.getElementById('readingDrawer').classList.remove('open');
+    }
+
+    // Reading Tools
+    function toggleTranslation() {
+      const btn = document.getElementById('toggleTransBtn');
+      btn.classList.toggle('active');
+      document.querySelectorAll('.translation-text').forEach(el => {
+        el.classList.toggle('hidden');
+      });
+    }
+
+    let plainMode = false;
+    function toggleDiacritics() {
+      plainMode = !plainMode;
+      const btn = document.getElementById('toggleDiacriticsBtn');
+      btn.classList.toggle('active', plainMode);
+      document.querySelectorAll('.quran-text[data-plain]').forEach(el => {
+        el.textContent = plainMode ? el.getAttribute('data-plain') : el.getAttribute('data-full');
+      });
+    }
+
+    let currentScale = 1.0;
+    function changeFontSize(delta) {
+      currentScale = Math.min(1.5, Math.max(0.8, currentScale + delta));
+      document.documentElement.style.setProperty('--quran-scale', currentScale);
+    }
+
+    function pinAyah(btn) {
+      btn.textContent = '✓ پین شد';
+      btn.classList.add('active');
+    }
+
+    function copyText(btn) {
+      const orig = btn.textContent;
+      btn.textContent = '✓ کپی شد';
+      setTimeout(() => btn.textContent = orig, 1200);
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeDrawer();
+    });
+  </script>
+</body>
+</html>

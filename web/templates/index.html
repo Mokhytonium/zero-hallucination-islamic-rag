@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>پژوهش مستند قرآن</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+
+  <header>
+    <div class="brand" id="brandBtn" role="button" tabindex="0" title="بازگشت به صفحه ورود">
+      <svg class="seal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+        <rect x="4.5" y="4.5" width="15" height="15" rx="1.5" />
+        <rect x="4.5" y="4.5" width="15" height="15" rx="1.5" transform="rotate(45 12 12)" />
+      </svg>
+      <span>پژوهش مستند قرآن</span>
+    </div>
+
+    <div class="header-actions">
+      <span class="status-pill" id="statusPill" role="button" tabindex="0" title="روش و ارزیابی">
+        <span class="status-dot"></span>
+        واکشی بایت‌دقیق · ۰٪ توهم
+      </span>
+      <button class="ghost-btn" id="resultsBtn" hidden title="بازگشت به نتایج آخرین جست‌وجو">نتایج پژوهش</button>
+      <button class="ghost-btn" id="pinCounterBtn">مجموعه پژوهش (۰)</button>
+      <button class="ghost-btn" id="trustBtn">روش و ارزیابی</button>
+    </div>
+  </header>
+
+  <!-- ==================== COMPOSER ==================== -->
+  <section id="view-composer" class="view-section active">
+    <div class="center-stage">
+      <h1 class="hero-title">تطبیق معنایی گزاره‌ها با آیات قرآن کریم</h1>
+      <p class="hero-subtitle">جست‌وجوی ترکیبی در ۶۲۳۶ آیه همراه با داوری شأن نزول و جهت منطقی</p>
+
+      <div class="composer-card">
+        <label class="sr-only" for="queryInput">گزاره پژوهشی</label>
+        <textarea id="queryInput" maxlength="5000" placeholder="گزاره، ادعا یا بند مورد نظر خود را بنویسید..."></textarea>
+
+        <div class="guardrail-banner" id="negationBanner">
+          <span>⚠️ گزاره دارای ساختار نفی/تضاد تشخیص داده شد؛ لایه داوری جهت منطقی آیات را با دقت مضاعف بررسی می‌کند.</span>
+          <span class="guardrail-hint">حالت دقیق پیشنهادی</span>
+        </div>
+
+        <div class="autocomplete-box" id="acBox"></div>
+
+        <div class="composer-footer">
+          <div class="controls-group">
+            <div class="segmented" role="group" aria-label="حالت بازیابی">
+              <button type="button" class="seg-btn active" id="modeFast" title="بازیابی ترکیبی RRF — سریع، بدون رتبه‌بند عصبی">سریع</button>
+              <button type="button" class="seg-btn" id="modeAccurate" title="رتبه‌بند عصبی Cross-Encoder — دقیق‌تر، کندتر روی CPU">دقیق</button>
+            </div>
+
+            <div class="judge-toggle on" id="judgeToggle" role="switch" tabindex="0" aria-checked="true" title="داوری هوشمند با مدل زبانی (هزینه API)">
+              <span class="switch-track"><span class="switch-thumb"></span></span>
+              <span>داوری هوشمند</span>
+            </div>
+          </div>
+
+          <div class="submit-group">
+            <span class="char-counter" id="charCounter">۰ / ۵۰۰۰</span>
+            <button type="button" class="submit-btn" id="runBtn">
+              <span>جست‌وجو</span>
+              <span class="submit-kbd">↵</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="samples-section">
+        <span class="samples-label">نمونه‌های آماده برای شروع</span>
+        <div class="chips-row" id="sampleChips"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LIVE PIPELINE ==================== -->
+  <section id="view-pipeline" class="view-section">
+    <div class="pipeline-card">
+      <div class="pipe-header">
+        <span class="pipe-title">در حال پردازش و داوری مستند...</span>
+        <span class="pipe-timer" id="pipeTimer">زمان سپری‌شده: ۰۰:۰۰.۰</span>
+      </div>
+
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="pipeFill"></div>
+      </div>
+
+      <div class="steps-grid" id="stepsGrid"></div>
+
+      <div class="abort-row">
+        <span class="abort-note" id="abortNote">در حال بررسی تضاد منطقی و سیاق تاریخی کاندیدها با دمای ۰.۰</span>
+        <button class="abort-btn" id="abortBtn">لغو عملیات</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== RESULTS WORKBENCH ==================== -->
+  <section id="view-results" class="view-section">
+    <div class="workbench">
+      <div class="query-summary-bar">
+        <span class="query-text-preview" id="queryPreview"></span>
+        <button class="ghost-btn" id="editQueryBtn">ویرایش گزاره</button>
+      </div>
+
+      <div class="sticky-toolbar" id="stickyToolbar">
+        <div class="filter-pills" id="filterPills"></div>
+        <div class="reading-tools">
+          <button class="tool-btn active" id="toggleTransBtn">ترجمه فارسی</button>
+          <button class="tool-btn" id="toggleDiacriticsBtn">حذف اعراب</button>
+          <button class="tool-btn" id="fontMinusBtn" title="کوچک‌تر">آ-</button>
+          <button class="tool-btn" id="fontPlusBtn" title="بزرگ‌تر">آ+</button>
+        </div>
+      </div>
+
+      <div id="resultsContainer" aria-busy="false"></div>
+      <div class="result-meta" id="resultMeta"></div>
+    </div>
+  </section>
+
+  <!-- ==================== COLLECTION & COMPARISON ==================== -->
+  <section id="view-collection" class="view-section">
+    <div class="workbench">
+      <div class="query-summary-bar">
+        <span class="query-text-preview" id="collectionTitle">مجموعه پژوهش و مقایسه کنار هم</span>
+        <div class="export-bar">
+          <button class="tool-btn" id="expBibBtn">خروجی BibTeX</button>
+          <button class="tool-btn" id="expMdBtn">خروجی Markdown</button>
+          <button class="tool-btn" id="expJsonBtn">دریافت JSON</button>
+        </div>
+      </div>
+      <div class="compare-grid" id="compareGrid"></div>
+    </div>
+  </section>
+
+  <!-- ==================== TRUST & EVALUATION ==================== -->
+  <section id="view-trust" class="view-section">
+    <div class="workbench trust-wrap">
+      <h2 class="trust-head">معماری تضمین بدون توهم و اعداد ارزیابی</h2>
+      <p class="trust-lede">مدل زبانی هیچ متنی از قرآن تولید نمی‌کند؛ تنها شناسه رکوردها را داوری کرده و متن نهایی بایت‌به‌بایت از پایگاه داده SQLite خوانده می‌شود.</p>
+
+      <div class="trust-grid" id="trustGrid"></div>
+      <div class="trust-details" id="trustDetails"></div>
+
+      <div class="group-label">وضعیت‌های خاص سامانه</div>
+      <div id="edgeStates"></div>
+    </div>
+  </section>
+
+  <!-- ==================== READING DRAWER ==================== -->
+  <div class="drawer-backdrop" id="readingDrawer" aria-hidden="true">
+    <div class="drawer-panel" id="drawerPanel" role="dialog" aria-modal="true" aria-label="مطالعه عمیق و بافت آیه"></div>
+  </div>
+
+  <footer id="footer">
+    <span>بازیابی ترکیبی: BGE-M3 + FTS5</span>
+    <span>•</span>
+    <span id="footAccuracy">دقت داور: —</span>
+    <span>•</span>
+    <span id="footCost">هزینه نشست: $0.00</span>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

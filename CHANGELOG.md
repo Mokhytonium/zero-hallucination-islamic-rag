@@ -5,6 +5,38 @@
 
 ## [Unreleased]
 
+### Added — لایه‌ی ایجنت پژوهشگر مستند دینی (Agentic Grounded RAG)
+
+- **ارکستراتور ۳-hop** (`src/islamic_rag/agent/`): هسته‌ی بازیابی/داوری موجود به‌عنوان **ابزار** صدا زده می‌شود (دور ریخته نمی‌شود). Proof-Tree Decomposition (تجزیه‌ی گزاره به زیرپرسش‌های core/conditions/instance)، Gap-Filling، جست‌وجوی عامدانه‌ی شاهد مخالف/مقیّد (Counter-Evidence)، Citation Chaining (`get_verse_context` روی `prev_id`/`next_id`) و حافظه‌ی چند‌نوبتی. سقف سخت `agent_max_hops=3`.
+- **دو حالت اجرا:** `deep_research=false` (پیش‌فرض، سریع) = یک Planner + یک بازیابی RRF سبک + یک Judge + یک Reasoner، **بدون Gap-loop و بدون reranker**؛ `deep_research=true` (پژوهش عمیق) = ۳ hop + reranker سنگین روی اجتماع کاندیدها (~۸۰s CPU).
+- **کلاینت BYOK** (`src/islamic_rag/llm/`): `OpenAICompatClient` provider-agnostic (openrouter/google/openai)، کلید فقط از هدر `X-LLM-Key`، `SecretStr` با `repr=False`، `trust_env=False`، retry/backoff برای ۴۲۹/۵xx، usage logging. **runtime هرگز از کلید پروژه استفاده نمی‌کند**؛ کلید `.env` فقط مسیر eval/آفلاین. `sanitize.py`: `ArabicStrippingSanitizer` (حذف متن عربیِ تایپ‌شده توسط مدل) + `redact_secrets` (حذف الگوی کلید از خروجی/لاگ/خطا).
+- **رجیستری منابع منبع-agnostic** (`src/islamic_rag/sources/`): کلید = `records.source` (`"quran"`)، `doc_id = source:section:item` (`quran:{sura}:{aya}`)، پروتکل `Source` (search/get_context/hydrate/validate_ref/tier/external_url). سلسله‌مراتب معرفتی tier 1 (قرآن، حاکم) / tier 2 (حدیث، مبیّن/مخصّص). فعلاً فقط `QuranSource`؛ افزودن منبع = ثبت آداپتور بدون تغییر ارکستراتور/فرانت‌اند. **جایگاه آینده‌ی تفسیر:** `evidence_payload.tafsir_snippet: str|null = null` از همین حالا در قرارداد SSE (همیشه null؛ هیچ scrape/ترجمه انجام نشده).
+- **حافظه‌ی session** (`src/islamic_rag/session/store.py`): `data/sessions.db` پیام‌ها + شواهد + meta را per session نگه می‌دارد؛ hop بعدی تاریخچه را در context دارد.
+- **روتر SSE** (`web/api_agent.py`): `POST /api/agent/chat` → `text/event-stream` با ۸ رویداد (`session`/`thinking_step`/`evidence_payload`/`text_delta`/`ref_rejected`/`cost`/`done`/`error`). کار سنگین زیر `INFER_LOCK` مشترک (`web/runtime.py`) در `run_in_executor`؛ لغو با `threading.Event` هنگام قطع کلاینت. endpointهای sessions/providers. endpointهای پژوهشی موجود (`/api/verse`/`concordance`/`status`/`translators`/`eval`) دست‌نخورده.
+- **رابط React** (`web/frontend/`): React 18 + Vite 5 + TypeScript 5.5 + Tailwind 3 + zustand 4 + vitest 2. جایگزین vanilla (که به‌عنوان fallback وقتی `dist/` ساخته نشده باقی می‌ماند). تم روشن/گرم/RTL (`#F9F8F6`/`#FFFFFF`/`#272932`)، Vazirmatn + Amiri. اجزا: Sidebar، ThinkingAccordion، InlineCitationCard/CitationChip (popover «نقش در استدلال» + tafsir_snippet)، EvidenceDrawer، Composer (سوئیچ سریع/عمیق، لغو SSE)، SettingsPanel (BYOK masked). **پارسر REF تگ را across-packet بافر می‌کند** تا `[[REF:…]]` خام هرگز لحظه‌ای چشمک نزند؛ رندر فقط از evidence dictionary.
+- **تست‌ها:** ۹۶ تست بک‌اند (`test_agent_orchestrator`/`test_agent_refs`/`test_api_agent`/`test_judge_client`/`test_llm_client`/`test_retrieve_sources`/`test_sanitize`/`test_session_store`/`test_sources_registry`) + ۲۵ تست فرانت‌اند (refs ۸/helpers ۷/store ۶/App jsdom ۴). `ruff` پاک.
+- **مستندات:** `docs/agentic-rag.md` (سند کامل لایه‌ی ایجنت)؛ هم‌گام‌سازی README/architecture/roadmap/tech-stack.
+
+### Changed — refactor افزودنی هسته (امضاها و خروجی ثابت)
+
+- `pipeline.py`: `answer()` به چهار مرحله‌ی `retrieve_stage`/`judge_stage`/`hydrate_stage`/`build_meta` تفکیک شد؛ امضا و شکل خروجی ثابت ماند تا eval/کش/endpoint قدیمی نشکنند. `_hydrate`/`_verse_view`/`_config_signature` حفظ شدند.
+- `judge.py`: `call_judge` دو پارامتر افزودنی `client` (BYOK) و `enforce_budget` گرفت (runtime ایجنت `False`، eval/آفلاین `True`). `client=None` → مسیر OpenRouter پیشین دست‌نخورده. **`SYSTEM_PROMPT` و `CONTEXT_RULE` بایت‌به‌بایت ثابت ماندند** (هش در `_config_signature`). لاگ تشخیصیِ redacted هنگام پارس خالی.
+- `retrieve.py`: `hybrid_candidates` فیلتر `sources` (روی `records.source` پس از fusion) + فیلد `Candidate.source` گرفت.
+- `settings.py`: فیلدهای `sessions_db_path`، `agent_max_hops=3`، `hop_retrieval_pool=40`، `hop_top_k=8`، `agent_prompt_version`.
+
+### Fixed — چهار باگ هسته‌ی استدلال (یافت‌شده در QA زنده با کلید BYOK)
+
+- **جای خالی به‌جای `[[REF:…]]` + سبد خالی:** گاردریل سبد خالی در `orchestrator.py` — اگر پس از Judge لیست evidence خالی باشد، **Reasoner اصلاً صدا زده نمی‌شود** و پیام صادقانه‌ی «هیچ آیه‌ی تأییدشده‌ای در پایگاه داده برای این گزاره یافت نشد.» برگردانده می‌شود. `refs.clean_answer` جمله‌به‌جمله (`[.!?؟\n]`) هر جمله‌ی حاوی تگ خارج از `approved_ids` را **کامل حذف** می‌کند (نه فقط تگ) تا جای خالی باقی نماند.
+- **قفل grounding:** بند `GROUNDING LOCK — NO EXTERNAL KNOWLEDGE` به `REASONER_SYSTEM_PROMPT` افزوده شد: «تفسیر، فقه یا روایاتی که در لیست EVIDENCE نیستند را مطلقاً نیاور. تنها و تنها ترجمه آیات موجود در EVIDENCE را به هم پیوند بده و هر جمله استدلالی باید مستقیماً از متن همان آیه استخراج شده باشد.» عبارت‌های «بر اساس برخی تفاسیر»/«در روایات آمده» ممنوع.
+- **سرعت حالت سریع (۴۹٫۶s → هدف زیر ۶–۸s):** مسیر `deep_research=false` به یک Planner + یک بازیابی + یک Judge + یک Reasoner محدود شد (بدون Gap-loop/reranker)؛ رفت‌وبرگشت LLM ~۶→۳ و بازیابی‌ها ~۵→۱. فقط `deep_research=true` از ۳ hop و reranker استفاده می‌کند.
+- **حذف کلیشه‌گویی:** بند `STYLE — NO CLICHÉS` مقدمه/نتیجه‌ی کلیشه‌ای («در قرآن کریم، اصل بر…»، «به طور خلاصه…»، «در نتیجه…») را ممنوع و معرفی دقیق هر آیه را با نمونه‌ی «قرآن در ماجرای اکراه بر کفر می‌فرماید: [[REF:quran:16:106]]» جایگزین کرد.
+
+### Notes — راستی‌آزمایی صادقانه (اندازه‌گیری‌شده، نه ادعا)
+
+- تضمین ۰٪ فقط برای **متن و انتساب scripture** است (ساختاری، بایت‌دقیق از SQLite)؛ نثر استدلالی فارسی اندازه‌گیری می‌شود، ادعا نمی‌شود. تغییرات ساختاری (گاردریل سبد خالی، حذف جمله‌به‌جمله، محدودیت hop حالت سریع) با تست واحد اثبات شدند؛ انطباق مدل با قفل grounding/سبک دستور به LLM است و در اجرای زنده سنجیده می‌شود.
+- KPIهای هسته (`Recall@15` ۰٫۷۲۶۷، `MRR` ۰٫۵۵۴۴، دقت داور ۰٫۸۹۷۴، توهم متنی ۰٪ روی ۱۸۰ بررسی بایتی) چون ایجنت همان هسته را به‌عنوان ابزار صدا می‌زند برای مرحله‌ی بازیابی/داوری معتبر می‌مانند. **ارزیابی ایجنت در برابر تک‌مرحله‌ای روی دیتاست طلایی (فاز ۶) هنوز اجرا نشده** و هیچ عددی برای آن ادعا نمی‌شود.
+- **تشخیص باز (سبد خالیِ زنده):** کاربر گزارش داد همه‌ی پرسش‌های زنده پیام سبد خالی برمی‌گردانند. تشخیص آفلاین (کلید آفلاین، مدل پیش‌فرض) هسته را سالم اثبات کرد: بازیابی سبک ۸ کاندید/گزاره، داور واقعی ۶/۸ تأیید، مسیر client BYOK همان JSON درست، اجرای کامل `run_agent` → evidence پر و پاسخ معتبر با `[[REF:quran:17:23]]` (پیام سبد خالی ظاهر نشد). علت زنده به کلید/مدل/provider انتخابی کاربر یا صورت‌بندی گزاره (ردِ ادعای universal توسط داور سخت‌گیر) برمی‌گردد. لاگ تشخیصیِ redacted در `judge.py`/`orchestrator.py` افزوده شد؛ در انتظار یک اجرای زنده‌ی کاربر برای pinpoint. **هیچ اصلاح حدسی اعمال نشده است.**
+
 ### Added
 
 - پروپوزال فنی اصلی (`code_artifact.md`): معماری، الگوریتم، نقشه راه و KPIها.

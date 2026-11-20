@@ -17,10 +17,12 @@
 ## زبان و چارچوب
 
 - **زبان:** `Python 3.12`، مدیریت بسته و اجرا با [`uv`](https://docs.astral.sh/uv/).
-- **هسته:** `pydantic-settings` (پیکربندی و خواندن `.env`)، `httpx` (کلاینت OpenRouter)، `numpy` (جست‌وجوی برداری).
-- **وب:** `FastAPI` + `Jinja2` + JavaScript vanilla (رابط RTL، بدون فریم‌ورک سنگین). طراحی روشن بر پایه‌ی فایل مرجع کاربر: Vazirmatn (فارسی) + Amiri (متن عربی آیات)، شش نما (composer/pipeline/نتایج/drawer مطالعه/مجموعه پژوهش/روش و ارزیابی)، مقیاس یکپارچه‌ی ۱۲۰٪ (`html { zoom: 1.2 }`).
-- **کیفیت:** `pytest` (۴۷ آزمون) و `ruff` (lint).
-- **معماری:** RAG با تأکید بر «بازیابی» نه «تولید» — LLM فقط داور است و متن مقدس هرگز تولید نمی‌شود.
+- **هسته:** `pydantic-settings` (پیکربندی و خواندن `.env`)، `httpx` (کلاینت OpenAI-compatible/BYOK و OpenRouter)، `numpy` (جست‌وجوی برداری).
+- **وب (بک‌اند):** `FastAPI` + `Jinja2` (fallback) + روتر SSE ایجنت (`web/api_agent.py`، `asyncio.Queue` + `run_in_executor` + `INFER_LOCK` مشترک).
+- **وب (فرانت‌اند اصلی):** `React 18` + `Vite 5` + `TypeScript 5.5` + `Tailwind 3` + `zustand 4` (رابط RTL گفت‌وگوی ایجنت). طراحی روشن/گرم: پس‌زمینه `#F9F8F6`، کارت `#FFFFFF`، متن `#272932`؛ Vazirmatn (فارسی/UI) + Amiri (متن عربی آیات). استریم SSE با پارسر REFِ بافرشده (across-packet)، کارت استناد درون‌خطی بایت‌دقیق، کشوی شواهد، trace، سوئیچ سریع/پژوهش عمیق، BYOK در `sessionStorage`.
+- **وب (fallback):** JavaScript vanilla + `Jinja2` (رابط شش‌نمای مرجع، مقیاس ۱۲۰٪) وقتی `web/frontend/dist/` ساخته نشده باشد.
+- **کیفیت:** `pytest` (**۹۶ آزمون** بک‌اند) + `vitest` (**۲۵ آزمون** فرانت‌اند) و `ruff` (lint).
+- **معماری:** RAG با تأکید بر «بازیابی» نه «تولید» — متن مقدس هرگز تولید نمی‌شود. لایه‌ی ایجنت (ارکستراتور ۳-hop) هسته را به‌عنوان ابزار صدا می‌زند؛ LLM داور است و در لایه‌ی ایجنت additionally نثر فارسی فقط با `[[REF:doc_id]]` می‌نویسد (سرور scriptureِ تایپ‌شده/تگ نامعتبر را حذف می‌کند). جزئیات در [`agentic-rag.md`](agentic-rag.md).
 
 ## مدل امبدینگ
 
@@ -60,8 +62,9 @@
 
 ## مدل زبانی داور
 
-**انتخاب قطعی:** `google/gemini-2.5-flash-lite` از طریق OpenRouter.
+**انتخاب قطعی:** `google/gemini-2.5-flash-lite` (مدل پیش‌فرض openrouter).
 
+- **دو مسیر کلید:** (الف) **eval/آفلاین** از `settings.openrouter_api_key` (`.env`) با `enforce_budget=True`؛ (ب) **runtime ایجنت (BYOK)** از `OpenAICompatClient` با کلید هدر `X-LLM-Key` و `enforce_budget=False` (سقف بودجه‌ی پروژه روی کلید کاربر اعمال نمی‌شود). providerها: `openrouter`/`google`/`openai` (OpenAI-compatible). `call_judge(client=..., enforce_budget=...)`؛ `client=None` مسیر OpenRouter پیشین را حفظ می‌کند. `SYSTEM_PROMPT` بایت‌به‌بایت ثابت است.
 - **نقش:** فقط طبقه‌بندی کاندیدها (۵ برچسب)، نه تولید متن؛ لیست سفید شناسه‌ها اعمال می‌شود.
 - **دما:** `0.0`، `max_tokens=2500`، `response_format={"type":"json_object"}`.
 - **پرامپت:** variant M پس از ۶ دور A/B کنترل‌شده روی کاندیدهای یکسان (`eval/judge_ab.py`)؛ دقت برچسب زیرمجموعه‌ی دشوار ۰٫۶۳۶۴ → ۰٫۹۰۹۱ (**روی payload آزمایش A/B**). دقت برچسب **تولیدی** ۰٫۳٫۲ روی ۳۹ گزاره: **۰٫۸۹۷۴** (`eval/report.json`)؛ دو تله‌ی شأن نزول (id36/id39) در تولید هنوز تأیید نادرست دارند و برچسبشان به payload حساس است ([`evaluation.md`](evaluation.md) «حساسیت داور به payload»). اصول کلیدی: دروازه‌ی موضوع، شمای «استدلال اول، برچسب بعد»، مرز ادعای عام با مثال کارشده، اولویت نهی‌مستقیم/محدودیت‌دامنه، استدلال فارسی. هش پرامپت در امضای کش است تا تغییر پرامپت، حکم‌های قبلی را سرو نکند.
@@ -93,7 +96,13 @@
 | دیتابیس برداری | `SQLite` + `numpy` cosine | قطعی در مقیاس قرآن؛ بازبینی برای الکافی |
 | Sparse | `FTS5` (BM25) + نرمال‌سازی اختصاصی | قطعی |
 | بازرتبه‌بند | `BAAI/bge-reranker-v2-m3` محلی CPU | قطعی (اندازه‌گیری‌شده) |
-| داور | `gemini-2.5-flash-lite` via OpenRouter، T=0، پرامپت M | قطعی (۶ دور A/B) |
+| داور | `gemini-2.5-flash-lite` (پیش‌فرض)، T=0، پرامپت M؛ eval=OpenRouter / runtime=BYOK | قطعی (۶ دور A/B) |
+| لایه‌ی ایجنت | ارکستراتور ۳-hop (سریع=۱ hop بدون reranker / عمیق=۳ hop + reranker) | قطعی؛ eval روی طلایی **[باز]** |
+| کلید runtime | BYOK (`X-LLM-Key`)، provider openrouter/google/openai، `SecretStr` + sanitize | قطعی |
+| رجیستری منابع | `SourceRegistry` منبع-agnostic (`doc_id=source:section:item`، tier)؛ فعلاً قرآن | قطعی؛ حدیث/تفسیر **[باز]** |
+| فرانت‌اند | `React 18` + `Vite 5` + `TS 5.5` + `Tailwind 3` + `zustand 4` (SSE، REF بافرشده) | قطعی؛ vanilla fallback |
+| حافظه‌ی گفت‌وگو | `data/sessions.db` (session/message/evidence) | قطعی |
 | NLI | مدل کوچک به‌عنوان پیش‌فیلتر | **[باز]** |
-| کش | کش دقیق آگاه از پیکربندی | قطعی؛ کش معنایی **[باز]** |
+| کش | کش دقیق آگاه از پیکربندی (هسته)؛ ایجنت کش نمی‌شود | قطعی؛ کش معنایی **[باز]** |
 | آستانه‌ی شباهت | RRF وزن‌دار + رتبه‌بند (بدون آستانه‌ی ثابت کسینوسی) | قطعی |
+| آزمون | `pytest` ۹۶ بک‌اند + `vitest` ۲۵ فرانت‌اند + `ruff` | قطعی |

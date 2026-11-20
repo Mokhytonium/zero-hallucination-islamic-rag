@@ -89,52 +89,33 @@ def _config_signature(settings: Settings) -> str:
     return hashlib.sha256(blob.encode("utf-8")).hexdigest()[:12]
 
 
-def answer(
+def retrieve_stage(settings: Settings, statement: str) -> tuple[list[Candidate], float]:
+    t = time.perf_counter()
+    candidates = hybrid_candidates(settings, statement, k=settings.top_k)
+    return candidates, time.perf_counter() - t
+
+
+def judge_stage(
     settings: Settings,
     statement: str,
-    use_judge: bool = True,
-    judge_model: str | None = None,
-    use_reranker: bool | None = None,
-) -> dict:
-    t0 = time.perf_counter()
-    if use_reranker is not None and use_reranker != settings.use_reranker:
-        settings = settings.model_copy(update={"use_reranker": use_reranker})
-    judge_model = judge_model or settings.judge_model
-    qn = normalize(statement)
-    query_hash = hashlib.sha256(qn.encode("utf-8")).hexdigest()
-    version_key = (
-        f"{PIPELINE_VERSION}:{_config_signature(settings)}"
-        + ("" if use_judge else ":nojudge"),
-        settings.embed_model,
-        judge_model,
-    )
-
-    con = store.connect(settings.db_path)
-    cached = store.cache_get(con, query_hash, version_key)
-    if cached:
-        con.close()
-        result = json.loads(cached)
-        result["cached"] = True
-        return result
-
-    t_retr = time.perf_counter()
-    candidates = hybrid_candidates(settings, statement, k=settings.top_k)
-    retrieval_s = time.perf_counter() - t_retr
-    if not candidates:
-        result = {"status": "no_match", "statement": statement, "sections": {}}
-        store.cache_set(con, query_hash, version_key, json.dumps(result, ensure_ascii=False))
-        con.close()
-        return result
-
-    judged = candidates[: settings.max_candidates_per_source]
+    judged: list[Candidate],
+    use_judge: bool,
+    judge_model: str,
+    client=None,
+    enforce_budget: bool = True,
+) -> tuple[dict, dict, str | None, bool, float]:
     reasons: dict[str, str] = {}
+    labels: dict[str, str] = {}
     judge_error: str | None = None
     judge_partial = False
     judge_s = 0.0
     if use_judge:
         t_j = time.perf_counter()
         try:
-            verdicts = call_judge(settings, statement, judged, model=judge_model)
+            verdicts = call_judge(
+                settings, statement, judged, model=judge_model,
+                client=client, enforce_budget=enforce_budget,
+            )
         except Exception as exc:
             verdicts = []
             judge_error = f"{type(exc).__name__}: {exc}"
@@ -157,7 +138,12 @@ def answer(
                 )
     if not use_judge or (judge_error is not None and not judge_partial):
         labels = {c.id: "Unverified" for c in judged}
+    return labels, reasons, judge_error, judge_partial, judge_s
 
+
+def hydrate_stage(
+    con, judged: list[Candidate], labels: dict, reasons: dict, settings: Settings
+) -> dict[str, list]:
     sections: dict[str, list] = {"main": [], "supporting": [], "opposing": [], "unverified": []}
     for cand in judged:
         label = labels.get(cand.id)
@@ -166,27 +152,88 @@ def answer(
         sections[_SECTION_OF[label]].append(
             _hydrate(con, cand, label, settings, reasons.get(cand.id, ""))
         )
+    return sections
 
+
+def build_meta(
+    settings: Settings,
+    judged: list[Candidate],
+    use_judge: bool,
+    judge_model: str,
+    judge_error: str | None,
+    judge_partial: bool,
+    retrieval_s: float,
+    judge_s: float,
+    t0: float,
+) -> dict:
+    return {
+        "candidates_considered": len(judged),
+        "judge_model": judge_model if use_judge and (judge_error is None or judge_partial) else None,
+        "judge_error": judge_error,
+        "embed_model": settings.embed_model,
+        "reranker": (
+            settings.reranker_model
+            if settings.use_reranker and reranker_available(settings)
+            else None
+        ),
+        "rerank_pool": settings.rerank_pool,
+        "translation": settings.primary_translation,
+        "latency_s": round(time.perf_counter() - t0, 2),
+        "retrieval_s": round(retrieval_s, 2),
+        "judge_s": round(judge_s, 2),
+    }
+
+
+def answer(
+    settings: Settings,
+    statement: str,
+    use_judge: bool = True,
+    judge_model: str | None = None,
+    use_reranker: bool | None = None,
+    client=None,
+    enforce_budget: bool = True,
+) -> dict:
+    t0 = time.perf_counter()
+    if use_reranker is not None and use_reranker != settings.use_reranker:
+        settings = settings.model_copy(update={"use_reranker": use_reranker})
+    judge_model = judge_model or settings.judge_model
+    qn = normalize(statement)
+    query_hash = hashlib.sha256(qn.encode("utf-8")).hexdigest()
+    version_key = (
+        f"{PIPELINE_VERSION}:{_config_signature(settings)}"
+        + ("" if use_judge else ":nojudge"),
+        settings.embed_model,
+        judge_model,
+    )
+
+    con = store.connect(settings.db_path)
+    cached = store.cache_get(con, query_hash, version_key)
+    if cached:
+        con.close()
+        result = json.loads(cached)
+        result["cached"] = True
+        return result
+
+    candidates, retrieval_s = retrieve_stage(settings, statement)
+    if not candidates:
+        result = {"status": "no_match", "statement": statement, "sections": {}}
+        store.cache_set(con, query_hash, version_key, json.dumps(result, ensure_ascii=False))
+        con.close()
+        return result
+
+    judged = candidates[: settings.max_candidates_per_source]
+    labels, reasons, judge_error, judge_partial, judge_s = judge_stage(
+        settings, statement, judged, use_judge, judge_model, client, enforce_budget
+    )
+    sections = hydrate_stage(con, judged, labels, reasons, settings)
     result = {
         "status": "ok",
         "statement": statement,
         "sections": sections,
-        "meta": {
-            "candidates_considered": len(judged),
-            "judge_model": judge_model if use_judge and (judge_error is None or judge_partial) else None,
-            "judge_error": judge_error,
-            "embed_model": settings.embed_model,
-            "reranker": (
-                settings.reranker_model
-                if settings.use_reranker and reranker_available(settings)
-                else None
-            ),
-            "rerank_pool": settings.rerank_pool,
-            "translation": settings.primary_translation,
-            "latency_s": round(time.perf_counter() - t0, 2),
-            "retrieval_s": round(retrieval_s, 2),
-            "judge_s": round(judge_s, 2),
-        },
+        "meta": build_meta(
+            settings, judged, use_judge, judge_model, judge_error, judge_partial,
+            retrieval_s, judge_s, t0,
+        ),
     }
     if judge_error is None:
         store.cache_set(con, query_hash, version_key, json.dumps(result, ensure_ascii=False))

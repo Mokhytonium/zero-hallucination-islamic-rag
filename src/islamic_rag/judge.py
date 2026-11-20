@@ -1,12 +1,16 @@
 import json
+import logging
 import re
 import time
 
 import httpx
 
 from . import store
+from .llm.sanitize import redact_secrets
 from .retrieve import Candidate
 from .settings import Settings
+
+_log = logging.getLogger("islamic_rag.judge")
 
 LABELS = {
     "Direct_Match",
@@ -158,23 +162,52 @@ def call_judge(
     purpose: str = "judge",
     system_prompt: str | None = None,
     include_context: bool = False,
+    client=None,
+    enforce_budget: bool = True,
 ) -> list[dict]:
     model = model or settings.judge_model
     con = store.connect(settings.db_path)
     try:
         valid_ids = {c.id for c in candidates}
         user = _build_user(con, statement, candidates, settings, include_context)
-        _guard(con, settings, model, est_tokens=len(user) // 3 + 400)
+        messages = [
+            {"role": "system", "content": system_prompt or SYSTEM_PROMPT},
+            {"role": "user", "content": user},
+        ]
+        if client is not None:
+            results: list[dict] = []
+            for _attempt in range(5):
+                res = client.complete(
+                    messages,
+                    temperature=0,
+                    max_tokens=_MAX_TOKENS,
+                    response_format={"type": "json_object"},
+                )
+                store.log_usage(
+                    con, res.model or model, purpose,
+                    res.prompt_tokens, res.completion_tokens, 0.0,
+                )
+                results = _parse(res.content, valid_ids)
+                if results:
+                    break
+                if _attempt == 0:
+                    _log.warning(
+                        "judge(client) parse empty: model=%s valid_ids=%s head=%r",
+                        res.model or model,
+                        sorted(valid_ids),
+                        redact_secrets(res.content[:500], ""),
+                    )
+                time.sleep(1)
+            return results
+        if enforce_budget:
+            _guard(con, settings, model, est_tokens=len(user) // 3 + 400)
 
         body = {
             "model": model,
             "temperature": 0,
             "max_tokens": _MAX_TOKENS,
             "response_format": {"type": "json_object"},
-            "messages": [
-                {"role": "system", "content": system_prompt or SYSTEM_PROMPT},
-                {"role": "user", "content": user},
-            ],
+            "messages": messages,
         }
         headers = {
             "Authorization": f"Bearer {settings.openrouter_api_key}",

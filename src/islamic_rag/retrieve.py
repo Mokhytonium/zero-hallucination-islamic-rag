@@ -41,6 +41,7 @@ class Candidate:
     translation_fa: str
     address: str
     metadata: dict
+    source: str = "quran"
     rrf_score: float = 0.0
     rerank_score: float | None = None
     signals: dict = field(default_factory=dict)
@@ -65,10 +66,18 @@ def _fts_query(text: str) -> str | None:
 
 
 def _merge_and_build(
-    con, ids: list[str], scores: dict, settings: Settings, contrib: dict | None = None
+    con,
+    ids: list[str],
+    scores: dict,
+    settings: Settings,
+    contrib: dict | None = None,
+    sources: list[str] | None = None,
 ) -> list[Candidate]:
     contrib = contrib or {}
     records = store.get_records(con, ids)
+    if sources:
+        allowed = set(sources)
+        ids = [rid for rid in ids if records.get(rid) and records[rid]["source"] in allowed]
     by_sura: dict[int, list] = {}
     for rid in ids:
         r = records.get(rid)
@@ -122,6 +131,7 @@ def _merge_and_build(
                 translation_fa=tr_text,
                 address=f"{meta.get('surah_name', '')} ({ref})",
                 metadata=meta,
+                source=first["source"] if "source" in first.keys() else "quran",  # noqa: SIM118 — Row needs .keys()
                 rrf_score=rrf,
                 signals=signals,
             )
@@ -131,7 +141,11 @@ def _merge_and_build(
 
 
 def hybrid_candidates(
-    settings: Settings, text: str, k: int | None = None, lexical_only: bool = False
+    settings: Settings,
+    text: str,
+    k: int | None = None,
+    lexical_only: bool = False,
+    sources: list[str] | None = None,
 ) -> list[Candidate]:
     k = k or settings.top_k
     pool = settings.retrieval_pool
@@ -181,13 +195,13 @@ def hybrid_candidates(
 
         if reranker_available(settings):
             pool_cands = _merge_and_build(
-                con, kept[: settings.rerank_pool], fused, settings, contrib
+                con, kept[: settings.rerank_pool], fused, settings, contrib, sources
             )
             candidates = rerank_candidates(settings, qn, pool_cands)[:k]
         else:
-            candidates = _merge_and_build(con, kept[:k], fused, settings, contrib)
+            candidates = _merge_and_build(con, kept[:k], fused, settings, contrib, sources)
     else:
-        candidates = _merge_and_build(con, kept[:k], fused, settings, contrib)
+        candidates = _merge_and_build(con, kept[:k], fused, settings, contrib, sources)
     con.close()
     return candidates
 

@@ -7,10 +7,13 @@
 قرآن کریم · نهج‌البلاغه · الکافی
 
 ![Status](https://img.shields.io/badge/status-Quran%20implemented-success)
-![Phase](https://img.shields.io/badge/pipeline-offline%20%2B%20online-blue)
+![Agent](https://img.shields.io/badge/agent-3--hop%20orchestrator-blue)
+![Pipeline](https://img.shields.io/badge/pipeline-offline%20%2B%20online-blue)
+![Frontend](https://img.shields.io/badge/frontend-React%20%2B%20TS%20%2B%20Tailwind-61dafb)
+![BYOK](https://img.shields.io/badge/keys-BYOK%20(runtime)-orange)
 ![Language](https://img.shields.io/badge/docs-Persian%20(fa)-green)
 ![Approach](https://img.shields.io/badge/retrieval-dual--vector%20%2B%20BM25%20hybrid-purple)
-![Hallucination](https://img.shields.io/badge/text%20hallucination-0%25%20(structural)-success)
+![Hallucination](https://img.shields.io/badge/scripture%20hallucination-0%25%20(structural)-success)
 
 </div>
 
@@ -43,6 +46,8 @@
 
 نقش LLM فقط یک **لایه‌ی داوری (Judge)** است: بررسی می‌کند که آیا سندِ استخراج‌شده از نظر *شأن نزول* و *جهت منطقی (نفی/اثبات)* واقعاً با ورودی کاربر هم‌خوانی دارد یا نه. این تفکیک، توهم متنی و آدرسی را عملاً به صفر می‌رساند.
 
+روی این هسته، یک **لایه‌ی ایجنت پژوهشگر (Agentic Grounded RAG)** ساخته شده است: ارکستراتوری با حداکثر ۳ hop که هسته‌ی بازیابی/داوری را **به‌عنوان ابزار** صدا می‌زند، گزاره را به زیرپرسش‌ها می‌شکند (Proof-Tree)، شکاف منطقی و شاهدِ مخالف/مقیّد را عامدانه جست‌وجو می‌کند، و پاسخ فارسی را با تگ درون‌خطی `[[REF:doc_id]]` استریم می‌کند. مدل **هرگز متن عربی را تایپ نمی‌کند**؛ هر استناد به یک کارتِ بایت‌دقیق از SQLite گره می‌خورد. کلید LLM در زمان اجرا **BYOK** است (کاربر کلید خودش را در UI وارد می‌کند؛ کلید پروژه فقط برای eval/آفلاین). جزئیات کامل در [`docs/agentic-rag.md`](docs/agentic-rag.md).
+
 ## مسئله
 
 هنگام نگارش یک متن یا مقاله، یافتن مستند دینی دقیق برای یک گزاره با چهار شکست رایج روبه‌روست:
@@ -62,15 +67,16 @@
 4. **بازرتبه‌بندی محلی (Cross-Encoder):** یک مدل `BGE-reranker-v2-m3` جفتِ «گزاره–آیه» را مستقیم امتیازدهی می‌کند تا خطای رتبه‌بندیِ بازیابی اولیه جبران شود — بدون توکن، روی CPU.
 5. **داوری هوشمند با دمای صفر:** یک LLM ناظر فقط شناسه‌ها را تأیید یا رد می‌کند (بدون تولید متن).
 6. **واکشی مستقیم (Hydration):** متن نهایی از دیتابیس خوانده و نمایش داده می‌شود.
+7. **ارکستراسیون ایجنت (لایه‌ی جدید):** هسته‌ی بالا به‌عنوان ابزار در یک حلقه‌ی حداکثر ۳ hop صدا زده می‌شود — تجزیه‌ی گزاره، پرکردن شکاف، جست‌وجوی شاهد مخالف/مقیّد و زنجیره‌ی استناد. حالت سریع (پیش‌فرض) بدون reranker و یک hop است؛ «پژوهش عمیق» reranker سنگین و ۳ hop را فعال می‌کند. نثر فارسی فقط با `[[REF:doc_id]]` استناد می‌دهد و سرور هر تگ نامعتبر را جمله‌به‌جمله حذف می‌کند.
 
 ## معماری کلی
 
 نظام به دو فاز کاملاً مستقل تقسیم می‌شود تا در زمان استفاده، هزینه‌ی توکن و تأخیر حداقل باشد:
 
 - **فاز آفلاین (یک‌بار اجرا):** پیش‌پردازش و نرمال‌سازی → اعتبارسنجی یکپارچگی متن → بردارسازی Dense (دو بردار عربی/فارسی) + ایندکس FTS5 → ذخیره در پایگاه داده‌ی منبع‌آگاه روی دیسک. (جداسازی سند و قطعه‌بندی با بافت تاریخی مربوط به منابع حدیثی آتی است.)
-- **فاز آنلاین (زمان اجرا):** ورودی کاربر → بررسی کش → بردارسازی Zero-LLM → بازیابی ترکیبی (Dense + FTS5 با فیوژن RRF) → کف نسبی + ادغام آیات → بازرتبه‌بندی محلی Cross-Encoder → داوری با LLM (T=0) → واکشی مستقیم از دیتابیس.
+- **فاز آنلاین (زمان اجرا):** دو مسیر دارد. (الف) **تک‌مرحله‌ای** (`pipeline.answer`): ورودی → کش → بردارسازی Zero-LLM → بازیابی ترکیبی (Dense + FTS5 با فیوژن RRF) → کف نسبی + ادغام آیات → بازرتبه‌بندی محلی Cross-Encoder → داوری (T=0) → واکشی مستقیم. (ب) **ایجنت** (`POST /api/agent/chat`، SSE): Planner → بازیابی سبک per-hop → Gap/Counter-Evidence → (در پژوهش عمیق) reranker سنگین → داوری با کلید BYOK → واکشی بایت‌دقیق → Reasoner که نثر فارسی را با `[[REF:doc_id]]` استریم می‌کند. هر دو مسیر متن scripture را فقط از دیتابیس می‌خوانند.
 
-> نمودار کامل معماری و جریان داده در [`docs/architecture.md`](docs/architecture.md) آمده است.
+> نمودار کامل معماری و جریان داده در [`docs/architecture.md`](docs/architecture.md) و لایه‌ی ایجنت در [`docs/agentic-rag.md`](docs/agentic-rag.md) آمده است.
 
 ## ساختار مخزن
 
@@ -88,15 +94,23 @@
 │   ├── store.py                  ← SQLite + FTS5 + بردارها + کش + هزینه
 │   ├── ingest.py                 ← ساخت پایگاه داده از دامپ‌های Tanzil
 │   ├── embeddings.py             ← بردارسازی محلی BGE-M3 (دو بردار ar/fa)
-│   ├── retrieve.py               ← بازیابی ترکیبی (Dense + BM25، RRF، ادغام آیات)
+│   ├── retrieve.py               ← بازیابی ترکیبی (Dense + BM25، RRF، ادغام آیات، فیلتر sources)
 │   ├── rerank.py                 ← بازرتبه‌بندی cross-encoder (BGE-reranker-v2-m3، محلی)
-│   ├── judge.py                  ← لایه داوری OpenRouter + گاردریل بودجه/شناسه
-│   ├── pipeline.py               ← کش → بازیابی → بازرتبه‌بندی → داوری → واکشی مستقیم
-│   └── cli.py                    ← فرمان‌های build/query/embed/cost
-├── web/                          ← رابط کاربری RTL (FastAPI + Jinja2 + JS vanilla)
-│   ├── app.py                    ← endpointهای API (جست‌وجو/status/translators/gold/eval/verse/concordance/cost)
-│   ├── templates/index.html      ← ساختار شش نما
-│   └── static/                   ← app.css (سیستم طراحی مرجع) + app.js (تعامل‌ها)
+│   ├── judge.py                  ← لایه داوری + گاردریل بودجه/شناسه (client BYOK یا OpenRouter)
+│   ├── pipeline.py               ← مراحل retrieve/judge/hydrate/build_meta + answer() تک‌مرحله‌ای
+│   ├── cli.py                    ← فرمان‌های build/query/embed/cost
+│   ├── llm/                      ← کلاینت BYOK OpenAI-compatible، providers، sanitize (ضد توهم/کلید)
+│   ├── sources/                  ← SourceRegistry منبع-agnostic (base/quran/registry)، tier معرفتی
+│   ├── agent/                    ← orchestrator (۳-hop)، tools، prompts، refs، trace
+│   └── session/                  ← store.py (data/sessions.db، حافظه‌ی چند‌نوبتی)
+├── web/                          ← رابط کاربری RTL (FastAPI)
+│   ├── app.py                    ← endpointهای API (status/translators/gold/eval/verse/concordance/cost)
+│   ├── api_agent.py              ← روتر SSE ایجنت (POST /api/agent/chat + sessions/providers)
+│   ├── runtime.py                ← settings + INFER_LOCK مشترک (محدودیت RAM)
+│   ├── frontend/                 ← React + Vite + TypeScript + Tailwind + zustand (رابط جدید)
+│   │   └── src/{components,lib,store}  ← کارت استناد درون‌خطی، کشو، trace، پارسر REF، SSE
+│   ├── templates/index.html      ← fallback vanilla (وقتی frontend/dist ساخته نشده)
+│   └── static/                   ← app.css + app.js (fallback قدیمی)
 ├── eval/                         ← ارزیابی
 │   ├── gold_quran.jsonl          ← ۵۰ گزاره‌ی تأییدشده با برچسب انتظار
 │   ├── run.py                    ← سنجش Recall/MRR/دقت داور/برابری بایتی
@@ -113,6 +127,7 @@
 │   └── quran.db                  ← پایگاه داده‌ی ساخته‌شده
 └── docs/
     ├── architecture.md           ← معماری کلان و تصمیم‌های طراحی
+    ├── agentic-rag.md            ← لایه‌ی ایجنت: ارکستراتور، BYOK، SSE، رجیستری، React
     ├── decisions.md              ← تصمیم‌های داده‌محور پیاده‌سازی قرآن
     ├── data-pipeline.md          ← مهندسی داده و ایندکسینگ آفلاین
     ├── retrieval-and-verification.md ← موتور بازیابی و لایه داوری
@@ -132,8 +147,8 @@
 # ۱) نصب وابستگی‌ها (هسته + ML + وب + توسعه)
 uv sync --extra ml --extra web --extra dev
 
-# ۲) کلید OpenRouter را در .env بگذارید (از .env.example کپی کنید)
-cp .env.example .env   # سپس OPENROUTER_API_KEY را تنظیم کنید
+# ۲) کلید OpenRouter را در .env بگذارید (فقط برای eval/آفلاین؛ runtime از BYOK استفاده می‌کند)
+cp .env.example .env   # سپس OPENROUTER_API_KEY را تنظیم کنید (اختیاری برای وب)
 
 # ۳) ساخت پایگاه داده از دامپ‌های SQL (۶۲۳۶ آیه، ۱۱۴ سوره، ۴ ترجمه)
 uv run islamic-rag build
@@ -149,26 +164,32 @@ bash data/models/dl_reranker.sh
 uv run islamic-rag query "صبر و شکیبایی" --lexical
 uv run islamic-rag query "صبر و شکیبایی" --judge
 
-# ۶) رابط کاربری RTL
-uv run uvicorn web.app:app --reload
+# ۶) ساخت رابط React (یک‌بار؛ خروجی در web/frontend/dist سرو می‌شود)
+cd web/frontend && npm install && npm run build && cd ../..
 
-# ۷) ارزیابی روی ۵۰ گزاره‌ی طلایی
+# ۷) وب‌اپ RTL (ایجنت SSE + endpointهای پژوهشی)
+uv run uvicorn web.app:app --host 127.0.0.1 --port 8000
+#     در UI، کلید BYOK خود را در تنظیمات وارد کنید (provider/model/key).
+#     کلید در sessionStorage می‌ماند و هرگز سمت سرور persist نمی‌شود.
+
+# ۸) ارزیابی روی ۵۰ گزاره‌ی طلایی (مسیر آفلاین؛ از کلید .env استفاده می‌کند)
 uv run python eval/run.py --retrieval-only   # بدون هزینه
 uv run python eval/run.py                    # با داور (هزینه‌ی ناچیز)
 uv run python eval/rerank_eval.py            # مقایسه‌ی بازیابی با/بدون بازرتبه‌بند
 uv run python eval/bench_reranker.py         # بنچمارک تأخیر رتبه‌بند روی CPU (اختیاری)
 
-# ۸) گزارش هزینه‌ی تجمعی API
+# ۹) گزارش هزینه‌ی تجمعی API
 uv run islamic-rag cost
 ```
 
-> داده‌ها (`data/`) و کلید (`.env`) عمداً git-ignored هستند. مدل‌های امبدینگ و بازرتبه‌بندی به‌صورت محلی اجرا می‌شوند؛ تنها لایه‌ی داوری از OpenRouter توکن مصرف می‌کند و یک سقف بودجه‌ی سخت (`budget_cap_usd`) از اتمام شارژ جلوگیری می‌کند.
+> داده‌ها (`data/`) و کلید (`.env`) عمداً git-ignored هستند. مدل‌های امبدینگ و بازرتبه‌بندی به‌صورت محلی اجرا می‌شوند. **در زمان اجرا (وب/ایجنت) کلید LLM فقط BYOK است** — از هدر `X-LLM-Key` می‌آید و هرگز در URL/body/SSE/لاگ نمی‌رود. کلید `.env` فقط مسیر eval/آفلاین را تغذیه می‌کند که یک سقف بودجه‌ی سخت (`budget_cap_usd`) دارد. وقتی `web/frontend/dist/` ساخته نشده باشد، وب به template قدیمی fallback می‌کند.
 
 ## مستندات
 
 | سند | موضوع |
 |-----|-------|
 | [architecture.md](docs/architecture.md) | تفکیک فاز آفلاین/آنلاین، جریان داده، تصمیم‌های طراحی |
+| [agentic-rag.md](docs/agentic-rag.md) | لایه‌ی ایجنت: ارکستراتور ۳-hop، BYOK، قرارداد SSE، رجیستری منابع، رابط React |
 | [decisions.md](docs/decisions.md) | تصمیم‌های داده‌محور پیاده‌سازی قرآن (اسکیما، مدل‌ها، مهاجرت) |
 | [data-pipeline.md](docs/data-pipeline.md) | منابع داده، نرمال‌سازی، تفکیک سند، چانکینگ، متادیتا |
 | [retrieval-and-verification.md](docs/retrieval-and-verification.md) | بازیابی ترکیبی RRF، کف نسبی، رتبه‌بند، داوری، واکشی |
@@ -187,12 +208,13 @@ uv run islamic-rag cost
 | ۴ | لایه داوری و گاردریل عدم توهم | ✅ انجام شد |
 | ۵ | ارزیابی و کالیبراسیون | ✅ انجام شد (۵۰ گزاره‌ی طلایی) |
 | ۶ | رابط کاربری و ورودی‌های طولانی | ✅ وب RTL + CLI؛ شکستن متون بلند آتی |
+| ۷ | لایه‌ی ایجنت (Agentic Grounded RAG) | ✅ ارکستراتور ۳-hop + BYOK + SSE + رجیستری + React؛ eval ایجنت روی طلایی (فاز ۶ نقشه) آتی |
 
 جزئیات وضعیت، کارهای باقی‌مانده و تصمیم‌های باز در [`docs/roadmap.md`](docs/roadmap.md).
 
 ## شاخص‌های کلیدی (KPIs)
 
-مقادیر زیر **اندازه‌گیری‌شده** روی ۵۰ گزاره‌ی دیتاست طلایی با پیکربندی تولیدی ۰٫۳٫۲ هستند (`eval/report.json` با بلوک `meta`؛ بازیابی: `eval/rerank_report_pool80.json`)، نه ادعا:
+مقادیر زیر **اندازه‌گیری‌شده** روی ۵۰ گزاره‌ی دیتاست طلایی با پیکربندی تولیدی ۰٫۳٫۲ هستند (`eval/report.json` با بلوک `meta`؛ بازیابی: `eval/rerank_report_pool80.json`)، نه ادعا. این اعداد مربوط به **هسته‌ی بازیابی/داوری** است؛ چون لایه‌ی ایجنت همان هسته را به‌عنوان ابزار صدا می‌زند، برای مرحله‌ی بازیابی/داوری معتبر می‌مانند. **ارزیابی ایجنت در برابر تک‌مرحله‌ای روی دیتاست طلایی هنوز اجرا نشده** و هیچ عددی برای آن ادعا نمی‌شود. آزمون‌های فعلی: **۹۶ تست بک‌اند** (`pytest`) و **۲۵ تست فرانت‌اند** (`vitest`) سبز، `ruff` پاک.
 
 | شاخص | مقدار اندازه‌گیری‌شده | یادداشت |
 |------|---------------------|---------|
@@ -212,7 +234,19 @@ uv run islamic-rag cost
 
 ## قابلیت‌های پژوهشی
 
-رابط کاربری و پایپلاین برای استفاده‌ی واقعی در پژوهش طراحی شده‌اند:
+رابط کاربری و پایپلاین برای استفاده‌ی واقعی در پژوهش طراحی شده‌اند. رابط اصلی جدید **React + TypeScript + Tailwind** است (گفت‌وگوی ایجنت با استریم SSE)؛ رابط vanilla شش‌نما به‌عنوان fallback وقتی `frontend/dist` ساخته نشده باقی می‌ماند.
+
+**لایه‌ی ایجنت (React):**
+
+- **گفت‌وگوی چند‌نوبتی:** تاریخچه‌ی session در `data/sessions.db` ماندگار است؛ پس از reload بازیابی می‌شود.
+- **استریم فکر و پاسخ:** `ThinkingAccordion` گام‌های واقعی ارکستراتور (planning/retrieval/gap/chain/final) را نشان می‌دهد و پس از پایان جمع می‌شود؛ نثر فارسی با `text_delta` استریم می‌شود.
+- **کارت استناد درون‌خطی:** هر `[[REF:doc_id]]` به یک کارت بایت‌دقیق (متن عربی + ترجمه + آدرس + لینک quran.com) تبدیل می‌شود؛ پارسر تگ را میان بسته‌های SSE بافر می‌کند تا تگ خام هرگز چشمک نزند. تگ بدون رکورد متناظر → نشان «ردشده»، نه متن جعلی.
+- **سوئیچ حالت سریع / پژوهش عمیق:** سریع (پیش‌فرض) بدون reranker و یک hop؛ عمیق ۳ hop + reranker سنگین (~۸۰s CPU) با نشانِ زمان تقریبی.
+- **BYOK:** provider/model/key در تنظیمات؛ کلید masked و فقط در `sessionStorage`، هرگز در تاریخچه/اکسپورت/سرور.
+- **کشوی شواهد:** آیات قبل/بعد، تعویض مترجم (`/api/translators` + `/api/verse`)، واژه‌یابی concordance، تاگل اعراب؛ `tafsir_snippet` جایگاه آینده (فعلاً null).
+- **گاردریل سبد خالی:** اگر داور هیچ آیه‌ای را تأیید نکند، Reasoner اصلاً صدا زده نمی‌شود و پیام صادقانه‌ی «هیچ آیه‌ی تأییدشده‌ای… یافت نشد» برمی‌گردد.
+
+**قابلیت‌های هسته/پژوهشی (مشترک):**
 
 - **بافت آیات:** هر نتیجه همراه با آیه‌ی پیشین و پسین (byte-exact از دیتابیس) نمایش داده می‌شود تا سیاقِ نزول دیده شود.
 - **استدلال داور:** دلیلِ متنیِ تأیید/رد هر کاندید در بخش بازشونده ثبت می‌شود.
@@ -242,7 +276,12 @@ uv run islamic-rag cost
 - [x] لایه داوری OpenRouter با گاردریل بودجه و لیست سفید شناسه
 - [x] دیتاست طلایی ۵۰ گزاره و هارنس ارزیابی
 - [x] رابط کاربری پژوهشی RTL بر پایه‌ی طراحی مرجع (شش نما، بافت، استدلال، واژه‌یابی، مجموعه/مقایسه، خروجی استنادی، پیوند quran.com، گذر QA جامع)
-- [ ] نهج‌البلاغه و الکافی (فازهای بعدی)
+- [x] لایه‌ی ایجنت: ارکستراتور ۳-hop (Proof-Tree/Gap/Counter-Evidence/Chaining)، حالت سریع/پژوهش عمیق
+- [x] کلاینت BYOK provider-agnostic + sanitizer ضد توهم/کلید + رجیستری منابع منبع-agnostic + حافظه‌ی session
+- [x] رابط React + Vite + TypeScript + Tailwind (استریم SSE، کارت استناد درون‌خطی، کشو، trace)
+- [x] چهار اصلاح هسته‌ی استدلال (گاردریل سبد خالی، قفل grounding، سرعت حالت سریع، حذف کلیشه) + ۹۶ تست بک‌اند / ۲۵ تست فرانت‌اند
+- [ ] ارزیابی ایجنت در برابر تک‌مرحله‌ای روی دیتاست طلایی (فاز ۶ — هنوز اجرا نشده)
+- [ ] نهج‌البلاغه و الکافی (فازهای بعدی؛ رجیستری آماده‌ی افزودن)
 
 ## مشارکت
 

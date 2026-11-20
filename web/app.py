@@ -14,13 +14,14 @@ from starlette.requests import Request
 from islamic_rag import store
 from islamic_rag.normalize import normalize
 from islamic_rag.pipeline import answer
-from islamic_rag.settings import ROOT, Settings
+from islamic_rag.settings import ROOT
+from web.api_agent import router as agent_router
+from web.runtime import INFER_LOCK as _INFER_LOCK
+from web.runtime import settings
 
 WEB_DIR = Path(__file__).resolve().parent
 EVAL_DIR = ROOT / "eval"
 templates = Jinja2Templates(directory=str(WEB_DIR / "templates"))
-settings = Settings()
-_INFER_LOCK = threading.Lock()
 
 _MEMORY_HINTS = ("1455", "pagefile", "memory", "allocate", "safetensors", "crossencoder")
 
@@ -46,17 +47,13 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Zero-Hallucination Islamic RAG — Quran", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(WEB_DIR / "static")), name="static")
+app.include_router(agent_router)
 
 
 class SearchBody(BaseModel):
     statement: str
     use_judge: bool = True
     use_reranker: bool | None = None
-
-
-@app.get("/", response_class=HTMLResponse)
-def index(request: Request):
-    return templates.TemplateResponse(request, "index.html", {})
 
 
 @app.post("/api/search")
@@ -296,3 +293,14 @@ def concordance(word: str):
             }
         )
     return {"word": token, "count": count, "samples": samples}
+
+
+# Serve the built React workbench at / when present; otherwise fall back to the
+# legacy template. All /api routes above are registered first and take precedence.
+FRONTEND_DIST = WEB_DIR / "frontend" / "dist"
+if FRONTEND_DIST.is_dir():
+    app.mount("/", StaticFiles(directory=str(FRONTEND_DIST), html=True), name="frontend")
+else:
+    @app.get("/", response_class=HTMLResponse)
+    def index(request: Request):
+        return templates.TemplateResponse(request, "index.html", {})

@@ -30,11 +30,20 @@ class Settings(BaseSettings):
     retrieval_pool: int = 150
     max_candidates_per_source: int = 12
 
+    agent_max_hops: int = 3
+    hop_retrieval_pool: int = 40
+    hop_top_k: int = 8
+    agent_prompt_version: str = "1"
+
     data_dir: Path = ROOT / "data"
 
     @property
     def db_path(self) -> Path:
         return self.data_dir / "quran.db"
+
+    @property
+    def sessions_db_path(self) -> Path:
+        return self.data_dir / "sessions.db"
 
     @property
     def raw_quran(self) -> Path:

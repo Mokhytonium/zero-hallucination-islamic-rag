@@ -97,20 +97,21 @@ def test_hop_cap_enforced(tmp_path, monkeypatch):
     s = _setup(tmp_path, monkeypatch)
     monkeypatch.setattr(orch, "retrieve_evidence", lambda *a, **k: [_cand()])
     client = FakeClient(gap={"next_queries": ["شاهد مخالف"], "chain_doc_ids": [], "done": False})
-    res, _emit = _run(s, client, deep_research=True)
+    res, _emit = _run(s, client)
     assert res["meta"]["hops_used"] == s.agent_max_hops == 3
     assert client.gap_calls == 2
 
 
-def test_fast_mode_single_hop_no_gap_loop(tmp_path, monkeypatch):
+def test_unified_path_runs_gap_loop(tmp_path, monkeypatch):
     s = _setup(tmp_path, monkeypatch)
     monkeypatch.setattr(orch, "retrieve_evidence", lambda *a, **k: [_cand()])
-    client = FakeClient(gap={"next_queries": ["شاهد مخالف"], "chain_doc_ids": [], "done": False})
+    client = FakeClient()  # gap detector reports done=True with no follow-up queries
     res, _emit = _run(s, client)
-    assert res["meta"]["deep_research"] is False
+    # One standard research path: the gap detector always runs, even when it stops early.
+    assert client.gap_calls == 1
     assert res["meta"]["hops_used"] == 1
-    assert client.gap_calls == 0
     assert client.reasoner_calls == 1
+    assert "deep_research" not in res["meta"]
 
 
 def test_rejected_label_excluded_from_evidence(tmp_path, monkeypatch):
@@ -135,7 +136,7 @@ def test_scripture_stripped_from_answer(tmp_path, monkeypatch):
     assert "[[REF:quran:2:255]]" in res["answer"]
 
 
-def test_deep_research_triggers_rerank(tmp_path, monkeypatch):
+def test_unified_path_triggers_rerank(tmp_path, monkeypatch):
     s = _setup(tmp_path, monkeypatch)
     monkeypatch.setattr(orch, "retrieve_evidence", lambda *a, **k: [_cand()])
     monkeypatch.setattr(orch, "reranker_available", lambda settings: True)
@@ -144,9 +145,8 @@ def test_deep_research_triggers_rerank(tmp_path, monkeypatch):
         orch, "rerank_candidates", lambda settings, q, cands: calls.append(q) or cands
     )
     client = FakeClient()
-    _run(s, client, deep_research=False)
-    assert calls == []
-    _run(s, client, deep_research=True)
+    _run(s, client)
+    # The single research path always reranks when the local model is available.
     assert len(calls) == 1
 
 

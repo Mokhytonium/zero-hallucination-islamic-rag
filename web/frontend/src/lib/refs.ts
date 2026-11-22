@@ -1,4 +1,4 @@
-import type { Segment } from "./types";
+import type { Segment } from "../types";
 
 const OPEN = "[[REF:";
 const CLOSE = "]]";
@@ -64,6 +64,29 @@ export class RefStreamParser {
 export function parseFull(text: string): Segment[] {
   const p = new RefStreamParser();
   return [...p.push(text), ...p.flush()];
+}
+
+/**
+ * Append freshly parsed segments to an existing list, merging adjacent text
+ * segments. The server streams the answer in fixed-size chunks, so a single
+ * word can arrive split across several `text_delta` packets ("هی" + "چ").
+ * Keeping those chunks as separate segments made the renderer put each packet
+ * in its own paragraph, breaking words and adding blank lines.
+ */
+export function appendSegments(existing: Segment[], incoming: Segment[]): Segment[] {
+  if (!incoming.length) return existing;
+  const out = existing.slice();
+  for (const seg of incoming) {
+    const last = out[out.length - 1];
+    if (seg.type === "text" && last?.type === "text") {
+      out[out.length - 1] = { type: "text", text: last.text + seg.text };
+    } else if (seg.type === "text" && !seg.text) {
+      continue;
+    } else {
+      out.push(seg);
+    }
+  }
+  return out;
 }
 
 export function segmentsToText(segments: Segment[]): string {

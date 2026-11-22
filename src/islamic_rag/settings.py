@@ -33,7 +33,7 @@ class Settings(BaseSettings):
     agent_max_hops: int = 3
     hop_retrieval_pool: int = 40
     hop_top_k: int = 8
-    agent_prompt_version: str = "1"
+    agent_prompt_version: str = "3"
 
     data_dir: Path = ROOT / "data"
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { RefStreamParser, parseFull, segmentsToText } from "./refs";
-import type { Segment } from "./types";
+import { RefStreamParser, appendSegments, parseFull, segmentsToText } from "./refs";
+import type { Segment } from "../types";
 
 function refText(segments: Segment[]): string {
   return segments.map((s) => (s.type === "text" ? s.text : "")).join("");
@@ -75,5 +75,34 @@ describe("RefStreamParser", () => {
     expect(parseFull("[[REF: quran:2:255 ]]")).toEqual([
       { type: "ref", docId: "quran:2:255" },
     ]);
+  });
+});
+
+describe("appendSegments", () => {
+  it("merges adjacent text packets so words are never split into paragraphs", () => {
+    const segs = appendSegments(
+      [{ type: "text", text: "هی" }],
+      [{ type: "text", text: "چ یک از این آیات" }]
+    );
+    expect(segs).toEqual([{ type: "text", text: "هیچ یک از این آیات" }]);
+  });
+
+  it("keeps refs as boundaries between text runs", () => {
+    const segs = appendSegments(
+      [{ type: "text", text: "متن " }],
+      [
+        { type: "ref", docId: "quran:2:255" },
+        { type: "text", text: " ادامه" },
+      ]
+    );
+    expect(segs).toEqual([
+      { type: "text", text: "متن " },
+      { type: "ref", docId: "quran:2:255" },
+      { type: "text", text: " ادامه" },
+    ]);
+  });
+
+  it("drops empty text packets", () => {
+    expect(appendSegments([], [{ type: "text", text: "" }])).toEqual([]);
   });
 });

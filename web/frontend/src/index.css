@@ -2,60 +2,119 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: light;
+@layer base {
+  :root {
+    --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
 }
 
-html,
-body,
-#root {
-  height: 100%;
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #ddd9d0;
+  border-radius: 999px;
+  transition: background-color 0.2s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c4bfb4;
 }
 
-body {
-  @apply bg-page text-ink font-sans antialiased;
-}
+/* ---------------------------------------------------------------------------
+ * Motion system
+ * Short, soft, single-direction movement. Everything reads as "settling into
+ * place" rather than sliding around. All keyframes use fill-mode `both` so a
+ * reduced-motion user still lands on the final state.
+ * ------------------------------------------------------------------------- */
 
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #b6b8ab transparent;
-}
-*::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-*::-webkit-scrollbar-thumb {
-  background: #b6b8ab;
-  border-radius: 20px;
-  border: 3px solid #f9f8f6;
-}
-
-:focus-visible {
-  outline: 2px solid #b6b8ab;
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-.quran-text {
-  @apply font-quran;
-  line-height: 2.1;
-}
-
-@keyframes drawer-in {
+@keyframes fadeIn {
   from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes softScale {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes drawerIn {
+  from {
+    opacity: 0;
+    transform: translateX(-22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes drawerOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
     transform: translateX(-16px);
-    opacity: 0;
   }
-  to {
-    transform: none;
-    opacity: 1;
-  }
-}
-.drawer-in {
-  animation: drawer-in 0.18s ease-out;
 }
 
-@keyframes fade-in {
+@keyframes menuIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes backdropIn {
   from {
     opacity: 0;
   }
@@ -63,8 +122,153 @@ body {
     opacity: 1;
   }
 }
-.fade-in {
-  animation: fade-in 0.18s ease-out;
+
+@keyframes backdropOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes modalOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(6px) scale(0.985);
+  }
+}
+
+@keyframes caretBlink {
+  0%,
+  45% {
+    opacity: 0.55;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 180% 0;
+  }
+  to {
+    background-position: -80% 0;
+  }
+}
+
+.animate-fade {
+  animation: fadeIn 0.28s ease-out backwards;
+}
+
+.animate-rise {
+  animation: riseIn 0.38s var(--ease-smooth) backwards;
+}
+
+.animate-pop {
+  animation: softScale 0.3s var(--ease-smooth) backwards;
+}
+
+.animate-drawer-in {
+  animation: drawerIn 0.34s var(--ease-smooth) backwards;
+}
+
+.animate-drawer-out {
+  animation: drawerOut 0.18s ease-in both;
+}
+
+.animate-menu {
+  transform-origin: bottom;
+  animation: menuIn 0.18s var(--ease-smooth) backwards;
+}
+
+.animate-backdrop-in {
+  animation: backdropIn 0.2s ease-out backwards;
+}
+
+.animate-backdrop-out {
+  animation: backdropOut 0.16s ease-in both;
+}
+
+.animate-modal-in {
+  animation: modalIn 0.28s var(--ease-smooth) backwards;
+}
+
+.animate-modal-out {
+  animation: modalOut 0.16s ease-in both;
+}
+
+/* Legacy class kept so older markup still animates. */
+.animate-reveal {
+  animation: riseIn 0.26s var(--ease-smooth) backwards;
+}
+
+/* Blinking caret shown at the end of a streaming answer. */
+.stream-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  margin-inline-start: 2px;
+  vertical-align: -0.15em;
+  border-radius: 1px;
+  background: currentColor;
+  animation: caretBlink 1s steps(1, end) infinite;
+}
+
+/* Three-dot "thinking" indicator before the first token arrives. */
+.typing-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: currentColor;
+  animation: breathe 1.2s ease-in-out infinite;
+}
+.typing-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.typing-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* Loading placeholder sheen. */
+.animate-shimmer {
+  background-image: linear-gradient(
+    90deg,
+    rgba(26, 25, 24, 0.04) 0%,
+    rgba(26, 25, 24, 0.01) 40%,
+    rgba(26, 25, 24, 0.04) 80%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -72,6 +276,10 @@ body {
   *::before,
   *::after {
     animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+  html {
+    scroll-behavior: auto;
   }
 }

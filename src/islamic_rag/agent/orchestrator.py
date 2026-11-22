@@ -92,7 +92,6 @@ def run_agent(
     client,
     message: str,
     *,
-    deep_research: bool = False,
     sources: list[str] | None = None,
     emit: Emit | None = None,
     history: list[dict] | None = None,
@@ -126,82 +125,64 @@ def run_agent(
     plan_subs = plan.get("subqueries", [])
     subqueries = [sq["query"] for sq in plan_subs if sq.get("query")] or [message]
 
-    if deep_research:
+    emit(
+        THINKING_STEP,
+        thinking_step(1, "retrieval", "بازیابی شواهد گام ۱", queries=subqueries),
+    )
+    for q in subqueries:
+        if cancelled():
+            break
+        add_pool(retrieve_evidence(settings, registry, q, sources=sources, light=True))
+
+    hop = 1
+    while hop < settings.agent_max_hops and not cancelled():
+        gap_user = json.dumps(
+            {"statement": message, "evidence": _pool_summaries(pool)}, ensure_ascii=False
+        )
+        gap = llm_json(GAP_SYSTEM_PROMPT, gap_user)
+        next_queries = [q for q in gap.get("next_queries", []) if q]
+        chain_ids = [d for d in gap.get("chain_doc_ids", []) if d]
+        if not next_queries and not chain_ids:
+            break
+        hop += 1
+        hops_used = hop
         emit(
             THINKING_STEP,
-            thinking_step(1, "retrieval", "بازیابی شواهد گام ۱", queries=subqueries),
+            thinking_step(
+                hop, "gap", "پرکردن شکاف منطقی و جست‌وجوی شاهد مخالف/مقیّد",
+                queries=next_queries,
+            ),
         )
-        for q in subqueries:
+        for q in next_queries:
             if cancelled():
                 break
             add_pool(retrieve_evidence(settings, registry, q, sources=sources, light=True))
-
-        hop = 1
-        while hop < settings.agent_max_hops and not cancelled():
-            gap_user = json.dumps(
-                {"statement": message, "evidence": _pool_summaries(pool)}, ensure_ascii=False
-            )
-            gap = llm_json(GAP_SYSTEM_PROMPT, gap_user)
-            next_queries = [q for q in gap.get("next_queries", []) if q]
-            chain_ids = [d for d in gap.get("chain_doc_ids", []) if d]
-            if not next_queries and not chain_ids:
-                break
-            hop += 1
-            hops_used = hop
-            emit(
-                THINKING_STEP,
-                thinking_step(
-                    hop, "gap", "پرکردن شکاف منطقی و جست‌وجوی شاهد مخالف/مقیّد",
-                    queries=next_queries,
-                ),
-            )
-            for q in next_queries:
-                if cancelled():
-                    break
-                add_pool(retrieve_evidence(settings, registry, q, sources=sources, light=True))
-            if chain_ids:
-                con = store.connect(settings.db_path)
-                try:
-                    for doc_id in chain_ids:
-                        if cancelled():
-                            break
-                        if not registry.validate_ref(con, doc_id):
-                            continue
-                        emit(
-                            THINKING_STEP,
-                            thinking_step(hop, "chain", "زنجیره‌ی استناد", detail=doc_id),
-                        )
-                        if doc_id not in pool:
-                            add_pool(_merge_and_build(con, [doc_id], {doc_id: 0.0}, settings))
-                        get_verse_context(settings, registry, doc_id)
-                finally:
-                    con.close()
-            if gap.get("done") and not next_queries:
-                break
-    else:
-        # Fast path: one planner + one RRF retrieval + one judge + one reasoner.
-        # No gap-loop and no reranker, to keep ordinary chat latency low.
-        core = next(
-            (sq["query"] for sq in plan_subs if sq.get("role") == "core" and sq.get("query")),
-            subqueries[0],
-        )
-        emit(
-            THINKING_STEP,
-            thinking_step(1, "retrieval", "بازیابی سریع شواهد (بدون reranker)", queries=[core]),
-        )
-        if not cancelled():
-            add_pool(retrieve_evidence(settings, registry, core, sources=sources, light=True))
+        if chain_ids:
+            con = store.connect(settings.db_path)
+            try:
+                for doc_id in chain_ids:
+                    if cancelled():
+                        break
+                    if not registry.validate_ref(con, doc_id):
+                        continue
+                    emit(
+                        THINKING_STEP,
+                        thinking_step(hop, "chain", "زنجیره‌ی استناد", detail=doc_id),
+                    )
+                    if doc_id not in pool:
+                        add_pool(_merge_and_build(con, [doc_id], {doc_id: 0.0}, settings))
+                    get_verse_context(settings, registry, doc_id)
+            finally:
+                con.close()
+        if gap.get("done") and not next_queries:
+            break
 
     emit(
         THINKING_STEP,
-        thinking_step(
-            hops_used,
-            "final",
-            "داوری نهایی و آماده‌سازی شواهد" + (" (پژوهش عمیق)" if deep_research else ""),
-        ),
+        thinking_step(hops_used, "final", "داوری نهایی و آماده‌سازی شواهد"),
     )
     candidates = list(pool.values())
-    if deep_research and candidates and reranker_available(settings):
+    if candidates and reranker_available(settings):
         candidates = rerank_candidates(settings, normalize(message), candidates)
     candidates = candidates[: settings.max_candidates_per_source]
 
@@ -252,7 +233,12 @@ def run_agent(
                 temperature=0,
                 max_tokens=2500,
             )
-            answer_text, rejected = clean_answer(res.content, valid_ids, key=key)
+            answer_text, rejected = clean_answer(
+                res.content,
+                valid_ids,
+                key=key,
+                translations={e["doc_id"]: e.get("translation_fa", "") for e in evidence},
+            )
             for doc_id in rejected:
                 emit(REF_REJECTED, {"doc_id": doc_id, "reason": "در فهرست شواهد تأییدشده نیست."})
         for chunk in chunk_text(answer_text):
@@ -265,7 +251,6 @@ def run_agent(
         "evidence": evidence,
         "meta": {
             "hops_used": hops_used,
-            "deep_research": deep_research,
             "candidates_considered": len(candidates),
             "latency_s": round(time.perf_counter() - t0, 2),
             "judge_model": client.model,

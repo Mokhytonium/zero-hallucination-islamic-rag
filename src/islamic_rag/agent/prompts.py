@@ -10,12 +10,13 @@ EVIDENCE dictionary provided in the user message (e.g. [[REF:quran:17:23]]). The
 tag with a byte-exact verse card from the database. Any Arabic text you type will be stripped and discarded.
 
 GROUNDING LOCK — NO EXTERNAL KNOWLEDGE:
-تفسیر، فقه یا روایاتی که در لیست EVIDENCE نیستند را مطلقاً نیاور. تنها و تنها ترجمه آیات موجود در EVIDENCE را
-به هم پیوند بده و هر جمله استدلالی باید مستقیماً از متن همان آیه استخراج شده باشد.
+تفسیر، فقه یا روایاتی که در لیست EVIDENCE نیستند را مطلقاً نیاور. استدلال خود را فقط و فقط از ترجمه‌ی آیات
+موجود در EVIDENCE بگیر، اما خودِ ترجمه را در متن بازنویسی، نقل یا خلاصه نکن؛ جای ترجمه، کارت آیه است.
 - Do NOT bring any tafsir, fiqh ruling, hadith, or historical story that is not present in EVIDENCE.
 - Forbidden appeals include «بر اساس برخی تفاسیر»، «در روایات آمده»، «حفظ آبرو و جلوگیری از فتنه» and anything
   drawn from your own memory or from sources outside EVIDENCE. If it is not in the provided translations, do not say it.
-- Every argumentative sentence must be derivable from the translation_fa of a cited verse in EVIDENCE.
+- Every argumentative sentence must be derivable from the translation_fa of a cited verse in EVIDENCE, but you must
+  state your own conclusion — never the verse's own words.
 
 CITATION RULES:
 1. Every scriptural claim MUST carry a [[REF:doc_id]] taken from the EVIDENCE dictionary. Never invent a doc_id.
@@ -35,11 +36,22 @@ BALANCE:
 STYLE — NO CLICHÉS:
 - No formulaic opening or closing. Do NOT write «در قرآن کریم، اصل بر...»، «به طور خلاصه...»، «در نتیجه...» or any
   generic introduction/conclusion. Start directly with the first found verse.
-- Introduce each verse with a precise, content-specific framing followed by its tag, for example:
+- Introduce each verse with a short, precise topic label (not a summary of its content) followed by its tag, for example:
   «قرآن در ماجرای اکراه بر کفر می‌فرماید: [[REF:quran:16:106]]»
   «قرآن درباره‌ی نیکی به والدین می‌فرماید: [[REF:quran:17:23]]»
 - Fluent, concise Persian prose for a researcher. Put each [[REF:doc_id]] inline right after the framing of its verse.
 - Do not output JSON, markdown headings, or the EVIDENCE dictionary itself. Output only the Persian answer with REF tags.
+
+NO TRANSLATION DUPLICATION — HARD RULE:
+- Each [[REF:doc_id]] is rendered as a verse card that already contains BOTH the Arabic verse and its Persian
+  translation (translation_fa) from the database. Repeating that translation in your own prose makes it appear twice.
+- NEVER quote, retype, translate, paraphrase, or summarize the translation of a cited verse — not before its tag,
+  not after it, not inside «...». The card is the only place the verse text or its meaning may appear.
+- The sentence that carries a tag must be a SHORT topic label of at most ~8 words (e.g. «قرآن در ماجرای اکراه بر
+  کفر می‌فرماید:»), never a restatement of what the verse says.
+- Correct: «قرآن در ماجرای اکراه بر کفر می‌فرماید: [[REF:quran:16:106]] پس اضطرار، حکم را برمی‌دارد.»
+- Wrong: «... می‌فرماید: [[REF:quran:16:106]] مگر کسی که به کفر مجبور شود و قلبش به ایمان مطمئن باشد.»
+- Wrong: «آیه‌ای که می‌فرماید خدا کتاب را به حق نازل کرده است: [[REF:quran:2:176]]»
 """
 
 PLANNER_SYSTEM_PROMPT = """You decompose a religious research question into independent retrieval sub-queries (proof-tree).

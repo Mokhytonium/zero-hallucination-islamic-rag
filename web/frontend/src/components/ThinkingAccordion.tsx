@@ -1,82 +1,66 @@
-import { useEffect, useState } from "react";
-import { cx } from "../lib/format";
-import type { ThinkingStep } from "../lib/types";
-import { Icon } from "./Icon";
+import React, { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
+import { ThinkingStep } from '../types';
+import { toPersianDigits } from '../lib/format';
 
-const PHASE_FA: Record<string, string> = {
-  planning: "طراحی پژوهش",
-  retrieval: "بازیابی",
-  gap: "پرکردن شکاف",
-  counter: "شاهد مخالف",
-  chain: "زنجیره‌ی استناد",
-  final: "مرحله‌ی نهایی",
-  judging: "داوری",
-  reasoning: "استدلال",
-};
+interface Props {
+  steps: ThinkingStep[];
+  meta?: {
+    hops: number;
+    latency: string;
+    verifiedCount: number;
+    modelName?: string;
+  };
+}
 
-export function ThinkingAccordion({
-  trace,
-  streaming,
-}: {
-  trace: ThinkingStep[];
-  streaming?: boolean;
-}) {
-  const [open, setOpen] = useState(true);
-
-  useEffect(() => {
-    if (!streaming) setOpen(false);
-  }, [streaming]);
-
-  if (!trace.length) return null;
-  const hops = Math.max(...trace.map((t) => t.hop));
+export const ThinkingAccordion: React.FC<Props> = ({ steps, meta }) => {
+  const [open, setOpen] = useState(false);
 
   return (
-    <div className="mb-3 rounded-xl border border-line bg-subtle/60">
+    <div className="mb-3">
       <button
         type="button"
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => setOpen(!open)}
         aria-expanded={open}
-        className="flex w-full items-center gap-2 px-3 py-2 text-sm text-secondary hover:text-ink"
+        className="inline-flex items-center gap-1.5 text-xs text-muted hover:text-ink transition-colors py-1"
       >
-        <Icon name="spark" className={cx("h-4 w-4", streaming ? "text-amber" : "text-indigo")} />
-        <span className="font-medium text-ink">مسیر پژوهش</span>
-        <span className="text-xs text-muted">
-          {trace.length} گام · {hops} hop
-        </span>
-        {streaming && (
-          <span className="flex items-center gap-1 text-xs text-amber">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-amber" />
-            در حال پژوهش
-          </span>
-        )}
-        <Icon
-          name="chevron"
-          className={cx("ms-auto h-4 w-4 transition-transform", open && "rotate-180")}
+        <ChevronDown
+          className={`w-3.5 h-3.5 transition-transform duration-300 ease-smooth ${
+            open ? 'rotate-0' : '-rotate-90'
+          }`}
         />
+        <span>
+          {meta
+            ? `مسیر استدلال (${toPersianDigits(meta.hops)} مرحله، ${toPersianDigits(
+                meta.verifiedCount
+              )} آیه، ${meta.latency})`
+            : 'مسیر استدلال'}
+        </span>
       </button>
-      {open && (
-        <ol className="space-y-2 border-t border-line px-3 py-2">
-          {trace.map((t, i) => (
-            <li key={i} className="flex gap-2 text-sm">
-              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-surface text-[11px] font-medium text-secondary ring-1 ring-line">
-                {t.hop}
-              </span>
-              <div className="min-w-0">
-                <p className="text-ink">
-                  {t.title}
-                  {t.phase && (
-                    <span className="ms-2 rounded bg-surface px-1.5 py-0.5 text-[11px] text-muted ring-1 ring-line">
-                      {PHASE_FA[t.phase] ?? t.phase}
-                    </span>
-                  )}
-                </p>
-                {t.detail && <p className="text-xs leading-6 text-secondary">{t.detail}</p>}
-                {t.queries && t.queries.length > 0 && (
-                  <div className="mt-1 flex flex-wrap gap-1">
-                    {t.queries.map((q, j) => (
+
+      <div
+        className={`grid transition-[grid-template-rows,opacity] duration-300 ease-smooth ${
+          open ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div className="mt-2 mr-2 pr-4 border-r border-hairlineStrong space-y-3 py-1">
+            {steps.map((step, idx) => (
+              <div
+                key={idx}
+                className={`text-xs space-y-1 ${open ? 'animate-rise' : ''}`}
+                style={open ? { animationDelay: `${idx * 45}ms` } : undefined}
+              >
+                <div className="font-medium text-ink">
+                  {toPersianDigits(step.hop)}. {step.title}
+                </div>
+                {step.detail && <p className="text-muted leading-5">{step.detail}</p>}
+                {step.queries && step.queries.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 pt-0.5">
+                    {step.queries.map((q, qIdx) => (
                       <span
-                        key={j}
-                        className="rounded-md bg-surface px-2 py-0.5 text-[11px] text-secondary ring-1 ring-line"
+                        key={qIdx}
+                        className="text-[11px] bg-parchment border border-hairline px-2 py-0.5 rounded text-inkSoft transition-colors duration-200 hover:border-hairlineStrong"
                       >
                         {q}
                       </span>
@@ -84,10 +68,10 @@ export function ThinkingAccordion({
                   </div>
                 )}
               </div>
-            </li>
-          ))}
-        </ol>
-      )}
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
-}
+};

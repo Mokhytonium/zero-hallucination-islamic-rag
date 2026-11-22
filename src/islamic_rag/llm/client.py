@@ -172,3 +172,26 @@ class OpenAICompatClient:
                 delta = choices[0].get("delta", {}).get("content")
                 if delta:
                     yield delta
+
+    def list_models(self) -> list[dict]:
+        """Fetch the provider's active model catalogue (GET /models). The BYOK key
+        travels only in the Authorization header; every error is redacted."""
+        key = self._key.get_secret_value()
+        try:
+            resp = httpx.get(
+                f"{self.base_url}/models",
+                headers=self._headers(),
+                timeout=self.timeout,
+                trust_env=False,
+            )
+        except httpx.HTTPError as exc:
+            raise RuntimeError(
+                f"دریافت لیست مدل‌ها ممکن نشد: {redact_secrets(str(exc), key)}"
+            ) from exc
+        if resp.status_code >= 400:
+            raise RuntimeError(f"لیست مدل‌ها HTTP {resp.status_code}: {_error_detail(resp, key)}")
+        data = resp.json()
+        items = data.get("data") if isinstance(data, dict) else data
+        if not isinstance(items, list):
+            return []
+        return [m for m in items if isinstance(m, dict)]

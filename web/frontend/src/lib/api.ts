@@ -1,4 +1,13 @@
-import type { Evidence, Provider, SessionSummary, ThinkingStep } from "./types";
+import type {
+  ConcordanceResponse,
+  Evidence,
+  MessageMeta,
+  ModelOption,
+  Provider,
+  ChatSession,
+  ThinkingStep,
+  VerseResponse,
+} from "../types";
 
 async function getJSON<T>(url: string): Promise<T> {
   const r = await fetch(url);
@@ -12,57 +21,45 @@ export interface StoredMessage {
   content: string;
   evidence: Evidence[];
   trace: ThinkingStep[];
-  meta: Record<string, unknown>;
+  meta: MessageMeta;
   created_at: string;
 }
 
 export interface SessionDetail {
-  session: SessionSummary;
+  session: ChatSession;
   messages: StoredMessage[];
 }
 
-export interface VerseBlock {
-  id: string;
-  address: string;
-  text_display: string;
-  translations: Record<string, string>;
-}
-
-export interface VerseResponse {
-  id: string;
-  ids: string[];
-  sura: number;
-  aya_start: number;
-  aya_end: number;
-  surah_name: string;
-  surah_name_en: string;
-  revelation_place?: string | null;
-  page?: number | null;
-  juz?: number | null;
-  text_display: string;
-  words: { word: string }[];
-  translations: Record<string, string>;
-  before: VerseBlock | null;
-  after: VerseBlock | null;
-}
-
-export interface ConcordanceResponse {
-  word: string;
-  count: number;
-  samples: { id: string; address: string }[];
+export interface ModelsResponse {
+  provider: string;
+  default_model: string;
+  models: ModelOption[];
 }
 
 export const fetchProviders = () =>
   getJSON<{ providers: Provider[] }>("/api/agent/providers").then((d) => d.providers);
 
 export const fetchSessions = () =>
-  getJSON<{ sessions: SessionSummary[] }>("/api/agent/sessions").then((d) => d.sessions);
+  getJSON<{ sessions: ChatSession[] }>("/api/agent/sessions").then((d) => d.sessions);
 
 export const fetchSessionDetail = (id: string) =>
   getJSON<SessionDetail>(`/api/agent/sessions/${id}`);
 
 export async function deleteSession(id: string): Promise<void> {
   await fetch(`/api/agent/sessions/${id}`, { method: "DELETE" });
+}
+
+/** Live model catalogue from the provider, fetched through the secure backend
+ * path. The BYOK key travels only in the X-LLM-Key header, never in the URL. */
+export async function fetchModels(provider: string, key: string): Promise<ModelsResponse> {
+  const r = await fetch(`/api/agent/models?provider=${encodeURIComponent(provider)}`, {
+    headers: { "X-LLM-Key": key },
+  });
+  if (!r.ok) {
+    const j = await r.json().catch(() => ({}));
+    throw new Error((j as { message?: string }).message || `HTTP ${r.status}`);
+  }
+  return r.json() as Promise<ModelsResponse>;
 }
 
 export const fetchTranslators = () =>

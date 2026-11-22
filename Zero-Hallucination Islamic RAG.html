@@ -1,0 +1,490 @@
+<html lang="en" dir="ltr"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zero-Hallucination RAG — Architecture Flowchart</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ivory: #F3F1EC;
+      --moss: #B6B8AB;
+      --smoke: #9FA3AD;
+      --garden: #E0DFD2;
+      --midnight: #3C3E4A;
+      --ivory-light: #FAF9F6;
+      --midnight-border: rgba(60, 62, 74, 0.16);
+      --shadow-soft: 0 10px 30px -6px rgba(60, 62, 74, 0.08);
+      --shadow-hover: 0 16px 36px -8px rgba(60, 62, 74, 0.14);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--ivory);
+      background-image: radial-gradient(rgba(60, 62, 74, 0.1) 1px, transparent 1px);
+      background-size: 24px 24px;
+      color: var(--midnight);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 20px;
+    }
+
+    .top-bar {
+      width: 100%;
+      max-width: 1440px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 0 8px;
+    }
+
+    .brand-title h1 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--midnight);
+      letter-spacing: -0.02em;
+    }
+
+    .brand-title span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--smoke);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .palette-pills {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--ivory-light);
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--midnight-border);
+    }
+
+    .swatch {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.64rem;
+      color: var(--midnight);
+      padding: 2px 4px;
+    }
+
+    .swatch-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1px solid rgba(60, 62, 74, 0.2);
+    }
+
+    /* Canvas Wrapper with clean boundary and scroll */
+    .canvas-container {
+      width: 100%;
+      max-width: 1440px;
+      background: rgba(243, 241, 236, 0.6);
+      border: 1px solid var(--midnight-border);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: var(--shadow-soft);
+      overflow-x: auto;
+    }
+
+    .board {
+      min-width: 1360px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: relative;
+    }
+
+    .swimlane {
+      position: relative;
+      border-radius: 18px;
+      padding: 36px 28px 24px;
+    }
+
+    .swimlane-offline {
+      background: rgba(224, 223, 210, 0.3);
+      border: 1.5px dashed var(--smoke);
+    }
+
+    .swimlane-online {
+      background: var(--ivory-light);
+      border: 1px solid var(--midnight-border);
+      box-shadow: 0 4px 20px rgba(60, 62, 74, 0.04);
+    }
+
+    .lane-badge {
+      position: absolute;
+      top: -12px;
+      left: 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 999px;
+      z-index: 5;
+    }
+
+    .badge-offline { background: var(--garden); color: var(--midnight); border: 1px solid var(--moss); }
+    .badge-online { background: var(--midnight); color: var(--ivory); }
+
+    .svg-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .ltr-track {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+      position: relative;
+    }
+
+    .parallel-streams {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: rgba(243, 241, 236, 0.85);
+      border: 1px solid rgba(159, 163, 173, 0.3);
+      border-radius: 16px;
+      padding: 14px 16px;
+    }
+
+    .stream-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .node {
+      position: relative;
+      min-width: 135px;
+      max-width: 155px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      line-height: 1.3;
+      text-align: center;
+      box-shadow: var(--shadow-soft);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      user-select: none;
+    }
+
+    .node:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .node-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.75;
+    }
+
+    .theme-midnight { background: var(--midnight); color: var(--ivory); border: 1px solid var(--midnight); }
+    .theme-midnight .node-tag { color: var(--garden); }
+    .theme-moss { background: var(--moss); color: var(--midnight); border: 1px solid rgba(60, 62, 74, 0.15); }
+    .theme-smoke { background: var(--smoke); color: var(--ivory-light); border: 1px solid rgba(60, 62, 74, 0.15); }
+    .theme-smoke .node-tag { color: var(--ivory); }
+    .theme-garden { background: var(--garden); color: var(--midnight); border: 1px solid rgba(60, 62, 74, 0.15); }
+    .theme-ivory { background: var(--ivory); color: var(--midnight); border: 1.2px solid var(--moss); }
+    .theme-discard { background: rgba(243, 241, 236, 0.8); color: var(--smoke); border: 1.2px dashed var(--smoke); box-shadow: none; }
+
+    .port-in, .port-out {
+      position: absolute;
+      top: 50%;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--ivory-light);
+      border: 1.5px solid var(--midnight);
+      transform: translateY(-50%);
+      z-index: 3;
+    }
+    .port-in { left: -3px; }
+    .port-out { right: -3px; }
+    .theme-discard .port-in { border-color: var(--smoke); }
+  </style>
+</head>
+<body>
+
+  <header class="top-bar">
+    <div class="brand-title">
+      <h1>ZERO-HALLUCINATION RAG ARCHITECTURE</h1>
+      <span>Left-to-Right Optimized Flow</span>
+    </div>
+    <div class="palette-pills">
+      <div class="swatch"><span class="swatch-dot" style="background:#F3F1EC"></span>Ivory</div>
+      <div class="swatch"><span class="swatch-dot" style="background:#B6B8AB"></span>Moss</div>
+      <div class="swatch"><span class="swatch-dot" style="background:#9FA3AD"></span>Smoke</div>
+      <div class="swatch"><span class="swatch-dot" style="background:#E0DFD2"></span>Garden</div>
+      <div class="swatch"><span class="swatch-dot" style="background:#3C3E4A"></span>Midnight</div>
+    </div>
+  </header>
+
+  <div class="canvas-container">
+    <main class="board" id="board">
+
+      <!-- SWIMLANE 1 -->
+      <section class="swimlane swimlane-offline" id="lane-offline">
+        <div class="lane-badge badge-offline">01 / Offline Indexing Phase</div>
+        <svg class="svg-layer" id="svg-offline"><defs><marker id="arrow-off" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#3C3E4A"></path></marker></defs><path d="M 236.625 66.640625 C 321.25 66.640625, 321.25 136.921875, 405.875 136.921875" fill="none" stroke="#3C3E4A" stroke-width="1.75" stroke-opacity="0.5" marker-end="url(#arrow-off)"></path><path d="M 236.625 136.921875 C 321.25 136.921875, 321.25 136.921875, 405.875 136.921875" fill="none" stroke="#3C3E4A" stroke-width="1.75" stroke-opacity="0.5" marker-end="url(#arrow-off)"></path><path d="M 236.625 207.203125 C 321.25 207.203125, 321.25 136.921875, 405.875 136.921875" fill="none" stroke="#3C3E4A" stroke-width="1.75" stroke-opacity="0.5" marker-end="url(#arrow-off)"></path><path d="M 573.875 136.921875 C 658.5 136.921875, 658.5 136.921875, 743.125 136.921875" fill="none" stroke="#3C3E4A" stroke-width="1.75" stroke-opacity="0.5" marker-end="url(#arrow-off)"></path><path d="M 911.125 136.921875 C 995.75 136.921875, 995.75 136.921875, 1080.375 136.921875" fill="none" stroke="#3C3E4A" stroke-width="1.75" stroke-opacity="0.5" marker-end="url(#arrow-off)"></path></svg>
+
+        <div class="ltr-track" style="justify-content: space-around;">
+          <div class="col">
+            <div class="node theme-moss" id="off-quran">
+              <span class="node-tag">Corpus 01</span><span>Quran Dataset</span><span class="port-out"></span>
+            </div>
+            <div class="node theme-smoke" id="off-nahj">
+              <span class="node-tag">Corpus 02</span><span>Nahj al-Balagha</span><span class="port-out"></span>
+            </div>
+            <div class="node theme-garden" id="off-kafi">
+              <span class="node-tag">Corpus 03</span><span>Al-Kafi Hadith</span><span class="port-out"></span>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="node theme-ivory" id="off-prep" style="min-width: 165px;">
+              <span class="port-in"></span><span class="node-tag">Preprocessing</span><span>Chunking &amp; Metadata</span><span class="port-out"></span>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="node theme-garden" id="off-embed" style="min-width: 165px;">
+              <span class="port-in"></span><span class="node-tag">Dual Indexing</span><span>Embedding + BM25</span><span class="port-out"></span>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="node theme-midnight" id="off-vdb" style="min-width: 175px;">
+              <span class="port-in"></span><span class="node-tag">Storage</span><span>Vector DB (3 Collections)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SWIMLANE 2 -->
+      <section class="swimlane swimlane-online" id="lane-online">
+        <div class="lane-badge badge-online">02 / Online Runtime Phase</div>
+        <svg class="svg-layer" id="svg-online"><defs><marker id="arrow-on" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#3C3E4A"></path></marker></defs><defs><marker id="arrow-dash" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#9FA3AD"></path></marker></defs><path d="M 164 151.421875 C 176.5 151.421875, 176.5 151.421875, 189 151.421875" fill="none" stroke="#3C3E4A" stroke-width="1.75" stroke-opacity="0.5" marker-end="url(#arrow-on)"></path><path d="M 327 151.421875 C 339.5 151.421875, 339.5 151.421875, 352 151.421875" fill="none" stroke="#3C3E4A" stroke-width="1.75" stroke-opacity="0.5" marker-end="url(#arrow-on)"></path><path d="M 490 151.421875 C 511 151.421875, 511 81.140625, 532 81.140625" fill="none" stroke="#3C3E4A" stroke-width="1.75" stroke-opacity="0.5" marker-end="url(#arrow-on)"></path><path d="M 490 151.421875 C 511 151.421875, 511 151.421875, 532 151.421875" fill="none" stroke="#3C3E4A" stroke-width="1.75" stroke-opacity="0.5" marker-end="url(#arrow-on)"></path><path d="M 490 151.421875 C 511 151.421875, 511 221.703125, 532 221.703125" fill="none" stroke="#3C3E4A" stroke-width="1.75" stroke-opacity="0.5" marker-end="url(#arrow-on)"></path><path d="M 670 81.140625 C 680.5 81.140625, 680.5 81.140625, 691 81.140625" fill="none" stroke="#3C3E4A" stroke-width="1.75" stroke-opacity="0.5" marker-end="url(#arrow-on)"></path><path d="M 829 81.140625 C 839.5 81.140625, 839.5 81.140625, 850 81.140625" fill="none" stroke="#3C3E4A" stroke-width="1.75" stroke-opacity="0.5" marker-end="url(#arrow-on)"></path><path d="M 670 151.421875 C 680.5 151.421875, 680.5 151.421875, 691 151.421875" fill="none" stroke="#3C3E4A" stroke-width="1.75" stroke-opacity="0.5" marker-end="url(#arrow-on)"></path><path d="M 829 151.421875 C 839.5 151.421875, 839.5 151.421875, 850 151.421875" fill="none" stroke="#3C3E4A" stroke-width="1.75" stroke-opacity="0.5" marker-end="url(#arrow-on)"></path><path d="M 670 221.703125 C 680.5 221.703125, 680.5 221.703125, 691 221.703125" fill="none" stroke="#3C3E4A" stroke-width="1.75" stroke-opacity="0.5" marker-end="url(#arrow-on)"></path><path d="M 829 221.703125 C 839.5 221.703125, 839.5 221.703125, 850 221.703125" fill="none" stroke="#3C3E4A" stroke-width="1.75" stroke-opacity="0.5" marker-end="url(#arrow-on)"></path><path d="M 988 81.140625 C 1009 81.140625, 1009 151.421875, 1030 151.421875" fill="none" stroke="#3C3E4A" stroke-width="1.75" stroke-opacity="0.5" marker-end="url(#arrow-on)"></path><path d="M 988 151.421875 C 1009 151.421875, 1009 151.421875, 1030 151.421875" fill="none" stroke="#3C3E4A" stroke-width="1.75" stroke-opacity="0.5" marker-end="url(#arrow-on)"></path><path d="M 988 221.703125 C 1009 221.703125, 1009 151.421875, 1030 151.421875" fill="none" stroke="#3C3E4A" stroke-width="1.75" stroke-opacity="0.5" marker-end="url(#arrow-on)"></path><path d="M 1188 151.421875 C 1200.5 151.421875, 1200.5 104.28125, 1213 104.28125" fill="none" stroke="#3C3E4A" stroke-width="1.75" stroke-opacity="0.5" marker-end="url(#arrow-on)"></path><path d="M 1188 151.421875 C 1200.5 151.421875, 1200.5 198.5625, 1213 198.5625" fill="none" stroke="#9FA3AD" stroke-width="1.5" stroke-opacity="0.7" stroke-dasharray="4,4" marker-end="url(#arrow-dash)"></path></svg>
+
+        <div class="ltr-track">
+          <div class="col">
+            <div class="node theme-midnight" id="on-input">
+              <span class="node-tag">Step 01</span><span>Input Statement</span><span class="port-out"></span>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="node theme-garden" id="on-cache">
+              <span class="port-in"></span><span class="node-tag">Step 02</span><span>Normalize &amp; Cache</span><span class="port-out"></span>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="node theme-smoke" id="on-embed">
+              <span class="port-in"></span><span class="node-tag">Step 03</span><span>Dense Embedding</span><span class="port-out"></span>
+            </div>
+          </div>
+
+          <div class="parallel-streams">
+            <div class="stream-row">
+              <div class="node theme-moss" id="q-search">
+                <span class="port-in"></span><span class="node-tag">Quran</span><span>Hybrid Search</span><span class="port-out"></span>
+              </div>
+              <div class="node theme-ivory" id="q-gate">
+                <span class="port-in"></span><span class="node-tag">&gt; 0.80</span><span>Similarity Gate</span><span class="port-out"></span>
+              </div>
+              <div class="node theme-moss" id="q-merge">
+                <span class="port-in"></span><span class="node-tag">Top-3</span><span>Verse Merger</span><span class="port-out"></span>
+              </div>
+            </div>
+
+            <div class="stream-row">
+              <div class="node theme-smoke" id="n-search">
+                <span class="port-in"></span><span class="node-tag">Nahj</span><span>Hybrid Search</span><span class="port-out"></span>
+              </div>
+              <div class="node theme-ivory" id="n-gate">
+                <span class="port-in"></span><span class="node-tag">&gt; 0.80</span><span>Similarity Gate</span><span class="port-out"></span>
+              </div>
+              <div class="node theme-smoke" id="n-mmr">
+                <span class="port-in"></span><span class="node-tag">Top-3</span><span>MMR Filter</span><span class="port-out"></span>
+              </div>
+            </div>
+
+            <div class="stream-row">
+              <div class="node theme-garden" id="k-search">
+                <span class="port-in"></span><span class="node-tag">Al-Kafi</span><span>Hybrid Search</span><span class="port-out"></span>
+              </div>
+              <div class="node theme-ivory" id="k-gate">
+                <span class="port-in"></span><span class="node-tag">&gt; 0.80</span><span>Similarity Gate</span><span class="port-out"></span>
+              </div>
+              <div class="node theme-garden" id="k-isnad">
+                <span class="port-in"></span><span class="node-tag">Top-3</span><span>MMR + Isnad</span><span class="port-out"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="node theme-midnight" id="on-judge" style="min-width: 155px; padding: 16px 14px;">
+              <span class="port-in"></span><span class="node-tag">Temp 0.0</span><span>LLM Judge (Stance)</span><span class="port-out"></span>
+            </div>
+          </div>
+
+          <div class="col" style="gap: 36px;">
+            <div class="node theme-moss" id="on-fetch">
+              <span class="port-in"></span><span class="node-tag">Approved</span><span>Direct DB Fetch</span>
+            </div>
+            <div class="node theme-discard" id="on-discard">
+              <span class="port-in"></span><span class="node-tag">Rejected</span><span>Discarded</span>
+            </div>
+          </div>
+
+          <div class="col" style="gap: 14px; align-self: flex-start; margin-top: 6px;">
+            
+            
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    function createMarker(svg, id, color) {
+      const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+      const marker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
+      marker.setAttribute("id", id);
+      marker.setAttribute("viewBox", "0 0 10 10");
+      marker.setAttribute("refX", "7");
+      marker.setAttribute("refY", "5");
+      marker.setAttribute("markerWidth", "5");
+      marker.setAttribute("markerHeight", "5");
+      marker.setAttribute("orient", "auto-start-reverse");
+
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", "M 0 1.5 L 8.5 5 L 0 8.5 z");
+      path.setAttribute("fill", color);
+      marker.appendChild(path);
+      defs.appendChild(marker);
+      svg.appendChild(defs);
+    }
+
+    function connectNodes(svg, container, fromId, toId, options = {}) {
+      const fromEl = document.getElementById(fromId);
+      const toEl = document.getElementById(toId);
+      if (!fromEl || !toEl) return;
+
+      const cRect = container.getBoundingClientRect();
+      const fRect = fromEl.getBoundingClientRect();
+      const tRect = toEl.getBoundingClientRect();
+
+      const x1 = fRect.right - cRect.left;
+      const y1 = fRect.top + fRect.height / 2 - cRect.top;
+      const x2 = tRect.left - cRect.left - 3;
+      const y2 = tRect.top + tRect.height / 2 - cRect.top;
+
+      const dx = Math.abs(x2 - x1) * 0.5;
+      const d = `M ${x1} ${y1} C ${x1 + dx} ${y1}, ${x2 - dx} ${y2}, ${x2} ${y2}`;
+
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", d);
+      path.setAttribute("fill", "none");
+      path.setAttribute("stroke", options.dashed ? "#9FA3AD" : "#3C3E4A");
+      path.setAttribute("stroke-width", options.dashed ? "1.5" : "1.75");
+      path.setAttribute("stroke-opacity", options.dashed ? "0.7" : "0.5");
+      if (options.dashed) path.setAttribute("stroke-dasharray", "4,4");
+      path.setAttribute("marker-end", `url(#${options.markerId})`);
+      svg.appendChild(path);
+    }
+
+    function renderAllConnections() {
+      const svgOff = document.getElementById("svg-offline");
+      const laneOff = document.getElementById("lane-offline");
+      svgOff.innerHTML = "";
+      createMarker(svgOff, "arrow-off", "#3C3E4A");
+
+      connectNodes(svgOff, laneOff, "off-quran", "off-prep", { markerId: "arrow-off" });
+      connectNodes(svgOff, laneOff, "off-nahj", "off-prep", { markerId: "arrow-off" });
+      connectNodes(svgOff, laneOff, "off-kafi", "off-prep", { markerId: "arrow-off" });
+      connectNodes(svgOff, laneOff, "off-prep", "off-embed", { markerId: "arrow-off" });
+      connectNodes(svgOff, laneOff, "off-embed", "off-vdb", { markerId: "arrow-off" });
+
+      const svgOn = document.getElementById("svg-online");
+      const laneOn = document.getElementById("lane-online");
+      svgOn.innerHTML = "";
+      createMarker(svgOn, "arrow-on", "#3C3E4A");
+      createMarker(svgOn, "arrow-dash", "#9FA3AD");
+
+      connectNodes(svgOn, laneOn, "on-input", "on-cache", { markerId: "arrow-on" });
+      connectNodes(svgOn, laneOn, "on-cache", "on-embed", { markerId: "arrow-on" });
+
+      connectNodes(svgOn, laneOn, "on-embed", "q-search", { markerId: "arrow-on" });
+      connectNodes(svgOn, laneOn, "on-embed", "n-search", { markerId: "arrow-on" });
+      connectNodes(svgOn, laneOn, "on-embed", "k-search", { markerId: "arrow-on" });
+
+      connectNodes(svgOn, laneOn, "q-search", "q-gate", { markerId: "arrow-on" });
+      connectNodes(svgOn, laneOn, "q-gate", "q-merge", { markerId: "arrow-on" });
+
+      connectNodes(svgOn, laneOn, "n-search", "n-gate", { markerId: "arrow-on" });
+      connectNodes(svgOn, laneOn, "n-gate", "n-mmr", { markerId: "arrow-on" });
+
+      connectNodes(svgOn, laneOn, "k-search", "k-gate", { markerId: "arrow-on" });
+      connectNodes(svgOn, laneOn, "k-gate", "k-isnad", { markerId: "arrow-on" });
+
+      connectNodes(svgOn, laneOn, "q-merge", "on-judge", { markerId: "arrow-on" });
+      connectNodes(svgOn, laneOn, "n-mmr", "on-judge", { markerId: "arrow-on" });
+      connectNodes(svgOn, laneOn, "k-isnad", "on-judge", { markerId: "arrow-on" });
+
+      connectNodes(svgOn, laneOn, "on-judge", "on-fetch", { markerId: "arrow-on" });
+      connectNodes(svgOn, laneOn, "on-judge", "on-discard", { markerId: "arrow-dash", dashed: true });
+
+      connectNodes(svgOn, laneOn, "on-fetch", "out-primary", { markerId: "arrow-on" });
+      connectNodes(svgOn, laneOn, "on-fetch", "out-support", { markerId: "arrow-on" });
+    }
+
+    window.addEventListener("load", () => {
+      renderAllConnections();
+      setTimeout(renderAllConnections, 100);
+    });
+    window.addEventListener("resize", renderAllConnections);
+  </script>
+
+</body></html>

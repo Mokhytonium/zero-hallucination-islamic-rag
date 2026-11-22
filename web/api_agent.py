@@ -25,7 +25,6 @@ class AgentChatBody(BaseModel):
     sources: list[str] | None = None
     provider: str | None = None
     model: str | None = None
-    deep_research: bool = False
 
 
 def _sse(name: str, data: dict) -> str:
@@ -44,6 +43,81 @@ def providers():
             }
             for p in PROVIDERS.values()
         ]
+    }
+
+
+_RECOMMENDED_HINTS = (
+    "gemini-2.5-flash",
+    "gemini-2.5-pro",
+    "gpt-4o",
+    "claude-3",
+    "deepseek-chat",
+)
+
+
+def _context_label(value) -> str | None:
+    try:
+        n = int(value)
+    except (TypeError, ValueError):
+        return None
+    if n <= 0:
+        return None
+    if n >= 1_000_000:
+        return f"{n / 1_000_000:g}M"
+    return f"{round(n / 1000)}K"
+
+
+def _normalize_models(provider_id: str, raw: list[dict]) -> list[dict]:
+    out: list[dict] = []
+    for item in raw:
+        mid = item.get("id")
+        if not mid:
+            continue
+        mid = str(mid)
+        if provider_id == "google" and mid.startswith("models/"):
+            mid = mid[len("models/") :]
+        pricing = item.get("pricing") or {}
+        ctx = (
+            item.get("context_length")
+            or item.get("max_context_length")
+            or item.get("context_window")
+        )
+        out.append(
+            {
+                "id": mid,
+                "name": str(item.get("name") or item.get("display_name") or mid),
+                "provider": provider_id,
+                "contextLength": _context_label(ctx),
+                "isFree": mid.endswith(":free") or str(pricing.get("prompt", "")) == "0",
+                "recommended": any(h in mid for h in _RECOMMENDED_HINTS),
+            }
+        )
+    out.sort(key=lambda m: (not m["recommended"], m["name"].lower()))
+    return out
+
+
+@router.get("/models")
+def models(request: Request, provider: str | None = None):
+    key = request.headers.get("X-LLM-Key", "").strip()
+    if not key:
+        return JSONResponse(
+            {"status": "error", "code": "missing_key", "message": "کلید API وارد نشده است."},
+            status_code=400,
+        )
+    prov = resolve_provider(provider)
+    try:
+        client = OpenAICompatClient(key, prov.base_url, prov.default_model)
+        raw = client.list_models()
+    except ValueError as exc:
+        return JSONResponse({"status": "error", "message": str(exc)}, status_code=400)
+    except RuntimeError as exc:
+        return JSONResponse(
+            {"status": "error", "message": redact_secrets(str(exc), key)}, status_code=502
+        )
+    return {
+        "provider": prov.id,
+        "default_model": prov.default_model,
+        "models": _normalize_models(prov.id, raw),
     }
 
 
@@ -130,7 +204,7 @@ async def chat(body: AgentChatBody, request: Request):
             with INFER_LOCK:
                 result = run_agent(
                     settings, _registry, client, text,
-                    deep_research=body.deep_research, sources=body.sources,
+                    sources=body.sources,
                     emit=emit, history=history, cancel_event=cancel,
                 )
             con2 = ss.connect_sessions(settings.sessions_db_path)

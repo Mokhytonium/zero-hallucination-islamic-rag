@@ -97,3 +97,28 @@ def test_resolve_provider_defaults():
     assert resolve_provider(None).id == "openrouter"
     assert resolve_provider("google").base_url.endswith("/openai")
     assert resolve_provider("unknown").id == "openrouter"
+
+
+def test_list_models_returns_catalogue(monkeypatch):
+    payload = {"data": [{"id": "google/gemini-2.5-flash-lite"}, {"id": "openai/gpt-4o"}]}
+    calls = []
+
+    def fake_get(url, **kw):
+        calls.append((url, kw))
+        return httpx.Response(200, json=payload)
+
+    monkeypatch.setattr(client_mod.httpx, "get", fake_get)
+    models = _client().list_models()
+    assert [m["id"] for m in models] == ["google/gemini-2.5-flash-lite", "openai/gpt-4o"]
+    assert calls[0][0].endswith("/models")
+    assert calls[0][1]["trust_env"] is False
+    assert calls[0][1]["headers"]["Authorization"] == f"Bearer {KEY}"
+
+
+def test_list_models_error_redacts_key(monkeypatch):
+    bad = httpx.Response(401, json={"error": {"message": f"bad key {KEY}"}})
+    monkeypatch.setattr(client_mod.httpx, "get", lambda *a, **k: bad)
+    with pytest.raises(RuntimeError) as ei:
+        _client().list_models()
+    assert KEY not in str(ei.value)
+    assert "HTTP 401" in str(ei.value)

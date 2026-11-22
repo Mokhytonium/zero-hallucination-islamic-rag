@@ -1,3 +1,5 @@
+import json
+
 import pytest
 from fastapi.testclient import TestClient
 
@@ -88,13 +90,59 @@ def test_providers_endpoint(client):
     assert {"openrouter", "google", "openai"} <= ids
 
 
-def test_deep_research_flag_forwarded(client, monkeypatch):
+def test_chat_contract_has_no_mode_flag(client, monkeypatch):
     captured = {}
 
     def spy(settings, registry, client_, message, **kw):
-        captured["deep_research"] = kw.get("deep_research")
+        captured.update(kw)
         return fake_run_agent(settings, registry, client_, message, **kw)
 
     monkeypatch.setattr(api_agent, "run_agent", spy)
-    _stream(client, {"message": "صبر", "deep_research": True}, {"X-LLM-Key": KEY})
-    assert captured["deep_research"] is True
+    _stream(client, {"message": "صبر"}, {"X-LLM-Key": KEY})
+    assert "deep_research" not in captured
+
+
+def test_models_endpoint_normalizes(client, monkeypatch):
+    raw = [
+        {
+            "id": "google/gemini-2.5-flash-lite",
+            "name": "Gemini 2.5 Flash Lite",
+            "context_length": 1000000,
+            "pricing": {"prompt": "0.0000001"},
+        },
+        {
+            "id": "deepseek/deepseek-chat-v3:free",
+            "name": "DeepSeek V3",
+            "context_length": 128000,
+            "pricing": {"prompt": "0"},
+        },
+        {"id": "openai/gpt-4o", "name": "GPT-4o", "context_length": 128000},
+    ]
+    monkeypatch.setattr(api_agent.OpenAICompatClient, "list_models", lambda self: raw)
+    r = client.get("/api/agent/models?provider=openrouter", headers={"X-LLM-Key": KEY})
+    assert r.status_code == 200
+    data = r.json()
+    assert data["provider"] == "openrouter"
+    by_id = {m["id"]: m for m in data["models"]}
+    assert by_id["deepseek/deepseek-chat-v3:free"]["isFree"] is True
+    assert by_id["deepseek/deepseek-chat-v3:free"]["contextLength"] == "128K"
+    assert by_id["google/gemini-2.5-flash-lite"]["recommended"] is True
+    assert by_id["google/gemini-2.5-flash-lite"]["contextLength"] == "1M"
+    assert by_id["openai/gpt-4o"]["isFree"] is False
+    assert KEY not in json.dumps(data)
+
+
+def test_models_missing_key_rejected(client):
+    r = client.get("/api/agent/models?provider=openrouter")
+    assert r.status_code == 400
+    assert r.json()["code"] == "missing_key"
+
+
+def test_models_provider_error_redacts_key(client, monkeypatch):
+    def boom(self):
+        raise RuntimeError(f"provider rejected {KEY}")
+
+    monkeypatch.setattr(api_agent.OpenAICompatClient, "list_models", boom)
+    r = client.get("/api/agent/models?provider=openrouter", headers={"X-LLM-Key": KEY})
+    assert r.status_code == 502
+    assert KEY not in r.text

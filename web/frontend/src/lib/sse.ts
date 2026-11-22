@@ -4,7 +4,6 @@ export interface ChatPayload {
   sources?: string[] | null;
   provider?: string | null;
   model?: string | null;
-  deep_research?: boolean;
 }
 
 export type EventHandler = (name: string, data: Record<string, unknown>) => void;
